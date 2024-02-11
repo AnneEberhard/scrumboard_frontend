@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style_template.css">
+    <link rel="stylesheet" href="styles/summary.css">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/responsiveness.css">
+    <link rel="stylesheet" href="./styles/scrollbar.css" />
+    <link rel="icon" type="image/x-icon" href="assets/img/join_logo_dark.png"/>
+    
+    <script src="js/script_templates.js"></script>
+
+    <script src="script.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/add_task.js"></script>
+    <script src="js/board_add.js"></script>
+    <script src="js/save_add_tasks.js"></script>
+    <script src="js/delete.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/board_edit.js"></script>
+    <script src="js/summary.js"></script>
+    <script src="js/delete.js"></script>
+    <title>JOIN | Summary</title>
+</head>
+
+<body onload="initTemplate('summary'), loadSummary()">
+    <div w3-include-html="assets/templates/desktop_template.html"></div>
+    <div w3-include-html="assets/templates/mobile_template.html"></div>
+    <div id="summary">
+        <div id="summary_container_top">
+            <div id="summary_top_text">Summary</div>
+            <div id="summary_top_stroke"></div>
+            <div id="summary_top_title">Everything in a nutshell!</div>
+            <div id="summary_top_stroke_2"></div>
+        </div>
+        <div id="summary_container_bottom">
+            <div id="summary_container_bottom_left">
+                <div id="summary_bottom_stats">
+                    <div id="summary_bottom_stats_top">
+                        <div id="tasks_in_Board" class="summary_bottom_stats_container" onclick="openBoard()">
+                            <div id="tasks_in_Board_number" class="summary_number"></div>
+                            <div id="tasks_in_Board_text" class="summary_bottom_stats_container_hover">Tasks in Board
+                            </div>
+                        </div>
+                        <div id="tasks_in_progress" class="summary_bottom_stats_container" onclick="openBoard()">
+                            <div id="tasks_in_progress_number" class="summary_number"></div>
+                            <div id="tasks_in_progress_text" class="summary_bottom_stats_container_text">Tasks in
+                                Progress
+                            </div>
+                        </div>
+                        <div id="awaiting_feedback" class="summary_bottom_stats_container" onclick="openBoard()">
+                            <div id="awaiting_feedback_number" class="summary_number"></div>
+                            <div id="awaiting_feedback_text" class="summary_bottom_stats_container_text">Awaiting
+                                Feedback
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="summary_bottom_stats_mid" class="hoverStatContainer" onclick="openBoard()">
+                    <div id="summary_bottom_stats_mid_left">
+                        <img src="assets/img/summary_urgent.png" alt="">
+                        <div id="summary_bottom_stats_mid_left_container">
+                            <div id="summary_bottom_stats_mid_left_container_number" class="summary_number">1</div>
+                            <div id="summary_bottom_stats_mid_left_container_text">Urgent</div>
+                        </div>
+                    </div>
+                    <div id="summary_bottom_stats_mid_mid"></div>
+                    <div id="summary_bottom_stats_mid_right">
+                        <div id="summary_bottom_stats_mid_right_date"></div>
+                        <div id="summary_bottom_stats_mid_right_text"> Upcoming Deadline</div>
+                    </div>
+                </div>
+                <div id="summary_bottom_stats_bottom">
+                    <div id="summary_bottom_stats_bottom_left" class="summary_bottom_stats_bottom_container" onclick="openBoard()">
+                        <div class="imgBottomContainer"><img src="assets/img/edit.svg" alt=""></div>
+                        <div id="summary_bottom_stats_bottom_left_todo" class="summary_bottom_stats_bottom_stat">
+                            <div id="summary_bottom_stats_bottom_left_todo_number" class="summary_number"></div>
+                            <div id="summary_bottom_stats_bottom_left_todo_text" class="summary_text">To_do</div>
+                        </div>
+                    </div>
+                    <div id="summary_bottom_stats_bottom_right" class="summary_bottom_stats_bottom_container" onclick="openBoard()">
+                        <div class="imgBottomContainer"><img src="assets/img/hook.svg" alt=""></div>
+                        <div id="summary_bottom_stats_bottom_right_done" class="summary_bottom_stats_bottom_stat">
+                            <div id="summary_bottom_stats_bottom_right_done_number" class="summary_number"></div>
+                            <div id="summary_bottom_stats_bottom_right_done_text" class="summary_text">Done</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="summary_container_bottom_right">
+                <div id="summary_container_bottom_right_greeting"></div>
+                <div id="summary_container_bottom_right_Name"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

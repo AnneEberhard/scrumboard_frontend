@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style_template.css">
+    <link rel="stylesheet" href="styles/board.css">
+    <link rel="stylesheet" href="styles/board_edit.css">
+    <link rel="stylesheet" href="styles/board_responsiv.css">
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/add_task_left.css" />
+    <link rel="stylesheet" href="styles/add_tasks_right.css" />
+    <link rel="stylesheet" href="styles/board_add.css">
+    <link rel="stylesheet" href="styles/responsiveness.css">
+    <link rel="stylesheet" href="./styles/scrollbar.css" />
+    <link rel="icon" type="image/x-icon" href="assets/img/join_logo_dark.png"/>
+    <script src="js/script_templates.js"></script>
+    <script src="script.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/add_task.js"></script>
+    <script src="js/add_task_categories.js"></script>
+    <script src="js/board_add.js"></script>
+    <script src="js/save_add_tasks.js"></script>
+    <script src="js/delete.js"></script>
+    <script src="js/board_mobile.js"></script>
+    <script src="js/board_edit.js"></script>
+    <script src="js/board_backgroundscroll.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/summary.js"></script>
+    <title>JOIN | Board</title>
+</head>
+
+<body onload="initTemplate('board'), renderBoard()">
+    <div w3-include-html="./assets/templates/desktop_template.html"></div>
+    <div w3-include-html="./assets/templates/mobile_template.html"></div>
+    <!--Edit-Container-->
+    <div id="editTask" class="d-none">        
+    </div>
+    <!--AddTask-Container-->
+    <div id="addTaskBoard" class="d-none">  
+        <div id="addTaskBoardContainer" > 
+            <div class="closeBoardAddTask" >
+                <div class="closeButtonBoardAddTask" onclick="closeAddTask()">
+                    <img src="assets/img/close.png" alt="">
+                </div>
+            </div>
+            <div w3-include-html="./assets/templates/task_form.html"></div>
+        </div> 
+    </div>
+
+    <!-- Board -->
+    <div id="board">
+        <div id="board_container_top">
+            <div id="board_container_title">Board</div>
+            <div id="board_container_search">
+                <div id="board_container_search_searchfield">
+                    <div id="board_container_search_searchfield_inner">
+                        <input id="board_input" type="text" placeholder="Find Task" onkeyup="searchTasksOnBoard()">
+                        <button id="board_search_btn">
+                            <div id="board_search_stroke"></div>
+                            <div id="board_search_icon"><img src="assets/img/search.png" alt=""></div>
+                        </button>
+                    </div>
+                </div>
+                <button id="board_container_search_addtask" onclick="openAddTask('board_container_bottom_todo')">
+                    <div id="board_container_search_addtask_text">Add task</div>
+                    <img src="assets/img/plus_white.png" alt="">
+                </button>
+            </div>  
+        </div>
+        <div id="board_container_search_searchfield_mobile">
+            <div id="board_container_search_searchfield_inner_mobile">
+                <input id="board_input_mobile" type="text" placeholder="Find Task" onkeyup="searchTasksOnBoardMobile()">
+                <button id="board_search_btn_mobile">
+                    <div id="board_search_stroke_mobile"></div>
+                    <div id="board_search_icon_mobile"><img src="assets/img/search.png" alt=""></div>
+                </button>
+            </div>
+        </div>
+        <div id="board_container_bottom">
+            <div class = "board_container_bottom_category_background">
+                <div class="board_container_bottom_category_title">
+                    <div class="board_container_bottom_category_name">To do</div>
+                    <div class="board_container_bottom_category_icon" onclick="openAddTask('board_container_bottom_todo')"><img
+                            src="assets/img/board_plus_categories.png" alt=""></div>
+                </div>
+                <div id="board_container_bottom_todo" class="board_container_bottom_category"
+                ondrop="moveTo('board_container_bottom_todo')" 
+                ondragover="allowDrop(event); highlight(event)"
+                ondragleave="removeHighlight(event)"></div>
+            </div>
+            <div class = "board_container_bottom_category_background">
+                <div class="board_container_bottom_category_title">
+                    <div class="board_container_bottom_category_name">In progress</div>
+                    <div class="board_container_bottom_category_icon" onclick="openAddTask('board_container_bottom_inprogress')"><img
+                            src="assets/img/board_plus_categories.png" alt=""></div>
+                </div>
+                <div id="board_container_bottom_inprogress" class="board_container_bottom_category"
+                ondrop="moveTo('board_container_bottom_inprogress')" 
+                ondragover="allowDrop(event); highlight(event)"
+                ondragleave="removeHighlight(event)"></div>
+            </div>
+            <div class = "board_container_bottom_category_background">
+                <div class="board_container_bottom_category_title">
+                    <div class="board_container_bottom_category_name">Awaiting Feedback</div>
+                    <div class="board_container_bottom_category_icon" onclick="openAddTask('board_container_bottom_awaitingfeedback')"><img
+                            src="assets/img/board_plus_categories.png" alt=""></div>
+                </div>
+                <div id="board_container_bottom_awaitingfeedback" class="board_container_bottom_category"
+                ondrop="moveTo('board_container_bottom_awaitingfeedback')"
+                ondragover="allowDrop(event); highlight(event)" 
+                ondragleave="removeHighlight(event)"></div>
+            </div>
+            <div class = "board_container_bottom_category_background">
+                <div class="board_container_bottom_category_title">
+                    <div class="board_container_bottom_category_name">Done</div>
+                    <div class="board_container_bottom_category_icon" onclick="openAddTask('board_container_bottom_done')"><img
+                            src="assets/img/board_plus_categories.png" alt=""></div>
+                </div>
+                <div id="board_container_bottom_done" class="board_container_bottom_category"
+                ondrop="moveTo('board_container_bottom_done')" 
+                ondragover="allowDrop(event); highlight(event)"
+                ondragleave="removeHighlight(event)"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

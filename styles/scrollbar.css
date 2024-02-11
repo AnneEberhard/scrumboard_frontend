@@ -1,0 +1,24 @@
+/* Scrollbar Design */
+
+::-webkit-scrollbar{
+    width: 15px;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2A3647; 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {    
+    background: #29ABE2; 
+  }
+
+  #contacts_container::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  #contacts_container::-webkit-scrollbar-thumb {
+    background: #2A3647; 
+    border-radius: 10px;
+  }

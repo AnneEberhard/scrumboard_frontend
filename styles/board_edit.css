@@ -1,0 +1,421 @@
+#editTask{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 11;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-family: 'Inter';
+}
+
+#confirmDeleteTask{
+    position: fixed;
+    z-index: 12;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 180px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 32px;
+    border: 2px solid #2A3647;
+    gap: 24px;
+}
+
+#confirmDeleteTaskQuestion{
+    font-size: 26px;
+    font-weight: 700;
+    color: #2A3647;
+}
+
+#confirmDeleteTaskAnswers{
+    display: flex;
+    width: 210px;
+    height: 50px;
+}
+
+#confirmDeleteTaskAnswersYes{
+    width: 50%;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #2A3647;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2A3647;
+    color: white;
+    cursor: pointer;
+}
+
+#confirmDeleteTaskAnswersNo{
+    width: 50%;
+    height: 100%;
+    border-radius: 0 10px 10px 0 ;
+    border: 1px solid #2A3647;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#confirmDeleteTaskAnswersYes:hover{
+    background-color: #29ABE2;
+    border-color: #29ABE2;
+    
+}
+
+#confirmDeleteTaskAnswersNo:hover{
+    border-color: #29ABE2;
+    color: #29ABE2;    
+}
+
+#editTaskContainer{
+    max-height: 90%;
+    width: 623px;
+    background-color: white;
+    border-radius: 30px;
+    position: relative;
+}
+
+#editTaskContainerInner{
+    padding: 50px;
+    display: flex;
+    height: calc(100% - 100px);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px !important;
+    font-size: 16px;
+}
+
+#editTaskContainerCategory{
+    width: 142px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 25px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#editTaskContainerTitle{
+    width: 523px;
+    font-size: 50px;
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+#editTaskContainerDescription{
+    font-size: 20px;
+}
+
+#editTaskContainerDueDate{
+    display: flex;
+    align-items: center;
+    gap: 25px
+}
+
+#editTaskContainerDueDateText{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#editTaskContainerDueDateDate{
+    font-size: 20px;
+}
+
+#editTaskContainerPrio{
+    display: flex;
+    align-items: center;
+    gap: 25px
+}
+
+#editTaskContainerPrioText{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#editTaskContainerPrioPrio{
+    display: flex;
+    font-size: 21px;
+    justify-content: center;
+    align-items: center;
+    height: 33px;
+    width: 133px;
+    border-radius: 10px;
+    
+    color: #FFFFFF;
+    gap: 10px;
+}
+
+#editTaskContainerPrioPrio img{
+    width: 18px;
+    height: 12px;
+}
+
+#editTaskContainerAssigned{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    max-height: 240px;
+    width: 380px;
+}
+
+#editTaskContainerAssignedText{
+    font-size: 20px;
+    font-weight: 700;    
+}
+
+#editTaskContainerAssignedNames{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    gap: 15px;
+    margin-left: 8px;
+    width: 100%;
+    overflow: scroll;
+}
+
+#editTaskContainerSubtasks{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    font-size: 20px;
+    margin-top: -30px;
+    width: 380px;
+    min-height: 200px;
+    margin-top: 8px;
+}
+
+#editTaskContainerSubtasksText{
+    font-weight: 700;   
+    height: 26px;
+}
+
+#editTaskContainerSubtasksTasks{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    min-height: 150px;
+    overflow: scroll;   
+}
+
+.subtaskInOverview{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+}
+
+.subtaskEdit{
+    width: 62%;
+    display: flex;
+    border: 1px solid #2A3647;
+    border-radius: 8px;
+    margin-top: 8px;
+
+}
+
+#inputSubtaskEdit{
+    border: none;
+    margin-left: 10px;
+}
+
+.editTaskUsername{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.editTaskUsernameCircle{
+    width: 45px;
+    height: 45px;
+    border-radius: 58px;
+    border: 2px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF; 
+    background-color: #FF7A00;
+}
+
+#editTaskContainerClose{
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 56px;
+    right: 24px;
+    top: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#editTaskContainerClose:hover{
+    background-color: rgba(41, 171, 226, 0.15);
+}
+
+#editTaskContainerEditDelete{
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#editTaskContainerDelete{
+    background-color: white;
+    border: 1px solid #2A3647;
+    border-radius: 10px 0 0 10px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#editTaskContainerDelete:hover{
+    border: 1px solid rgb(41, 171, 226);
+    color: rgb(41, 171, 226);
+    background-color: rgba(41, 171, 226, 0.15);
+}
+
+#editTaskContainerEdit{
+    background-color: #2A3647;
+    border: 1px solid #2A3647;
+    border-radius: 0 10px 10px 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+#editTaskContainerEdit:hover{
+    background-color: rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
+}
+
+
+#editTaskContainerSave{
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: #2A3647;
+    color: white;gap: 4px
+}
+
+#editTaskContainerSave:hover{
+    background-color: rgb(41, 171, 226);
+    border: 1px solid rgb(41, 171, 226);
+}
+
+#editTaskContainerSaveIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: brightness(1) invert(1);
+}
+
+#editTaskContainerSaveIcon img{
+    width: 25px;
+    height: 25px;
+}
+
+#editTaskPrioChangable{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.editTaskTitleFixed{
+    width: 80%;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+    font-weight: 500;
+}
+
+#editTaskTitleChangable {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid rgb(209, 209, 209);
+    font-size: 20px;
+    padding: 12px 20px;    
+}
+
+#editTaskDescription textarea{
+    width: 100%;
+    width: 100%;
+    height: 80px;
+    resize: none;
+    border-radius: 10px;
+    border: 1px solid rgb(209, 209, 209);
+    font-size: 20px;
+    padding: 10px 20px;
+    font-family: 'Inter';
+}
+
+#editTaskAssignedChangable{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.editContainerInner{
+    gap: 25px !important;
+}
+
+.editAssignment{
+    height: 65px !important;
+    z-index: 15;
+}
+
+#contactsOptionsEdit{
+    max-height: 150px;
+    overflow: scroll;
+}
+
+
+
+

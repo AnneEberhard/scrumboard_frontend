@@ -1,0 +1,6 @@
+#Kommentar dies sperrt Suchmaschinen von rechtlichen Seite aus
+
+User-agent: *
+Disallow: /impressum.html
+Disallow: /agb.html
+Disallow: /datenschutz.html

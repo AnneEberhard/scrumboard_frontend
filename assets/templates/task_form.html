@@ -1,0 +1,93 @@
+<form onsubmit="createTask(event); return false;">
+  <div class="mobileAddTaskHeader"> 
+    <div id="addTaskTitle">Add Task</div>
+</div>
+  <div class="addTaskSubContainer" onclick="closeOptionsOnClick(event, 'Add')">
+    <div class="addTaskContainerSides">
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Title</p>
+        <input id="title" maxlength="20" class="inputsAddTask height51 padding" required placeholder="Enter a title" />
+      </div>
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Description</p>
+        <textarea
+        maxlength="100"
+          id="description"
+          class="inputsAddTask padding"
+          required
+          placeholder="Enter a description"
+        ></textarea>
+      </div>
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Category</p>
+        <div id="category" class="inputsAddTask"> 
+        </div>
+        <div id="confirmDeleteCategory" class="d-none">
+        </div>
+        <div id="newCategoryDotsContainer"></div>     
+        <div id="categoryAlert" class="alert"></div>
+      </div>
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Assigned to</p>
+        <div id="contactContainer" class="inputsAddTask">
+        </div>
+        <div id="contactAlert" class="alert"></div>
+        <div id="displaySelectedContacts"></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="addTaskContainerSides">
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Due Date</p>
+        <input
+          id="dueDateAdd"
+          class="inputsAddTask height51 padding hover"
+          type="date"
+          required
+          placeholder="dd/mm/yyyy"
+        />
+      </div>
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Prio</p>
+        <div id="prioContainer">
+          <button id="urgentAdd" type="button" onclick="assignPrio('urgent', 'Add')" class="prio height51 hover">
+            Urgent <img src="assets/img/urgent.png" />
+          </button>
+          <button id="mediumAdd" type="button" onclick="assignPrio('medium', 'Add')" class="prio height51 hover">
+            Medium <img src="assets/img/medium.png" />
+          </button>
+          <button id="lowAdd" type="button" onclick="assignPrio('low', 'Add')" class="prio height51 hover">
+            Low <img src="assets/img/low.png" />
+          </button>
+        </div>
+        <div id="prioAlertAdd" class="alert"></div>
+      </div>
+      <div class="addTaskContainerBoxes">
+        <p class="addTaskLabels">Subtasks</p>
+        <div>
+          <div class="addSubTask height51">
+            <input id="inputSubtaskAdd" class="inputSubtask" placeholder="Add new subtask" />
+            <div class="buttonAddSubTask hover" onclick="checkAddSubTask(0, 'Add')">
+              <img src="assets/img/plus.png" />
+            </div>
+          </div>
+          <div id="subTaskAlertAdd" class="alert"></div>
+          <div id="subTasksAdd" class="subTasks"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="finalizeTask">
+    <button type="button" id="popupNotice" class="buttonAddTask hover"  onclick="switchToBoard()">Task added to Board</button>
+    <button type="button" onclick="clearTask()" class="buttonAddTask clear hover">
+      Clear <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+        <path d="M12.0011 12.5001L17.2441 17.7431M6.75806 17.7431L12.0011 12.5001L6.75806 17.7431ZM17.2441 7.25708L12.0001 12.5001L17.2441 7.25708ZM12.0001 12.5001L6.75806 7.25708L12.0001 12.5001Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <button type="submit" class="buttonAddTask create hover">
+      Create Task <img src="assets/img/check.svg" />
+    </button>
+  </div>
+</form>
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style_template.css" />
+    <link rel="stylesheet" href="styles/contacts.css" />
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/responsiveness.css" />
+    <link rel="stylesheet" href="./styles/scrollbar.css" />
+    <link rel="icon" type="image/x-icon" href="assets/img/join_logo_dark.png"/>
+    <script src="js/script_templates.js"></script>
+    <script src="script.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/contacts.class.js"></script>
+    <script src="js/render_contact_list.js"></script>
+    
+    <title>JOIN | Contacts</title>
+  </head>
+
+  <body onload="init(), initTemplate('contacts');">
+    <div class="main_page">
+    <div w3-include-html="assets/templates/desktop_template.html"></div>
+    <div w3-include-html="assets/templates/mobile_template.html"></div>
+    <div id="contactList">
+      <div id="add_new_contact">
+        <button id="new_contact_btn" onclick="openModal('new_contact_background')">
+          <div id="add_new_contact_text">New contact</div>
+          <div id="add_new_contact_Icon">
+            <img src="assets/img/add_person.png" alt="" />
+          </div>
+        </button>
+      </div>
+      
+      <div id="contacts_container">
+      </div>
+      
+      
+    </div>
+    <!-- Add Contact Modal -->
+    <div id="new_contact_background" style="display: none;">
+    <div class="modal_new_contact" id="new_contact_modal">
+      <img class="x" src="assets/img/close.svg" onclick="closeModal('new_contact_background')">
+        <div class="left_side">
+          <div class="left_content">
+          <img src="assets/img/join_logo_white.png">
+          <h1>Add contact</h1>
+          <span>Tasks are better with a team!</span>
+          <div class="line"></div>
+        </div>
+        </div>
+        <div class="right_side">
+          
+          <div class="avatar">
+          <img src="assets/img/blank_avatar.png">
+          </div>
+          <div class="form_container">
+          <form id="create_contact" onsubmit="createContact('new_contact_background'); return false;">
+            <div class="input-container">
+              <input id="name" type="text" placeholder="Name" oninput="capitalizeName('name');" required/>
+              <input id="email" class="" type="email" placeholder="Email" required/>
+              <input id="phone" class="" type="number" placeholder="Phone"/>
+            </div>
+            <div class="create-buttons">
+              <button type="button" id="cancel" onclick="cancelContact('new_contact_background')">Cancel</button>
+              <button type="submit" id="create">
+                Create Contact
+              </button>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!-- Edit Contact Modal -->
+    <div id="edit_contact_background" style="display: none;">
+    <div class="modal_edit_contact" id="edit_contact_modal">
+      
+      <img class="x" src="assets/img/close.svg" onclick="closeModal('edit_contact_background')">
+        <div class="left_side">
+          <div class="left_content">
+          <img src="assets/img/join_logo_white.png">
+          <h1>Edit contact</h1>
+          <div class="line"></div>
+        </div>
+        </div>
+        <div class="right_side">
+          
+          <div class="avatar">
+            <div class="user_icon" id="edit_avatar"></div>
+          </div>
+          <div class="form_container">
+          <form id="edit_form" onsubmit="saveEditedContact(); return false;">
+            <div class="input-container">
+              <input id="edit_name" type="text" placeholder="Name" required oninput="capitalizeName('edit_name');" />
+              <input id="edit_email" class="" type="email" placeholder="Email" required/>
+              <input id="edit_phone" class="" type="number" placeholder="Phone"/>
+            </div>
+            <div class="create-buttons">
+              <button type="button" id="edit_delete" onclick="deleteContactInModal('edit_name')">Delete</button>
+              <button type="submit" id="edit_save">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+        </div>
+      
+      </div>
+    </div>
+    <div class="contact_info_container" id="contact_container">
+        
+      <div class="header_in_contact">
+        <img class="arrow" src="assets/img/arrow_left.svg" onclick="changeDisplay();">
+        <span class="header">Contacts</span>
+        <div class="divider"></div>
+        <span class="header_subtext">Better with a team</span>
+      </div>
+      <div class="renderContainer" id="render">
+        
+      </div>
+</div>
+</div>
+</div>
+<script src="js/contacts.js"></script>
+  </body>
+</html>

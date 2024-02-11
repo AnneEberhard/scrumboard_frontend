@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/add_task_left.css" />
+    <link rel="stylesheet" href="./styles/add_tasks_right.css" />
+    <link rel="stylesheet" href="./styles/fonts.css" />
+    <link rel="stylesheet" href="./styles/responsiveness.css" />
+    <link rel="stylesheet" href="./styles/scrollbar.css" />
+    <link rel="icon" type="image/x-icon" href="assets/img/join_logo_dark.png"/>
+    <title>Join | Add Task</title>
+  </head>
+  <body onload="initTask(), initTemplate('addTask')">
+    <div class="addTaskContainer" >     
+      <div w3-include-html="./assets/templates/task_form.html" ></div>
+  </div>
+    <div w3-include-html="./assets/templates/desktop_template.html"></div>
+    <div w3-include-html="./assets/templates/mobile_template.html"></div>
+
+    <script src="./js/add_task.js"></script>
+    <script src="./js/add_task_categories.js"></script>
+    <script src="./js/save_add_tasks.js"></script>
+    <script src="./js/script_templates.js"></script>
+    <script src="./script.js"></script>
+    <script src="./js/storage.js"></script>
+    <script src="./js/delete.js"></script>
+
+  </body>
+</html>

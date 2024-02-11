@@ -1,0 +1,354 @@
+/*general or applicable to more than one part*/
+body {
+  background-color: rgb(245, 245, 245);
+  font-family: "inter";
+  display: flex;
+  margin:0;
+}
+
+form {
+  width: 100%
+}
+
+button {
+  border-style: none;
+}
+
+.hover {
+  cursor: pointer;
+}
+
+.padding {
+  padding: 13px 21px 13px 21px;
+}
+
+.height51 {
+  height: 51px;
+}
+
+.roundedBorder {
+  border-radius: 10px;
+  padding-bottom: 4px;
+  background-color: white;
+}
+
+.hidden {
+  display: none !important;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: 0 0 0px 40rem #ffff inset;
+  border: none;
+}
+
+.alert {
+  margin-top: 8px;
+  color: red;
+}
+
+/*upperPart of add Task*/
+.addTaskContainer {
+  margin-top: 207px;
+  margin-left: 328px;
+  margin-right: 96px;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+  width: calc(100% - 424px); 
+}
+
+#addTaskTitle {
+  font-size: 61px;
+  font-weight: 700;
+}
+.addTaskSubContainer {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.addTaskContainerSides {
+  width: 100%;
+  height: 551px;
+}
+
+.addTaskContainerBoxes {
+  width: 100%;
+}
+
+.addTaskLabels {
+  font-size: 20px;
+}
+
+.inputsAddTask {
+  width: 100%;
+  border-radius: 10px;
+  gap: 10px;
+  border: 1px solid rgb(209, 209, 209);
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: "inter" !important;
+}
+
+.addTaskContainer textarea {
+  height: 119px;
+  padding: 18px 21px 18px 21px;
+  box-sizing: border-box;
+  font-family: "inter" !important;
+}
+
+textarea:focus-visible {
+  outline: none;
+}
+
+/*Part of Category and Contacts*/
+.inputWithList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 18px 21px 18px 0px;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: "inter" !important;
+}
+
+.selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 21px 0px 21px !important;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 20px;
+}
+
+#selection img {
+  height: 24px;
+}
+
+#selection img:hover {
+  cursor: pointer;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  padding: 0px 20px 4px 21px !important;
+}
+
+.option:hover {
+  background-color: rgb(209, 209, 209);
+  cursor: pointer;
+  height: 30px;
+}
+
+.categoryLine {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+/*specific for category only*/
+.inputCategory {
+  display: flex;
+  align-items: center;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50%;
+}
+
+.selectedCategoryBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 !important;
+  width: 100%;
+  height: 51px;
+}
+
+.selectedCategory {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 20px;
+  padding: 0;
+}
+
+#newCategoryName {
+  width: 100%;
+  padding: 13px 21px 13px 0px;
+  gap: 10px;
+  border: none;
+  font-size: 20px;
+  box-sizing: border-box;
+  font-family: "inter" !important;
+}
+
+#newCategoryName:focus-visible {
+  outline: none;
+}
+
+.iconsNewCategory {
+  height: 20px;
+  width: 20px;
+}
+
+.iconsNewCategory img {
+  height: 20px;
+  width: 20px;
+}
+
+.dividerSmall {
+  width: 1px;
+  background-color: rgb(209, 209, 209);
+  margin-left: 8px;
+  margin-right: 8px;
+  height: 30px;
+}
+
+#newCategoryDots {
+  display: flex;
+  margin: 16px;
+  gap: 16px;
+}
+
+.selected {
+  box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
+}
+/*specific for delete category*/
+#confirmDeleteCategory{
+  position: fixed;
+  z-index: 12;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 32px;
+  border: 2px solid #2A3647;
+  gap: 24px;
+}
+
+#confirmDeleteCategoryQuestion{
+  font-size: 26px;
+  font-weight: 700;
+  color: #2A3647;
+}
+
+#confirmDeleteCategoryAnswers{
+  display: flex;
+  width: 210px;
+  height: 50px;
+}
+
+#confirmDeleteCategoryAnswersYes{
+  width: 50%;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #2A3647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2A3647;
+  color: white;
+  cursor: pointer;
+}
+
+#confirmDeleteCategoryAnswersNo{
+  width: 50%;
+  height: 100%;
+  border-radius: 0 10px 10px 0 ;
+  border: 1px solid #2A3647;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#confirmDeleteCategoryAnswersYes:hover{
+  background-color: #29ABE2;
+  border-color: #29ABE2;
+  
+}
+
+#confirmDeleteCategoryAnswersNo:hover{
+  border-color: #29ABE2;
+  color: #29ABE2;    
+}
+
+/*Specific for Assign Contacts*/
+.selectContactToAssign img {
+  height: 24px;
+}
+
+.selectContactToAssign img:hover {
+  cursor: pointer;
+}
+
+.contactList {
+  justify-content: space-between;
+  background-color: white;
+}
+
+.checkBoxChecked {
+ background-color: black;
+  height: 12px;
+  width: 12px;
+}
+
+.newContact {
+  height: 16px;
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newContact img {
+    filter: brightness(1) invert(1);
+}
+
+#displaySelectedContacts {
+  display: flex;
+  gap: 8px;
+}
+
+#contactsOptionsAdd {
+  overflow: scroll;
+  height: 120px;
+}
+
+.circleAcronym {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 40px;
+  font-size: 14px;
+}
