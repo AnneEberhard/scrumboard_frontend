@@ -52,7 +52,7 @@ function createTask(event) {
     let task = {title: title, description: description, category: assignedCategory, assignedContacts: assignedContacts, dueDate: dueDate, prio: assignedPrio,
       subtasks: subTasksArray, column: column};
     tasks.push(task);
-    saveTask(); 
+    saveNewTask(task); 
     popUpNotice();
     flushSubtasks();
   }
@@ -140,6 +140,18 @@ async function saveTask() {
   await setItem("tasks", JSON.stringify(tasks));
   await setItem("savedCategories", JSON.stringify(categories));
   await setItem("savedFreeColors", JSON.stringify(freeColors));
+}
+
+/**
+ * this function saves the newly created task to the backend
+ * @param {}  - no parameter
+ */
+async function saveNewTask(task) {
+  await addItem("tasks", JSON.stringify(task));
+}
+
+async function saveNewCategory (newCategory) {
+  await addItem("savedCategories", JSON.stringify(newCategory));
 }
 
 /**

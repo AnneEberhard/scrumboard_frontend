@@ -323,7 +323,7 @@ function addCategory() {
   renderCategories();
   selectCategory(lastItem);
   toggleOptions("categoryOptions");
-  saveOnlyCategories();
+  saveNewCategory(newCategoryObject);
 }
 
 /**

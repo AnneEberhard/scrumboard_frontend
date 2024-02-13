@@ -65,7 +65,7 @@ async function createContact(id) {
     acronym.toUpperCase()
   );
   contacts.push(contact);
-  await setItem("contacts", JSON.stringify(contacts));
+  await addItem("contacts", JSON.stringify(contact));
   await loadContacts();
   resetForm();
   closeModal(id);
