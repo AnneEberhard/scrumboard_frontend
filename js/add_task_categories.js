@@ -10,7 +10,7 @@
 function renderCategories() {
   document.getElementById("newCategoryDotsContainer").innerHTML = "";
   document.getElementById("category").innerHTML = templateCategory();
-  createFreecolors();
+  //createFreecolors();
   renderCategoryOptions();
   resetCategories();
   document.getElementById("categoryAlert").innerHTML = "";

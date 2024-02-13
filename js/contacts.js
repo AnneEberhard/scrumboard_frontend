@@ -16,8 +16,8 @@ let editingContact;
  * After it's loaded from the backend, the contact list is getting rendered.
  * @param {}  - no param
  */
-async function init() {
-  checkLogIn();
+async function initContacts() {
+  //checkLogIn();
   await loadContacts();
   renderContactList();
 }
@@ -78,7 +78,8 @@ async function createContact(id) {
  */
 async function loadContacts() {
   try {
-    contacts = JSON.parse(await getItem("contacts"));
+    contacts = await getItem("contacts");
+    console.log('Kontakte:', contacts);
   } catch (e) {
     contacts = [];
   }

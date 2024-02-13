@@ -5,7 +5,7 @@ let currentUser;
  * @param - no parameter
  */
 function init() {
-  loadUsers();
+  //loadUsers();
   loadCache();
 }
 
@@ -26,20 +26,20 @@ async function loadUsers() {
  * @param - no parameter
  */
 function loginUser() {
-  let error = document.getElementById("error");
-  loadUsers();
-  if (users[0].email == email.value && users[0].password == password.value) {
-    password.classList.remove("border-red");
-    error.style = "display: none;";
-    window.location.href = "summary.html";
-    localStorage.setItem(`currentUser`, `${users[0].name}`);
-    localStorage.setItem(`loggedIn`, true);
-    cacheData();
-  } else {
-    password.classList.add("border-red");
-    error.style = "display: flex;";
-    password.value = "";
-  }
+//  let error = document.getElementById("error");
+//  loadUsers();
+//  if (users[0].email == email.value && users[0].password == password.value) {
+//    password.classList.remove("border-red");
+//    error.style = "display: none;";
+//    window.location.href = "summary.html";
+//    localStorage.setItem(`currentUser`, `${users[0].name}`);
+//    localStorage.setItem(`loggedIn`, true);
+//    cacheData();
+//  } else {
+//    password.classList.add("border-red");
+//    error.style = "display: flex;";
+//    password.value = "";
+//  }
 }
 
 /**

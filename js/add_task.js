@@ -48,10 +48,11 @@ async function initTask() {
  */
 async function loadItems() {
   try {
-    tasks = JSON.parse(await getItem("tasks"));
-    contacts = JSON.parse(await getItem("contacts"));
-    categories = JSON.parse(await getItem("savedCategories"));
-    freeColors = JSON.parse(await getItem("savedFreeColors"));
+    tasks = await getItem("tasks");
+    console.log('tasks:', tasks);
+    contacts = await getItem("contacts");
+    categories = await getItem("savedCategories");
+    freeColors = await getItem("savedFreeColors");
   } catch (e) {
     console.error("Loading error:", e);
   }
