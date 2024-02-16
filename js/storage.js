@@ -19,14 +19,12 @@ async function loadItems() {
 }
 
 
-
 /**
  * function saves data to the backend
  * @param {string} key - key for storage
  * @param {object} value - object to store
  */
 async function setItem(key, value) {
-  console.log(value);
   const url = `${STORAGE_URL}${key}/`;
   const payload = { key, value };
   return fetch(url, {
@@ -44,7 +42,6 @@ async function getItem(key) {
   return fetch(url, { mode: "cors" })
     .then((res) => res.json())
     .then((res) => {
-      console.log(key, ":", res);
       if (res) {
         return res;
       }
@@ -64,7 +61,6 @@ function getCSRFToken() {
 async function addItem(key, value) {
   const csrftoken = getCSRFToken();
   const url = `${STORAGE_URL}${key}/`;
-  console.log(value);
   debugger;
   return fetch(url, {
     method: "POST",
@@ -96,6 +92,7 @@ async function deleteItem(key) {
 async function updateItem(key, updatedValue) {
   const csrftoken = getCSRFToken();
   const url = `${STORAGE_URL}${key}/`;
+  console.log('to update:',updatedValue);
   return fetch(url, {
     method: "PUT",
     headers: {

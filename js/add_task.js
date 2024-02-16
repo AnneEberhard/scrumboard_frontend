@@ -16,6 +16,7 @@ let assignedContacts = [];
 let assignedContactsStatus = new Array(contacts.length).fill(false);
 let assignedPrio = '';
 let subTasksArray = [];
+let subTasksIdArray = [];
 
 //these are needed for the site to function
 let prios = ['urgent', 'medium', 'low'];
@@ -172,6 +173,7 @@ function unassignContact(i, mode) {
  * @param {string} mode - mode of either add or edit
  */
 function updateAssignedContacts(mode) {
+  debugger;
   assignedContacts = [];
   document.getElementById('contactAlert').innerHTML = '';
   for (let i = 0; i < assignedContactsStatus.length; i++) {
@@ -181,7 +183,7 @@ function updateAssignedContacts(mode) {
       assignedContacts.push(contact.id);
     }
   }
-  displayAssignedContact(assignedContacts, 'displaySelectedContacts');
+  displayAssignedContact(assignedContacts, `${mode}TaskAssignedChangable`);
 }
 
 /**
@@ -191,9 +193,7 @@ function updateAssignedContacts(mode) {
 function displayAssignedContact(displayContacts, idContainer) {
   let displaySelectedContacts;
   displaySelectedContacts = document.getElementById(idContainer);
-
   displaySelectedContacts.innerHTML = '';
-  console.log(displayContacts);
   for (let i = 0; i < displayContacts.length; i++) {
     for (let j=0; j < contacts.length; j++ ) {
       if (displayContacts[i] == contacts[j].id){
@@ -314,29 +314,37 @@ async function addSubTask(id, mode) {
     'subTaskDone': subTaskDone,
     'taskId': id
   };
-  
-  subTaskId = await getSubTaskId(subTask)
+  await saveSubTask(subTask);
+  subTaskId = await getSubTaskId(subTask);
+  subTask = {
+    'subTaskName': subTaskName,
+    'subTaskDone': subTaskDone,
+    'taskId': id,
+    'id': subTaskId
+  };
+  renderAddedSubTask(mode, id, subTask, subTaskId);
+}
 
-  //let index = findIndexOfItem(subTasksArray, subTask);
-  renderAddedSubTask(mode, id, subTaskId, subTaskName);
+async function saveSubTask(subTask) {
+  await addItem('subTasks', JSON.stringify(subTask));
 }
 
 async function getSubTaskId(subTask) {
-  await addItem('subTasks', JSON.stringify(subTask));
   allSubTasks = await getItem("subTasks");
   for (let i = 0; i< allSubTasks.length; i++) {
     if (allSubTasks[i].subTaskName == subTask.subTaskName) {
-      subTasksArray.push(allSubTasks[i].id);
+      subTasksIdArray.push(allSubTasks[i].id);
       return allSubTasks[i].id;
     }
   }
 }
 
-function renderAddedSubTask(mode, id, subTaskId, subTaskName) {
+function renderAddedSubTask(mode, id, subTask, subTaskId) {
+  console.log(subTask);
   document.getElementById(`subTasks${mode}`).innerHTML += /*html*/ `
     <div class="subTaskBox">
         <div id="checkBox${mode}${id}${subTaskId}" class="checkBox hover" onclick="addCheck(${subTaskId}, ${id}, '${mode}')"></div>
-        <div class="subtask">${subTaskName}</div>
+        <div class="subtask">${subTask.subTaskName}</div>
     </div>`;
   document.getElementById(`inputSubtask${mode}`).value = "";
 }
@@ -353,20 +361,39 @@ function findIndexOfItem(array, item) {
 
 /**
  * this function add checksmarks to the subtaks if clicked on
- * @param {value} index - index of the subtask in the global array subTasksArray
+ * @param {value} subTaskId backend id of subTask
  * @param {number} id - id of task in edit modus, by default 0 for add task
  * @param {string} mode - mode of either add or edit
  */
-function addCheck(index, id, mode) {
-  const checkBoxElement = document.getElementById(`checkBox${mode}${id}${index}`);
+async function addCheck(subTaskId, id, mode) {
+  console.log(`checkBox${mode}${id}${subTaskId}`);
+  const checkBoxElement = document.getElementById(`checkBox${mode}${id}${subTaskId}`);
   const existingImage = checkBoxElement.querySelector('img');
-
+  let index = getAllSubTaskIndex(subTaskId);
   if (existingImage) {
     checkBoxElement.removeChild(existingImage);
-    subTasksArray[index].subTaskDone = 0;
+    allSubTasks[index].subTaskDone = 0;
   } else {
-    document.getElementById(`checkBox${mode}${id}${index}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
-    subTasksArray[index].subTaskDone = 1;
+    document.getElementById(`checkBox${mode}${id}${subTaskId}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
+    allSubTasks[index].subTaskDone = 1;
+  }
+  await updateItem('subTasks', JSON.stringify(allSubTasks[index]))
+}
+
+
+function getAllSubTaskIndex(subTaskId) {
+  for (let i = 0; i< allSubTasks.length; i++) {
+    if (allSubTasks[i].subTaskId == subTaskId) {
+      return i;
+    }
   }
 }
 
+
+function getSubTaskbyId(subTaskId) {
+  for (let i = 0; i< allSubTasks.length; i++) {
+    if (allSubTasks[i].subTaskId == subTaskId) {
+      return allSubTasks[i];
+    }
+  }
+}

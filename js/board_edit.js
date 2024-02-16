@@ -1,5 +1,6 @@
 let prioToEdit;
 
+
 /**
  * opens a card, which shows the detailed task
  * @param {*} id index of task which was clicked
@@ -7,7 +8,6 @@ let prioToEdit;
  */
 function openTaskOverview(id, category) {
     let task = tasks[id];
-    let assignedContactsCard = task["assignedContacts"];
     column = task.column;
     assignedCategory = category;
     subTasksArray = getSubTasks(task); 
@@ -16,11 +16,11 @@ function openTaskOverview(id, category) {
     let taskOverview = document.getElementById('editTask');
     taskOverview.classList.remove('d-none');
     renderTaskOverview(task, id);
-    displayAssignedContact(assignedContactsCard, "editTaskContainerAssignedNames");
+    displayAssignedContact(task["assignedContacts"], "editTaskContainerAssignedNames");
     renderSubtasksInTaskOverview(id);
 }
 
-/**displayAssignedContact
+/**
  * render values in Overview Container
  * @param {*} task which is opened
  * @param {*} id task id
@@ -82,11 +82,11 @@ function renderEditOverviewTemplate(colorCode, prio, id) {
  */
 async function renderSubtasksInTaskOverview(id) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML = "";
-    for (let s = 0; s < subTasksArray.length; s++) {
-        if (subTasksArray[s].subTaskDone == 0) {
-            renderSubtasksWithoutHook(s, id);
+    for (let i = 0; i < subTasksArray.length; i++) {
+        if (subTasksArray[i].subTaskDone == 0) {
+            renderSubtasksWithoutHook(subTasksArray[i], id);
         } else {
-            renderSubtasksWithHook(s, id);
+            renderSubtasksWithHook(subTasksArray[i], id);
         }
     }
 }
@@ -107,27 +107,27 @@ function renderAddSubtasksInOverview(id) {
 
 /**
  * render checkbox without hook
- * @param {*} index 
- * @param {*} id index of task which was clicked
+ * @param {*} subTask subtask 
+ * @param {*} taskId index of task which was clicked
  */
-function renderSubtasksWithoutHook(index, id) {
+function renderSubtasksWithoutHook(subTask, taskId) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${id}${index}" class="checkBox hover" onclick="addCheck(${index}, ${id},'Edit')"></div>
-                <div>${subTasksArray[index].subTaskName}</div>
+                <div id="checkBoxEdit${taskId}${subTask.id}" class="checkBox hover" onclick="addCheck(${subTask.id}, ${taskId},'Edit')"></div>
+                <div>${subTask.subTaskName}</div>
             </div>`
 }
 
 /**
  * render checkbox with hook
- * @param {*} index 
- * @param {*} id index of task which was clicked
+ * @param {*} subTask subtask 
+ * @param {*} taskId index of task which was clicked
  */
-function renderSubtasksWithHook(index, id) {
+function renderSubtasksWithHook(subTask, taskId) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${id}${index}" class="checkBox hover" onclick="addCheck(${index},${id},'Edit')"><img src="assets/img/done.png"></div>
-                <div>${subTasksArray[index].subTaskName}</div>
+                <div id="checkBoxEdit${taskId}${subTask.id}" class="checkBox hover" onclick="addCheck(${subTask.id},${taskId},'Edit')"><img src="assets/img/done.png"></div>
+                <div>${subTask.subTaskName}</div>
             </div>`;
 }
 
@@ -145,7 +145,7 @@ async function addSubTaskEdit(id) {
     }
     subTasksArray.push(subTask);
     renderSubtasksInTaskOverview(id);
-    await saveTask();
+    await updateTask(id);
     renderBoard();
     document.getElementById("inputSubtaskEdit").value = "";
 }
@@ -193,7 +193,7 @@ function closeDeleteRequest() {
 function closeEditTask() {
     enableBackgroundScroll();
     document.getElementById('editTask').classList.add('d-none');
-    flushSubtasks();
+    flushArrays();
 }
 
 /**
@@ -215,11 +215,11 @@ function renderEditModeTemplates(task, id) {
     let editTask = document.getElementById('editTask');
     editTask.innerHTML = "";
     editTask.innerHTML = editModeTemplate(task, id);
-    let assignedContactsCard = task['assignedContacts'];
+    let assignedContactsCard = getAssignedContacts(task);
     renderContacts('editContactContainer', 'Edit');
     renderDueDate('Edit');
-    renderContactsAssignContacts(assignedCard);
-    displayAssignedContact(assignedContactsCard, "editTaskAssignedChangable");
+    renderContactsAssignContacts(assignedContactsCard);
+    displayAssignedContact(task['assignedContacts'], "EditTaskAssignedChangable");
     renderAssignedPrio(task["prio"], 'Edit');
 }
 
@@ -269,7 +269,7 @@ function editModeTemplate(task, id) {
                 <div id="editTaskAssignedFix">Assigned to</div>
                 <div id="editContactContainer" class="inputsAddTask editAssignment"></div>
                 <div id="editContactAlert" class="alert"></div>
-                <div id="editTaskAssignedChangable"></div>
+                <div id="EditTaskAssignedChangable"></div>
             </div>
         </div>
 </form>`;
@@ -332,7 +332,7 @@ async function saveEditedBoard(id) {
             'subtasks': subTasksArray,
         }
         tasks[id] = task;
-        await saveTask();
+        await updateTask(id);
         closeEditTask();
         await renderBoardCards();
         flushSubtasks();
@@ -344,8 +344,9 @@ async function saveEditedBoard(id) {
  * @param {*} id - id of task
  */
 async function saveBoard(id) {
-        tasks[id]['subtasks'] = subTasksArray;
-        await saveTask();
+        //tasks[id]['subtasks'] = subTasksArray;
+        
+        await updateTask(id);
         closeEditTask();
         await renderBoardCards();
         flushSubtasks();

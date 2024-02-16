@@ -395,11 +395,11 @@
     font-family: 'Inter';
 }
 
-#editTaskAssignedChangable{
+#EditTaskAssignedChangable{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 8px;
 }
 
 .editContainerInner{

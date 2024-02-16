@@ -13,7 +13,7 @@ function clearTask() {
   renderContacts('contactContainer', 'Add');
   renderPrio();
   assignedPrio = "";
-  subTasksArray = [];
+  flushArrays();
 }
 
 /**
@@ -60,12 +60,12 @@ function createTask(event) {
       assignedContacts: assignedContacts, 
       dueDate: dueDate, 
       prio: assignedPrio,
-      subtasks: subTasksArray,
+      subtasks: subTasksIdArray,
       column: column};
     tasks.push(task);
     saveNewTask(task); 
     popUpNotice();
-    flushSubtasks();
+    flushArrays();
   }
 }
 
@@ -82,8 +82,11 @@ function getAuthorId() {
  * this function clears the subtask array
  * @param {}  - no parameter
  */
-function flushSubtasks() {
+function flushArrays() {
   subTasksArray = [];
+  subTasksIdArray= [];
+  assignedContacts = [];
+  assignedContactsStatus = new Array(contacts.length).fill(false);
 }
 
 /**
@@ -156,10 +159,13 @@ function switchToBoard() {
  * this function saves the JSONs tasks, savedCategories and the array savedfreeColors to the backend
  * @param {}  - no parameter
  */
-async function saveTask() {
-  await setItem("tasks", JSON.stringify(tasks));
-  await setItem("savedCategories", JSON.stringify(categories));
-  await setItem("savedFreeColors", JSON.stringify(freeColors));
+async function updateTask(id) {
+  let updatedTask = tasks[id];
+  await updateItem("tasks", JSON.stringify(updatedTask));
+  //await updateItem("subTasks", JSON.stringify(task));
+  //await setItem("tasks", JSON.stringify(tasks));
+  //await setItem("savedCategories", JSON.stringify(categories));
+  //await setItem("savedFreeColors", JSON.stringify(freeColors));
 }
 
 /**
@@ -167,8 +173,6 @@ async function saveTask() {
  * @param {}  - no parameter
  */
 async function saveNewTask(task) {
-  console.log(task);
-  debugger;
   await addItem("tasks", JSON.stringify(task));
 }
 

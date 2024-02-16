@@ -144,7 +144,7 @@ async function saveEditedContact() {
   editingContact.phone = edit_phone.value;
   editingContact.acronym = acronym;
   resetEditForm();
-  await setItem("contacts", JSON.stringify(contacts));
+  await updateItem("contacts", JSON.stringify(editingContact));
   await loadContacts();
   renderContactList();
   closeModal("edit_contact_background");

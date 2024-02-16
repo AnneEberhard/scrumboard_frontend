@@ -14,7 +14,7 @@ async function renderBoard() {
 async function renderBoardCards() {
   await loadItems();
   await deleteBoard();
-  for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i++) {    
     createBoardCard(i);
   }
   fillEmptyColumns();
@@ -40,7 +40,7 @@ async function createBoardCard(id) {
   let descriptionCard = task["description"];
   let categoryCard = task["category"];
   let categoryColorCode = determineColorCategory(categoryCard);
-  let assignedContactsCard = task["assignedContacts"];
+  let assignedContactsIds = task["assignedContacts"];
   let prioCard = task["prio"];
   let cats = task["column"];
   let subtaskCard = getSubTasks(task);
@@ -49,7 +49,7 @@ async function createBoardCard(id) {
   if (subtaskCard.length > 0) {
     createProgressbar(subtaskCard, id);
   }
-  displayAssignedContact(assignedContactsCard, idContainerAssignements);
+  displayAssignedContact(assignedContactsIds, idContainerAssignements);
 }
 
 function getSubTasks(task) {
@@ -58,11 +58,24 @@ function getSubTasks(task) {
     for (let j = 0; j < allSubTasks.length; j++) {
       if (task.subtasks[i] === allSubTasks[j].id) {
         subTaskCard.push(allSubTasks[j]);
-        console.log(`Subtask ${task.subtasks[i]} gefunden: ${allSubTasks[j].name}`);
+        console.log(`Subtask ${task.subtasks[i]} gefunden: ${allSubTasks[j].subTaskName}`);
       }
     }
   }
   return subTaskCard;
+}
+
+function getAssignedContacts(task) {
+  let assignedContactsTask = [];
+  for (let i = 0; i < task.assignedContacts.length; i++) {
+    for (let j = 0; j < contacts.length; j++) {
+      if (task.assignedContacts[i] === contacts[j].id) {
+        assignedContactsTask.push(contacts[j]);
+        console.log(`Subtask ${task.assignedContacts[i]} gefunden: ${contacts[j].user_name}`);
+      }
+    }
+  }
+  return assignedContactsTask;
 }
 
 /**
@@ -282,7 +295,7 @@ async function moveTo(category) {
 async function changeTaskColumn(taskIndex, newColumn) {
   if (taskIndex >= 0 && taskIndex < tasks.length) {
     tasks[taskIndex].column = newColumn;
-    await saveTask();
+    await updateTask(taskIndex);
     renderBoard();
   }
 }
