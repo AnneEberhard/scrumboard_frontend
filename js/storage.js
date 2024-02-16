@@ -1,6 +1,25 @@
 const STORAGE_TOKEN = "D6K8FZVPKEGWQYJC18B898KX3JSFP5EYW8XN035V";
 const STORAGE_URL = "http://127.0.0.1:8000/";
 
+
+/**
+ * this function loads the needed items from the backend
+ * @param - no parameter
+ */
+async function loadItems() {
+  try {
+    tasks = await getItem("tasks");
+    allSubTasks = await getItem("subTasks");
+    contacts = await getItem("contacts");
+    categories = await getItem("savedCategories");
+    freeColors = await getItem("savedFreeColors");
+  } catch (e) {
+    console.error("Loading error:", e);
+  }
+}
+
+
+
 /**
  * function saves data to the backend
  * @param {string} key - key for storage
@@ -45,6 +64,8 @@ function getCSRFToken() {
 async function addItem(key, value) {
   const csrftoken = getCSRFToken();
   const url = `${STORAGE_URL}${key}/`;
+  console.log(value);
+  debugger;
   return fetch(url, {
     method: "POST",
     headers: {

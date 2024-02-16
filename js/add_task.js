@@ -6,7 +6,7 @@
 //these come from server and will be saved at the end
 let tasks = [];
 let contacts = [];
-//let categories = [{name: 'New category', colorCode: 0}];
+let allSubTasks = [];
 let categories = [];
 let freeColors = [];
 
@@ -40,22 +40,6 @@ async function initTask() {
   renderCategories();
   renderContacts('contactContainer', 'Add');
   renderDueDate('Add');
-}
-
-/**
- * this function loads the needed items from the backend
- * @param - no parameter
- */
-async function loadItems() {
-  try {
-    tasks = await getItem("tasks");
-    console.log('tasks:', tasks);
-    contacts = await getItem("contacts");
-    categories = await getItem("savedCategories");
-    freeColors = await getItem("savedFreeColors");
-  } catch (e) {
-    console.error("Loading error:", e);
-  }
 }
 
 
@@ -194,28 +178,30 @@ function updateAssignedContacts(mode) {
     const contact = contacts[i];
     const assignedStatus = assignedContactsStatus[i];
     if (assignedStatus == true) {
-      assignedContacts.push(contact);
+      assignedContacts.push(contact.id);
     }
   }
-  displayAssignedContact(mode);
+  displayAssignedContact(assignedContacts, 'displaySelectedContacts');
 }
 
 /**
  * this function adds the assigned contact in color circles
  * @param {string} mode - mode of either add or edit
  */
-function displayAssignedContact(mode) {
+function displayAssignedContact(displayContacts, idContainer) {
   let displaySelectedContacts;
-  if (mode =='Add') {
-    displaySelectedContacts = document.getElementById('displaySelectedContacts');
-  } else if (mode =='Edit') {
-    displaySelectedContacts = document.getElementById('editTaskAssignedChangable');
-  }
+  displaySelectedContacts = document.getElementById(idContainer);
+
   displaySelectedContacts.innerHTML = '';
-  for (let i = 0; i < assignedContacts.length; i++) {
-    const contactAcronym = assignedContacts[i].acronym;
-    const contactColor = assignedContacts[i].color;
-    displaySelectedContacts.innerHTML += `<div class="circleAcronym" style="background-color: ${contactColor};">${contactAcronym}</div>`;
+  console.log(displayContacts);
+  for (let i = 0; i < displayContacts.length; i++) {
+    for (let j=0; j < contacts.length; j++ ) {
+      if (displayContacts[i] == contacts[j].id){
+        const contactAcronym = contacts[j].acronym;
+        const contactColor = contacts[j].color;
+        displaySelectedContacts.innerHTML += `<div class="circleAcronym" style="background-color: ${contactColor};">${contactAcronym}</div>`;  
+      }
+    }
   }
 }
 
@@ -315,27 +301,45 @@ function checkAddSubTask(id, mode) {
 }
 
 /**
- * this function adds subtasks to the array and renders the added subtasks
+ * this function adds subtask ids to the array and renders the added subtasks
  * @param {number} id - id of task in edit modus, by default 0 for add task
  * @param {string} mode - mode of either add or edit
  */
-function addSubTask(id, mode) {
+async function addSubTask(id, mode) {
   let subTaskName = document.getElementById(`inputSubtask${mode}`).value;
   let subTaskDone = 0;
+  let subTaskId;
   let subTask = {
     'subTaskName': subTaskName,
-    'subTaskDone': subTaskDone
+    'subTaskDone': subTaskDone,
+    'taskId': id
+  };
+  
+  subTaskId = await getSubTaskId(subTask)
+
+  //let index = findIndexOfItem(subTasksArray, subTask);
+  renderAddedSubTask(mode, id, subTaskId, subTaskName);
+}
+
+async function getSubTaskId(subTask) {
+  await addItem('subTasks', JSON.stringify(subTask));
+  allSubTasks = await getItem("subTasks");
+  for (let i = 0; i< allSubTasks.length; i++) {
+    if (allSubTasks[i].subTaskName == subTask.subTaskName) {
+      subTasksArray.push(allSubTasks[i].id);
+      return allSubTasks[i].id;
+    }
   }
-  subTasksArray.push(subTask);
-  let index = findIndexOfItem(subTasksArray, subTask);
+}
+
+function renderAddedSubTask(mode, id, subTaskId, subTaskName) {
   document.getElementById(`subTasks${mode}`).innerHTML += /*html*/ `
     <div class="subTaskBox">
-        <div id="checkBox${mode}${id}${index}" class="checkBox hover" onclick="addCheck(${index}, ${id}, '${mode}')"></div>
+        <div id="checkBox${mode}${id}${subTaskId}" class="checkBox hover" onclick="addCheck(${subTaskId}, ${id}, '${mode}')"></div>
         <div class="subtask">${subTaskName}</div>
     </div>`;
   document.getElementById(`inputSubtask${mode}`).value = "";
 }
-
 
 /**
  * this function returns the index of an item in an array

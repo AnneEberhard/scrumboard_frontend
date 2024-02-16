@@ -40,16 +40,29 @@ async function createBoardCard(id) {
   let descriptionCard = task["description"];
   let categoryCard = task["category"];
   let categoryColorCode = determineColorCategory(categoryCard);
-  let assignedCard = task["assignedContacts"];
+  let assignedContactsCard = task["assignedContacts"];
   let prioCard = task["prio"];
   let cats = task["column"];
-  let subtaskCard = task["subtasks"];
+  let subtaskCard = getSubTasks(task);
   let idContainerAssignements = `board_icons_username${id}`;
   renderBoardCard(categoryCard, titleCard, descriptionCard, id, prioCard, cats, categoryColorCode);
   if (subtaskCard.length > 0) {
     createProgressbar(subtaskCard, id);
   }
-  createAssignmentIcons(assignedCard, idContainerAssignements);
+  displayAssignedContact(assignedContactsCard, idContainerAssignements);
+}
+
+function getSubTasks(task) {
+  let subTaskCard = [];
+  for (let i = 0; i < task.subtasks.length; i++) {
+    for (let j = 0; j < allSubTasks.length; j++) {
+      if (task.subtasks[i] === allSubTasks[j].id) {
+        subTaskCard.push(allSubTasks[j]);
+        console.log(`Subtask ${task.subtasks[i]} gefunden: ${allSubTasks[j].name}`);
+      }
+    }
+  }
+  return subTaskCard;
 }
 
 /**
@@ -208,53 +221,6 @@ function renderProgressText(doneTasksNumber, tasksNumber, id) {
     `;
 }
 
-/**
- * @param {*} assignedCard passes Array with names of the editors of the task
- * @param {*} id   passes id of the boardcard
- */
-function createAssignmentIcons(assignedCard, idContainer) {
-  for (let i = 0; i < assignedCard.length; i++) {
-    const assignedUser = assignedCard[i].user_name;
-    if (i < 5) {
-      for (let k = 0; k < contacts.length; k++) {
-        const contact = contacts[k];
-        renderAssignmentIcons(assignedUser, contact, idContainer);
-      }
-    }
-  }
-}
-
-/**
- * compare if assignedUser is an contact and creates the IconCircle
- * @param {*} assignedUser user who is working on task
- * @param {*} contact contact from the contact list
- * @param {*} idContainer
- */
-function renderAssignmentIcons(assignedUser, contact, idContainer) {
-  if (assignedUser === contact.user_name) {
-    let acronym = createAcronym(assignedUser);
-    let newCircle = document.createElement("div");
-    newCircle.classList.add("board_Icons_Username");
-    newCircle.style.backgroundColor = getColor(assignedUser);
-    newCircle.innerHTML = acronym;
-    newCircle.title = assignedUser;
-    let username = document.getElementById(idContainer);
-    username.appendChild(newCircle);
-  }
-}
-
-/**
- * @param {*} assignedUser User who is working on the task
- * @returns color of the user in contact list
- */
-function getColor(assignedUser) {
-  for (let i = 0; i < contacts.length; i++) {
-    const contact = contacts[i];
-    if (contact.user_name === assignedUser) {
-      return contact.color;
-    }
-  }
-}
 
 /**
  * searching function, to show task who hast the searched word in title

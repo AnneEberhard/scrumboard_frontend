@@ -7,19 +7,20 @@ let prioToEdit;
  */
 function openTaskOverview(id, category) {
     let task = tasks[id];
+    let assignedContactsCard = task["assignedContacts"];
     column = task.column;
     assignedCategory = category;
-    subTasksArray = task['subtasks'];
+    subTasksArray = getSubTasks(task); 
     let colorCode = determineColorCategory(task['category']);
     renderEditOverviewTemplate(colorCode, task['prio'], id);
     let taskOverview = document.getElementById('editTask');
     taskOverview.classList.remove('d-none');
     renderTaskOverview(task, id);
-    renderAssignementsInTaskOverview(task, "editTaskContainerAssignedNames");
+    displayAssignedContact(assignedContactsCard, "editTaskContainerAssignedNames");
     renderSubtasksInTaskOverview(id);
 }
 
-/**
+/**displayAssignedContact
  * render values in Overview Container
  * @param {*} task which is opened
  * @param {*} id task id
@@ -73,46 +74,6 @@ function renderEditOverviewTemplate(colorCode, prio, id) {
             </div>
         </div>`;
     disableBackgroundScroll();
-}
-
-/**
- * @param {*} task 
- * @param {*} idContainer container to render in
- */
-function renderAssignementsInTaskOverview(task, idContainer) {
-    let assignedUsers = task['assignedContacts'];
-    document.getElementById(`${idContainer}`).innerHTML = "";
-    for (let i = 0; i < assignedUsers.length; i++) {
-        const assignedUser = assignedUsers[i];
-        for (let k = 0; k < contacts.length; k++) {
-            const contact = contacts[k];
-            renderAssignmentIconsInCard(assignedUser, contact, idContainer);
-        }
-    }
-}
-
-/**
- * compares if assignedUser is an user in contact List --> creates an IconCircle
- * @param {*} assignedUser 
- * @param {*} contact 
- * @param {*} idContainer 
- */
-function renderAssignmentIconsInCard(assignedUser, contact, idContainer) {
-    if (assignedUser.user_name === contact.user_name) {
-        let newContainer = document.createElement('div');
-        newContainer.classList.add('editTaskUsername');
-        let newCircle = document.createElement('div');
-        newCircle.classList.add('editTaskUsernameCircle');
-        newCircle.style.backgroundColor = getColor(assignedUser.user_name);
-        let newName = document.createElement('div');
-        newName.classList.add('editTaskUsernameName');
-        let un = document.getElementById(idContainer);
-        newContainer.appendChild(newCircle);
-        newContainer.appendChild(newName);
-        newCircle.innerHTML = assignedUser.acronym;
-        newName.innerHTML = assignedUser.user_name;
-        un.appendChild(newContainer);
-    }
 }
 
 /**
@@ -254,11 +215,11 @@ function renderEditModeTemplates(task, id) {
     let editTask = document.getElementById('editTask');
     editTask.innerHTML = "";
     editTask.innerHTML = editModeTemplate(task, id);
-    let assignedCard = task['assignedContacts'];
+    let assignedContactsCard = task['assignedContacts'];
     renderContacts('editContactContainer', 'Edit');
     renderDueDate('Edit');
     renderContactsAssignContacts(assignedCard);
-    createAssignmentIcons(assignedCard, "editTaskAssignedChangable");
+    displayAssignedContact(assignedContactsCard, "editTaskAssignedChangable");
     renderAssignedPrio(task["prio"], 'Edit');
 }
 

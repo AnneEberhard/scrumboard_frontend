@@ -46,17 +46,37 @@ function createTask(event) {
   let correctCategory = checkCorrectCategory();
   let correctContact = checkCorrectContact();
   if (prioFilled == true && correctCategory == true && correctContact == true) {
+    let author = getAuthorId();
     let title = document.getElementById("title").value;
     let description = document.getElementById("description").value;
     let dueDate = document.getElementById("dueDateAdd").value;
-    let task = {title: title, description: description, category: assignedCategory, assignedContacts: assignedContacts, dueDate: dueDate, prio: assignedPrio,
-      subtasks: subTasksArray, column: column};
+    let today = currentDate();
+    let task = {
+      author: author,
+      created_at: today,
+      title: title,
+      description: description, 
+      category: assignedCategory, 
+      assignedContacts: assignedContacts, 
+      dueDate: dueDate, 
+      prio: assignedPrio,
+      subtasks: subTasksArray,
+      column: column};
     tasks.push(task);
     saveNewTask(task); 
     popUpNotice();
     flushSubtasks();
   }
 }
+
+function getAuthorId() {
+  if(currentUser == 'Guest') {
+    return 2
+  } else {
+    return currentUser.id
+  }
+}
+
 
 /**
  * this function clears the subtask array
@@ -147,6 +167,8 @@ async function saveTask() {
  * @param {}  - no parameter
  */
 async function saveNewTask(task) {
+  console.log(task);
+  debugger;
   await addItem("tasks", JSON.stringify(task));
 }
 
@@ -154,6 +176,21 @@ async function saveNewCategory (newCategory) {
   await addItem("savedCategories", JSON.stringify(newCategory));
 }
 
+
+function currentDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  month = month < 10 ? '0' + month : month;
+  const day = today.getDate() < 10 ? '0' + today.getDate() : today.getDate();
+
+  return `${year}-${month}-${day}`;
+}
+
+
+
+
+//muss ersetzt werden durch delete
 /**
  * this function saves only the savedCategories to the backend and is used when a category is deleted or added
  * @param {}  - no parameter
