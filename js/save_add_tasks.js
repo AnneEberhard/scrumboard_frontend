@@ -40,7 +40,7 @@ function clearTaskHTML() {
  * this function creates the respective JSOn tasks if all requirements are met and adds it to the array tasks
  * @param {Event} event - needed to prevent new loading of form
  */
-function createTask(event) {
+async function createTask(event) {
   event.preventDefault();
   let prioFilled = checkPrio();
   let correctCategory = checkCorrectCategory();
@@ -50,6 +50,7 @@ function createTask(event) {
     let title = document.getElementById("title").value;
     let description = document.getElementById("description").value;
     let dueDate = document.getElementById("dueDateAdd").value;
+    await saveNewSubTasks();
     let today = currentDate();
     let task = {
       author: author,
@@ -79,7 +80,7 @@ function getAuthorId() {
 
 
 /**
- * this function clears the subtask array
+ * this function clears the help array
  * @param {}  - no parameter
  */
 function flushArrays() {
@@ -156,17 +157,23 @@ function switchToBoard() {
 }
 
 /**
- * this function saves the JSONs tasks, savedCategories and the array savedfreeColors to the backend
+ * this function 
  * @param {}  - no parameter
  */
 async function updateTask(id) {
   let updatedTask = tasks[id];
   await updateItem("tasks", JSON.stringify(updatedTask));
-  //await updateItem("subTasks", JSON.stringify(task));
-  //await setItem("tasks", JSON.stringify(tasks));
-  //await setItem("savedCategories", JSON.stringify(categories));
-  //await setItem("savedFreeColors", JSON.stringify(freeColors));
 }
+
+/**
+ * this function 
+ * @param {}  - no parameter
+ */
+async function updateEditedTask(updatedTask) {
+  await updateItem("tasks", JSON.stringify(updatedTask));
+}
+
+
 
 /**
  * this function saves the newly created task to the backend

@@ -71,7 +71,7 @@ function getAssignedContacts(task) {
     for (let j = 0; j < contacts.length; j++) {
       if (task.assignedContacts[i] === contacts[j].id) {
         assignedContactsTask.push(contacts[j]);
-        console.log(`Subtask ${task.assignedContacts[i]} gefunden: ${contacts[j].user_name}`);
+        console.log(`Contact ${task.assignedContacts[i]} gefunden: ${contacts[j].user_name}`);
       }
     }
   }
@@ -294,6 +294,7 @@ async function moveTo(category) {
  */
 async function changeTaskColumn(taskIndex, newColumn) {
   if (taskIndex >= 0 && taskIndex < tasks.length) {
+    debugger;
     tasks[taskIndex].column = newColumn;
     await updateTask(taskIndex);
     renderBoard();

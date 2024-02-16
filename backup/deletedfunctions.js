@@ -52,3 +52,17 @@ function getColor(assignedUser) {
       }
     }
   }
+
+  /**
+ * Subtask Input and Add Button in Overview
+ * @param {*} id index of task which was clicked
+ */
+function renderAddSubtasksInOverview(id) {
+    document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
+        <div class="subtaskEdit">
+            <input id="inputSubtaskEdit" class="inputSubtask" placeholder="Add new subtask" />
+            <div class="buttonAddSubTask hover" onclick="addSubTask(${id}, 'Edit')">
+                <img src="assets/img/plus.png" />
+            </div>
+        </div>`
+}

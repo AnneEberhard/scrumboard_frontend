@@ -84,37 +84,24 @@ async function renderSubtasksInTaskOverview(id) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML = "";
     for (let i = 0; i < subTasksArray.length; i++) {
         if (subTasksArray[i].subTaskDone == 0) {
-            renderSubtasksWithoutHook(subTasksArray[i], id);
+            renderSubtasksWithoutHook(subTasksArray[i].subTaskName, id, i);
         } else {
-            renderSubtasksWithHook(subTasksArray[i], id);
+            renderSubtasksWithHook(subTasksArray[i].subTaskName, id, i);
         }
     }
 }
 
-/**
- * Subtask Input and Add Button in Overview
- * @param {*} id index of task which was clicked
- */
-function renderAddSubtasksInOverview(id) {
-    document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
-        <div class="subtaskEdit">
-            <input id="inputSubtaskEdit" class="inputSubtask" placeholder="Add new subtask" />
-            <div class="buttonAddSubTask hover" onclick="addSubTask(${id}, 'Edit')">
-                <img src="assets/img/plus.png" />
-            </div>
-        </div>`
-}
 
 /**
  * render checkbox without hook
  * @param {*} subTask subtask 
  * @param {*} taskId index of task which was clicked
  */
-function renderSubtasksWithoutHook(subTask, taskId) {
+function renderSubtasksWithoutHook(subTaskName, taskId, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${taskId}${subTask.id}" class="checkBox hover" onclick="addCheck(${subTask.id}, ${taskId},'Edit')"></div>
-                <div>${subTask.subTaskName}</div>
+                <div id="checkBoxEdit${taskId}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex}, ${taskId},'Edit')"></div>
+                <div>${subTaskName}</div>
             </div>`
 }
 
@@ -123,11 +110,11 @@ function renderSubtasksWithoutHook(subTask, taskId) {
  * @param {*} subTask subtask 
  * @param {*} taskId index of task which was clicked
  */
-function renderSubtasksWithHook(subTask, taskId) {
+function renderSubtasksWithHook(subTaskName, taskId, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${taskId}${subTask.id}" class="checkBox hover" onclick="addCheck(${subTask.id},${taskId},'Edit')"><img src="assets/img/done.png"></div>
-                <div>${subTask.subTaskName}</div>
+                <div id="checkBoxEdit${taskId}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex},${taskId},'Edit')"><img src="assets/img/done.png"></div>
+                <div>${subTaskName}</div>
             </div>`;
 }
 
@@ -174,7 +161,7 @@ async function deleteTaskFinally(id) {
     await deleteTask(id);
     renderBoardCards();
     closeEditTask();
-    flushSubtasks();
+    flushArrays();
 }
 
 /**
@@ -318,10 +305,15 @@ async function saveEditedBoard(id) {
     let prioFilled = checkEditedPrio();
     let correctContact = checkCorrectContact();
     if (prioFilled == true && correctContact == true) {
+        console.log(tasks);
+        //await updateSubTasks();
         let title = document.getElementById("editTaskTitleChangable").value;
         let description = document.getElementById("editTaskDescriptionChangable").value;
         let dueDate = document.getElementById("dueDateEdit").value;
         let task = {
+            'id': tasks[id].id,
+            'author': tasks[id].author,
+            'created_at': tasks[id].created_at,
             'title': title,
             'description': description,
             'category': assignedCategory,
@@ -329,13 +321,12 @@ async function saveEditedBoard(id) {
             'dueDate': dueDate,
             'prio': prioToEdit,
             'column': column,
-            'subtasks': subTasksArray,
+            'subtasks': subTasksIdArray,
         }
-        tasks[id] = task;
-        await updateTask(id);
+        await updateEditedTask(task);
         closeEditTask();
         await renderBoardCards();
-        flushSubtasks();
+        flushArrays();
     }
 }
 
@@ -344,12 +335,11 @@ async function saveEditedBoard(id) {
  * @param {*} id - id of task
  */
 async function saveBoard(id) {
-        //tasks[id]['subtasks'] = subTasksArray;
-        
+        await updateSubTasks();
         await updateTask(id);
         closeEditTask();
         await renderBoardCards();
-        flushSubtasks();
+        flushArrays();
 }
 
 /**

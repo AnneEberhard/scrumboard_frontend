@@ -8,7 +8,6 @@ let tasks = [];
 let contacts = [];
 let allSubTasks = [];
 let categories = [];
-let freeColors = [];
 
 //these are needed to fill task
 let assignedCategory;
@@ -17,6 +16,7 @@ let assignedContactsStatus = new Array(contacts.length).fill(false);
 let assignedPrio = '';
 let subTasksArray = [];
 let subTasksIdArray = [];
+let freeColors = [];
 
 //these are needed for the site to function
 let prios = ['urgent', 'medium', 'low'];
@@ -173,7 +173,6 @@ function unassignContact(i, mode) {
  * @param {string} mode - mode of either add or edit
  */
 function updateAssignedContacts(mode) {
-  debugger;
   assignedContacts = [];
   document.getElementById('contactAlert').innerHTML = '';
   for (let i = 0; i < assignedContactsStatus.length; i++) {
@@ -284,70 +283,6 @@ function renderAssignedPrio(chosenPrio, mode) {
   }
 }
 
-/**
- * this function checks if field of adding subTasks is empty or not
- * @param {number} id - id of task in edit modus, by default 0 for add task
- * @param {string} mode - mode of either add or edit
- */
-function checkAddSubTask(id, mode) {
-  const subTaskName = document.getElementById(`inputSubtask${mode}`).value.trim();
-  
-  if (subTaskName === "") {
-    document.getElementById('subTaskAlertAdd').innerHTML = "Bitte einen Wert hinzufügen";
-  } else {
-    document.getElementById('subTaskAlertAdd').innerHTML = "";
-    addSubTask(id, mode);
-  }
-}
-
-/**
- * this function adds subtask ids to the array and renders the added subtasks
- * @param {number} id - id of task in edit modus, by default 0 for add task
- * @param {string} mode - mode of either add or edit
- */
-async function addSubTask(id, mode) {
-  let subTaskName = document.getElementById(`inputSubtask${mode}`).value;
-  let subTaskDone = 0;
-  let subTaskId;
-  let subTask = {
-    'subTaskName': subTaskName,
-    'subTaskDone': subTaskDone,
-    'taskId': id
-  };
-  await saveSubTask(subTask);
-  subTaskId = await getSubTaskId(subTask);
-  subTask = {
-    'subTaskName': subTaskName,
-    'subTaskDone': subTaskDone,
-    'taskId': id,
-    'id': subTaskId
-  };
-  renderAddedSubTask(mode, id, subTask, subTaskId);
-}
-
-async function saveSubTask(subTask) {
-  await addItem('subTasks', JSON.stringify(subTask));
-}
-
-async function getSubTaskId(subTask) {
-  allSubTasks = await getItem("subTasks");
-  for (let i = 0; i< allSubTasks.length; i++) {
-    if (allSubTasks[i].subTaskName == subTask.subTaskName) {
-      subTasksIdArray.push(allSubTasks[i].id);
-      return allSubTasks[i].id;
-    }
-  }
-}
-
-function renderAddedSubTask(mode, id, subTask, subTaskId) {
-  console.log(subTask);
-  document.getElementById(`subTasks${mode}`).innerHTML += /*html*/ `
-    <div class="subTaskBox">
-        <div id="checkBox${mode}${id}${subTaskId}" class="checkBox hover" onclick="addCheck(${subTaskId}, ${id}, '${mode}')"></div>
-        <div class="subtask">${subTask.subTaskName}</div>
-    </div>`;
-  document.getElementById(`inputSubtask${mode}`).value = "";
-}
 
 /**
  * this function returns the index of an item in an array
@@ -358,42 +293,3 @@ function findIndexOfItem(array, item) {
   return array.indexOf(item);
 }
 
-
-/**
- * this function add checksmarks to the subtaks if clicked on
- * @param {value} subTaskId backend id of subTask
- * @param {number} id - id of task in edit modus, by default 0 for add task
- * @param {string} mode - mode of either add or edit
- */
-async function addCheck(subTaskId, id, mode) {
-  console.log(`checkBox${mode}${id}${subTaskId}`);
-  const checkBoxElement = document.getElementById(`checkBox${mode}${id}${subTaskId}`);
-  const existingImage = checkBoxElement.querySelector('img');
-  let index = getAllSubTaskIndex(subTaskId);
-  if (existingImage) {
-    checkBoxElement.removeChild(existingImage);
-    allSubTasks[index].subTaskDone = 0;
-  } else {
-    document.getElementById(`checkBox${mode}${id}${subTaskId}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
-    allSubTasks[index].subTaskDone = 1;
-  }
-  await updateItem('subTasks', JSON.stringify(allSubTasks[index]))
-}
-
-
-function getAllSubTaskIndex(subTaskId) {
-  for (let i = 0; i< allSubTasks.length; i++) {
-    if (allSubTasks[i].subTaskId == subTaskId) {
-      return i;
-    }
-  }
-}
-
-
-function getSubTaskbyId(subTaskId) {
-  for (let i = 0; i< allSubTasks.length; i++) {
-    if (allSubTasks[i].subTaskId == subTaskId) {
-      return allSubTasks[i];
-    }
-  }
-}
