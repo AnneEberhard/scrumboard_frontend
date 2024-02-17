@@ -1,9 +1,17 @@
+// edit functions of board
+// for delete see delete.js
+// for subtasks see also subtask.js
+// for adding see board_add.js
+// for general functions see board.js
+// for additional functions see add_task and save_add_tasks.js
+// for backend see storage.js
+
 let prioToEdit;
 
 
 /**
  * opens a card, which shows the detailed task
- * @param {*} i index of task which was clicked
+ * @param {integer} i index of task which was clicked in JSON tasks
  * @param {*} category category of the clicked task
  */
 function openTaskOverview(i, category) {
@@ -22,7 +30,7 @@ function openTaskOverview(i, category) {
 
 /**
  * render values in Overview Container
- * @param {*} task which is opened
+ * @param {object} task which is opened
  */
 function renderTaskOverview(task) {
     document.getElementById('editTaskContainerCategory').innerHTML = `${task['category']}`;
@@ -38,7 +46,7 @@ function renderTaskOverview(task) {
  * @param {*} colorCode colorCode of the category 
  * @param {*} prio prio of the task
  * @param {*} taskId backend id of the task
- * @param {*} i index of the task ins tasks array
+ * @param {*} i index of the task in tasks JSON
  */
 function renderEditOverviewTemplate(colorCode, prio, taskId, i) {
     document.getElementById('editTask').innerHTML = /*html*/`
@@ -94,8 +102,9 @@ async function renderSubtasksInTaskOverview(id) {
 
 /**
  * render checkbox without hook
- * @param {*} subTask subtask 
- * @param {*} taskIndex index of task which was clicked
+ * @param {string} subTaskName name of subtask 
+ * @param {integer} taskIndex index of task which was clicked in JSON tasks
+ * @param {integer} subTaskIndex index of subtask in JSON allSubTasks
  */
 function renderSubtasksWithoutHook(subTaskName, taskIndex, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
@@ -107,8 +116,9 @@ function renderSubtasksWithoutHook(subTaskName, taskIndex, subTaskIndex) {
 
 /**
  * render checkbox with hook
- * @param {*} subTask subtask 
- * @param {*} taskIndex index of task which was clicked in JSON tasks
+ * @param {string} subTaskName name of subtask 
+ * @param {integer} taskIndex index of task which was clicked in JSON tasks
+ * @param {integer} subTaskIndex index of subtask in JSON allSubTasks
  */
 function renderSubtasksWithHook(subTaskName, taskIndex, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
@@ -117,7 +127,6 @@ function renderSubtasksWithHook(subTaskName, taskIndex, subTaskIndex) {
                 <div>${subTaskName}</div>
             </div>`;
 }
-
 
 
 /**

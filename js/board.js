@@ -1,3 +1,11 @@
+// gerneral functions of board
+// for delete see delete.js
+// for subtasks see also subtask.js
+// for adding see board_add.js
+// for editing see board_edit.js
+// for additional functions see add_task and save_add_tasks.js
+
+
 /** for Drag&Drop  */
 let currentDraggedElement;
 
@@ -32,10 +40,10 @@ async function deleteBoard() {
 
 /**
  * creates variabeles for every attribut of the task with id & functions for creating an card for this task
- * @param {*} id passes index of the task
+ * @param {*} i passes index of the task in the JSON tasks
  */
-async function createBoardCard(id) {
-  let task = tasks[id];
+async function createBoardCard(i) {
+  let task = tasks[i];
   let taskId = task['id'];
   let titleCard = task["title"];
   let descriptionCard = task["description"];
@@ -46,9 +54,9 @@ async function createBoardCard(id) {
   let cats = task["column"];
   let subtaskCard = getSubTasks(taskId);
   let idContainerAssignements = `board_icons_username${id}`;
-  renderBoardCard(categoryCard, titleCard, descriptionCard, taskId, id, prioCard, cats, categoryColorCode);
+  renderBoardCard(categoryCard, titleCard, descriptionCard, taskId, i, prioCard, cats, categoryColorCode);
   if (subtaskCard.length > 0) {
-    createProgressbar(subtaskCard, id);
+    createProgressbar(subtaskCard, i);
   }
   displayAssignedContact(assignedContactsIds, idContainerAssignements);
 }

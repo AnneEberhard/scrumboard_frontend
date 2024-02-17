@@ -1,7 +1,9 @@
 //for includeHTML() and initTemplate('addTask') see script_Templates.js
 //for categories see add_task_categories.js
+//for subtask see subtask.js
 //for overall functions of the site see add_task.js
 //for backend see storage.js
+// for delete see delete.js
 
 /**
  * this function clears the entire template and resets to original state
@@ -51,7 +53,6 @@ async function createTask(event) {
     let description = document.getElementById("description").value;
     let dueDate = document.getElementById("dueDateAdd").value;
     let today = currentDate();
-    console.log(assignedCategory);
     let task = {
       author: author,
       created_at: today,
@@ -70,6 +71,10 @@ async function createTask(event) {
   }
 }
 
+/**
+ * this function gets an author id for saving the task
+ * @param {} - no param
+ */
 function getAuthorId() {
   if(currentUser == 'Guest') {
     return 2
@@ -78,7 +83,10 @@ function getAuthorId() {
   }
 }
 
-
+/**
+ * this function gets the newly created task id from backend 
+ * @param {object} task - JSON of newly created task
+ */
 async function getTaskId(task) {
   tasks = await getItem("tasks");
   for (let i = 0; i< tasks.length; i++) {
@@ -90,7 +98,7 @@ async function getTaskId(task) {
 
 
 /**
- * this function clears the help array
+ * this function clears the help variables
  * @param {}  - no parameter
  */
 function flushArrays() {
@@ -98,6 +106,9 @@ function flushArrays() {
   subTasksIdArray= [];
   assignedContacts = [];
   assignedContactsStatus = new Array(contacts.length).fill(false);
+  assignedCategory = '';
+  assignedPrio = '';
+  freeColors = [];
 }
 
 /**
@@ -178,7 +189,6 @@ async function updateTask(updatedTask) {
 }
 
 
-
 /**
  * this function saves the newly created task to the backend
  * @param {object} task - Json of new task 
@@ -187,6 +197,7 @@ async function saveNewTask(task) {
   await addItem("tasks", JSON.stringify(task));
 }
 
+
 /**
  * this function saves the newly created task to the backend
  * @param {object} newCategory - Json of new Category 
@@ -194,6 +205,7 @@ async function saveNewTask(task) {
 async function saveNewCategory (newCategory) {
   await addItem("savedCategories", JSON.stringify(newCategory));
 }
+
 
 /**
  * this function return today in format yyyy-mm-dd 

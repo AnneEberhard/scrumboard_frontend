@@ -1,3 +1,12 @@
+// add functions of board
+// for delete see delete.js
+// for subtasks see also subtask.js
+// for editing see board_edit.js
+// for general functions see board.js
+// for additional functions see add_task and save_add_tasks.js
+// for backend see storage.js
+
+
 /**
  * this function opens add Task container on the board
  * @param - no parameter

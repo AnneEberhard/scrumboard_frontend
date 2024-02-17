@@ -1,6 +1,7 @@
 //for includeHTML() and initTemplate('addTask') see script_templates.js
 //for categories see add_task_categories.js
 //for saving see save_add_tasks.js
+//for delete see delete.js
 //for backend see storage.js
 
 //these come from server and will be saved at the end
@@ -9,7 +10,7 @@ let contacts = [];
 let allSubTasks = [];
 let categories = [];
 
-//these are needed to fill task
+//these are help variables that will be flushed at the end
 let assignedCategory;
 let assignedContacts = [];
 let assignedContactsStatus = new Array(contacts.length).fill(false);
@@ -77,6 +78,7 @@ function templateContactSelection(mode) {
 /**
  * this function ensures the onlick-Funktion of closing the options isn't carried out
  * @param {event} - no parameter
+ * @param {string} mode - either Add or Edit
  */
 function handleContactOptionsClick(event, mode) {
   event.stopPropagation();
@@ -87,8 +89,8 @@ function handleContactOptionsClick(event, mode) {
 /**
  * this function returns the regular lines for the dropdown menu of contacts
  * @param {string} contact - the contact from the global JSON contacts
- * @param {number} i - index of the JSON contacts 
- * @param {string} mode - mode of either add or edit
+ * @param {integer} i - index of the JSON contacts 
+ * @param {string} mode - mode of either Add or Edit
  */
 function templateContactsOptions(contact, i, mode) {
   let templateContactsOptions = /*html*/`
@@ -117,7 +119,7 @@ function templateNewContact() {
 /**
  * this function ensures the onlick-Funktion of closing the options isn't carried out
  * @param {event} - no parameter
- * @param {number} i - index of the JSON contacts 
+ * @param {integer} i - index of the JSON contacts 
  * @param {string} mode - mode of either add or edit
  */
 function handlecheckContactClick(event,i, mode) {
@@ -128,7 +130,7 @@ function handlecheckContactClick(event,i, mode) {
 
 /**
  * this function checks if a contact has been assigned to the task and starts assigning of unassigning
- * @param {number} i - index of the JSON contacts 
+ * @param {integer} i - index of the JSON contacts 
  * @param {string} mode - mode of either add or edit
  */
 function checkContact(i, mode) {
@@ -143,7 +145,7 @@ function checkContact(i, mode) {
 
 /**
  * this function fills the box of an assigned contact and sets the i. value of assignedContactsStatus[] to true
- * @param {number} i - index of the JSON contacts 
+ * @param {integer} i - index of the JSON contacts 
  * @param {string} mode - mode of either add or edit
  */
 function assignContact(i, mode) {
@@ -158,7 +160,7 @@ function assignContact(i, mode) {
 
 /**
  * this function clears the box of an assigned contact and sets the i. value of assignedContactsStatus[] to false
- * @param {number} i - index of the JSON contacts 
+ * @param {integer} i - index of the JSON contacts 
  * @param {string} mode - mode of either add or edit
  */
 function unassignContact(i, mode) {
@@ -187,7 +189,8 @@ function updateAssignedContacts(mode) {
 
 /**
  * this function adds the assigned contact in color circles
- * @param {string} mode - mode of either add or edit
+ * @param {string} displayContacts - array of assigned contact ids to this task
+ * @param {string} idContainer - id of the container in which to render
  */
 function displayAssignedContact(displayContacts, idContainer) {
   let displaySelectedContacts;

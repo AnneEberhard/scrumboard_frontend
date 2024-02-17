@@ -2,6 +2,7 @@
 //for overall functions of the site see add_task.js
 //for saving see save_add_tasks.js
 //for backend see storage.js
+//for delete see delete.js
 
 /**
  * this function begins the rendering of the categories
@@ -100,7 +101,7 @@ function handleCategoriesOptionsClick(event) {
 
 /**
  * this function toggles the dropdown menu of categories and contacts
- * @param {string} id - id of either categories or contacts
+ * @param {string} id - id is either categories or contacts
  */
 function toggleOptions(id) {
   const optionsDiv = document.getElementById(`${id}`);
@@ -110,6 +111,7 @@ function toggleOptions(id) {
 /**
  * this function ensures the onlick Funktion is not forwarded to others
  * @param {event} - on click
+ * @param {string} mode - either Edit or Add
  */
 function closeOptionsOnClick(event, mode) {
   closeOptions(mode);
@@ -118,7 +120,7 @@ function closeOptionsOnClick(event, mode) {
 
 /**
  * this function closes the dropdown menu of categories and contacts
- * @param {string} id - id of either categories or contacts
+ * @param {string} mode - either Edit or Add
  */
 function closeOptions(mode) {
   if (mode == "Add") {
