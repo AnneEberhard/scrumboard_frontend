@@ -284,9 +284,8 @@ async function moveTo(category) {
  */
 async function changeTaskColumn(taskIndex, newColumn) {
   if (taskIndex >= 0 && taskIndex < tasks.length) {
-    debugger;
     tasks[taskIndex].column = newColumn;
-    await updateTask(taskIndex);
+    await updateTask(tasks[taskIndex]);
     renderBoard();
   }
 }

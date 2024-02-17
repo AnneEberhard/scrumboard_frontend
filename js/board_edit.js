@@ -271,7 +271,7 @@ async function saveEditedBoard(i) {
             'column': column,
             'subtasks': subTasksIdArray,
         }
-        await updateEditedTask(task);
+        await updateTask(task);
         await updateSubTasks();
         closeEditTask();
         await renderBoardCards();

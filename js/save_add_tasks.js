@@ -51,6 +51,7 @@ async function createTask(event) {
     let description = document.getElementById("description").value;
     let dueDate = document.getElementById("dueDateAdd").value;
     let today = currentDate();
+    console.log(assignedCategory);
     let task = {
       author: author,
       created_at: today,
@@ -172,7 +173,7 @@ function switchToBoard() {
  * this function updates edited task in backend
  * @param {object} updatedTask - JSON of task to be updated
  */
-async function updateEditedTask(updatedTask) {
+async function updateTask(updatedTask) {
   let taskId = updatedTask.id;
   await updateItem("tasks", JSON.stringify(updatedTask), taskId);
 }
