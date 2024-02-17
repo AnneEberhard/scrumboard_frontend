@@ -36,7 +36,7 @@ async function deleteBoard() {
  */
 async function createBoardCard(id) {
   let task = tasks[id];
-  let taskId = task[id];
+  let taskId = task['id'];
   let titleCard = task["title"];
   let descriptionCard = task["description"];
   let categoryCard = task["category"];
@@ -44,7 +44,7 @@ async function createBoardCard(id) {
   let assignedContactsIds = task["assignedContacts"];
   let prioCard = task["prio"];
   let cats = task["column"];
-  let subtaskCard = getSubTasks(task);
+  let subtaskCard = getSubTasks(taskId);
   let idContainerAssignements = `board_icons_username${id}`;
   renderBoardCard(categoryCard, titleCard, descriptionCard, taskId, id, prioCard, cats, categoryColorCode);
   if (subtaskCard.length > 0) {
@@ -53,18 +53,7 @@ async function createBoardCard(id) {
   displayAssignedContact(assignedContactsIds, idContainerAssignements);
 }
 
-function getSubTasks(task) {
-  let subTaskCard = [];
-  for (let i = 0; i < task.subtasks.length; i++) {
-    for (let j = 0; j < allSubTasks.length; j++) {
-      if (task.subtasks[i] === allSubTasks[j].id) {
-        subTaskCard.push(allSubTasks[j]);
-        console.log(`Subtask ${task.subtasks[i]} gefunden: ${allSubTasks[j].subTaskName}`);
-      }
-    }
-  }
-  return subTaskCard;
-}
+
 
 function getAssignedContacts(task) {
   let assignedContactsTask = [];

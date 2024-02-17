@@ -81,3 +81,82 @@ async function loadToDelete() {
     console.error("Loading error:", e);
   }
   }
+
+  
+/**
+ * this function renders the field for adding subtasks
+ * @param {*} id index of task which was clicked
+ */
+async function addSubTaskEdit(id) {
+    let subTaskName = document.getElementById("inputSubtaskEdit").value;
+    let subTaskDone = 0;
+    let subTask = {
+        'subTaskName': subTaskName,
+        'subTaskDone': subTaskDone
+    }
+    subTasksArray.push(subTask);
+    renderSubtasksInTaskOverview(id);
+    await updateTask(id);
+    renderBoard();
+    document.getElementById("inputSubtaskEdit").value = "";
+}
+
+
+/**
+ * closes the delete request container 
+ * @param - no parameter
+ */
+function closeDeleteRequest() {
+    document.getElementById('confirmDeleteTask').innerHTML = "";
+    document.getElementById('confirmDeleteTask').classList.add('d-none');
+}
+
+
+
+//muss ersetzt werden durch delete
+/**
+ * this function saves only the savedCategories to the backend and is used when a category is deleted or added
+ * @param {}  - no parameter
+ */
+async function saveOnlyCategories() {
+    await setItem("savedCategories", JSON.stringify(categories));
+  }
+  
+
+  
+/**
+ * this function updates 
+ * @param {id}  - backend Id of task
+ */
+async function updateTask(i, taskId) {
+    let updatedTask = tasks[i];
+    await updateItem("tasks", JSON.stringify(updatedTask), taskId);
+  }
+
+  
+  async function getSubTaskId(subTask) {
+    allSubTasks = await getItem("subTasks");
+    for (let i = 0; i< allSubTasks.length; i++) {
+      if (allSubTasks[i].subTaskName == subTask.subTaskName) {
+        subTasksIdArray.push(allSubTasks[i].id);
+      }
+    }
+  }
+
+    
+  function getAllSubTaskIndex(subTaskId) {
+    for (let i = 0; i< allSubTasks.length; i++) {
+      if (allSubTasks[i].subTaskId == subTaskId) {
+        return i;
+      }
+    }
+  }
+  
+  
+  function getSubTaskbyId(subTaskId) {
+    for (let i = 0; i< allSubTasks.length; i++) {
+      if (allSubTasks[i].subTaskId == subTaskId) {
+        return allSubTasks[i];
+      }
+    }
+  }

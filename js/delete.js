@@ -1,10 +1,52 @@
+/* DELETING TASKS */
+
 /**
- * this function deletes the task from the loaded JSON
+ * confirm Container if task should be deleted
+ * @param {*} id index of task which was clicked 
+ */
+function askBeforeDelete(id) {
+  let confirmDelete = document.getElementById('confirmDeleteTask');
+  confirmDelete.classList.remove('d-none');
+  confirmDelete.innerHTML += /*html*/`
+      <div id="confirmDeleteTaskQuestion">Delete Task?</div>
+      <div id="confirmDeleteTaskAnswers">
+              <div id="confirmDeleteTaskAnswersYes" onclick="deleteTaskFinally(${id})">Delete</div>
+              <div id="confirmDeleteTaskAnswersNo" onclick="closeDeleteRequest()">Back</div>
+      </div>`;
+}
+
+/**
+* carries out final delete 
+* @param {*} id index of task which was clicked
+*/
+async function deleteTaskFinally(id) {
+  closeDeleteRequest('confirmDeleteTask');
+  await deleteTask(id);
+  renderBoardCards();
+  closeEditTask();
+  flushArrays();
+}
+
+
+/**
+ * this function deletes the task from backend
  * @param {string} id - id of the task to be deleted
  */
 async function deleteTask(id) {
   await deleteItem("tasks", id);
 }
+
+
+/**
+ * this function closes the alert
+ * @param {}  - no parameter
+ */
+function closeDeleteRequest(idContainer) {
+  document.getElementById(idContainer).innerHTML = "";
+  document.getElementById(idContainer).classList.add("d-none");
+}
+
+/* DELETING CATEGORIES */
 
 /**
  * this function warns before a category is deleted
@@ -41,14 +83,7 @@ async function deleteCategory(categoryToDelete, i) {
   closeDeleteRequest("confirmDeleteCategory");
 }
 
-/**
- * this function closes the alert
- * @param {}  - no parameter
- */
-function closeDeleteRequest(idContainer) {
-  document.getElementById(idContainer).innerHTML = "";
-  document.getElementById(idContainer).classList.add("d-none");
-}
+
 
 /**
  * this function checks if the category to delete is not in use in the board.html
@@ -75,37 +110,8 @@ function getCategoryBackendId(name) {
   return -1;
 }
 
-/**
- *
- * This function deletes the contact and saves the contactlist in the backend again
- * @param {string} - the contact to be deleted
- */
 
-async function deleteContact(id) {
-  askBeforeDeleteContact
-  await deleteItem("contacts", id);
-  await loadContacts();
-  renderContactList();
-  document.getElementById("render").innerHTML = "";
-  window.location.href = "contacts.html";
-}
-
-/**
- * This function deletes the contact inside of a modal
- * @param {string} - if of the modal to be closed
- *
- */
-async function deleteContactInModal(id) {
-  if (id !== -1) {
-    await deleteItem("contacts", id);
-    loadContacts();
-    renderContactList();
-    closeModal("edit_contact_background");
-    document.getElementById("render").innerHTML = "";
-  } else {
-    alert("Please check the contact name");
-  }
-}
+/* DELETING CONTACTS */
 
 function getContactBackendId(name) {
   for (let i = 0; i < contacts.length; i++) {
@@ -145,3 +151,34 @@ function askBeforeDeleteContactInModal() {
       </div>
   `;
  }
+
+ 
+/**
+ * This function deletes the contact from the backend and renders the contactlist
+ * @param {string} - id of contact to be deleted
+ */
+async function deleteContact(id) {
+  askBeforeDeleteContact
+  await deleteItem("contacts", id);
+  await loadContacts();
+  renderContactList();
+  document.getElementById("render").innerHTML = "";
+  window.location.href = "contacts.html";
+}
+
+
+/**
+ * This function deletes the contact inside of a modal
+ * @param {string} - id of the modal to be deleted
+ */
+async function deleteContactInModal(id) {
+  if (id !== -1) {
+    await deleteItem("contacts", id);
+    loadContacts();
+    renderContactList();
+    closeModal("edit_contact_background");
+    document.getElementById("render").innerHTML = "";
+  } else {
+    alert("Please check the contact name");
+  }
+}

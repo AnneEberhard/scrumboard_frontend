@@ -3,29 +3,28 @@ let prioToEdit;
 
 /**
  * opens a card, which shows the detailed task
- * @param {*} id index of task which was clicked
+ * @param {*} i index of task which was clicked
  * @param {*} category category of the clicked task
  */
-function openTaskOverview(id, category) {
-    let task = tasks[id];
+function openTaskOverview(i, category) {
+    let task = tasks[i];
     column = task.column;
     assignedCategory = category;
-    subTasksArray = getSubTasks(task); 
+    subTasksArray = getSubTasks(task.id); 
     let colorCode = determineColorCategory(task['category']);
-    renderEditOverviewTemplate(colorCode, task['prio'], id);
+    renderEditOverviewTemplate(colorCode, task['prio'], task['id'], i);
     let taskOverview = document.getElementById('editTask');
     taskOverview.classList.remove('d-none');
-    renderTaskOverview(task, id);
+    renderTaskOverview(task);
     displayAssignedContact(task["assignedContacts"], "editTaskContainerAssignedNames");
-    renderSubtasksInTaskOverview(id);
+    renderSubtasksInTaskOverview(task['id']);
 }
 
 /**
  * render values in Overview Container
  * @param {*} task which is opened
- * @param {*} id task id
  */
-function renderTaskOverview(task, id) {
+function renderTaskOverview(task) {
     document.getElementById('editTaskContainerCategory').innerHTML = `${task['category']}`;
     document.getElementById('editTaskContainerTitle').innerHTML = `${task['title']}`;
     document.getElementById('editTaskContainerDescription').innerHTML = `${task['description']}`;
@@ -38,18 +37,19 @@ function renderTaskOverview(task, id) {
  * template of the card
  * @param {*} colorCode colorCode of the category 
  * @param {*} prio prio of the task
- * @param {*} id index of the task
+ * @param {*} taskId backend id of the task
+ * @param {*} i index of the task ins tasks array
  */
-function renderEditOverviewTemplate(colorCode, prio, id) {
+function renderEditOverviewTemplate(colorCode, prio, taskId, i) {
     document.getElementById('editTask').innerHTML = /*html*/`
         <div id="confirmDeleteTask" class="d-none">
         </div>
         <div id="editTaskContainer" >
-            <div id="editTaskContainerClose" onclick="saveBoard(${id})"><img src="assets/img/close.png" alt="">
+            <div id="editTaskContainerClose" onclick="saveBoard(${taskId},${i})"><img src="assets/img/close.png" alt="">
             </div>
             <div id="editTaskContainerEditDelete">
                 <div id="editTaskContainerDelete"></div>
-                <div id="editTaskContainerEdit" onclick="openEditMode(${id})"><img src="assets/img/edit_white.png"></div>
+                <div id="editTaskContainerEdit" onclick="openEditMode(${i})"><img src="assets/img/edit_white.png"></div>
             </div>
             <div id="editTaskContainerInner">
                 <div id="editTaskContainerCategory" style="background-color: ${colorCode}"></div>
@@ -78,7 +78,7 @@ function renderEditOverviewTemplate(colorCode, prio, id) {
 
 /**
  * renders Subtasks in Overview
- * @param {*} id index of task which was clicked
+ * @param {*} id backend id of task which was clicked
  */
 async function renderSubtasksInTaskOverview(id) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML = "";
@@ -95,12 +95,12 @@ async function renderSubtasksInTaskOverview(id) {
 /**
  * render checkbox without hook
  * @param {*} subTask subtask 
- * @param {*} taskId index of task which was clicked
+ * @param {*} taskIndex index of task which was clicked
  */
-function renderSubtasksWithoutHook(subTaskName, taskId, subTaskIndex) {
+function renderSubtasksWithoutHook(subTaskName, taskIndex, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${taskId}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex}, ${taskId},'Edit')"></div>
+                <div id="checkBoxEdit${taskIndex}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex}, ${taskIndex},'Edit')"></div>
                 <div>${subTaskName}</div>
             </div>`
 }
@@ -108,70 +108,17 @@ function renderSubtasksWithoutHook(subTaskName, taskId, subTaskIndex) {
 /**
  * render checkbox with hook
  * @param {*} subTask subtask 
- * @param {*} taskId index of task which was clicked
+ * @param {*} taskIndex index of task which was clicked in JSON tasks
  */
-function renderSubtasksWithHook(subTaskName, taskId, subTaskIndex) {
+function renderSubtasksWithHook(subTaskName, taskIndex, subTaskIndex) {
     document.getElementById('editTaskContainerSubtasksTasks').innerHTML += /*html*/`
             <div class="subtaskInOverview">
-                <div id="checkBoxEdit${taskId}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex},${taskId},'Edit')"><img src="assets/img/done.png"></div>
+                <div id="checkBoxEdit${taskIndex}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex},${taskIndex},'Edit')"><img src="assets/img/done.png"></div>
                 <div>${subTaskName}</div>
             </div>`;
 }
 
 
-/**
- * this function renders the field for adding subtasks
- * @param {*} id index of task which was clicked
- */
-async function addSubTaskEdit(id) {
-    let subTaskName = document.getElementById("inputSubtaskEdit").value;
-    let subTaskDone = 0;
-    let subTask = {
-        'subTaskName': subTaskName,
-        'subTaskDone': subTaskDone
-    }
-    subTasksArray.push(subTask);
-    renderSubtasksInTaskOverview(id);
-    await updateTask(id);
-    renderBoard();
-    document.getElementById("inputSubtaskEdit").value = "";
-}
-
-/**
- * confirm Container if task should be deleted
- * @param {*} id index of task which was clicked 
- */
-function askBeforeDelete(id) {
-    let confirmDelete = document.getElementById('confirmDeleteTask');
-    confirmDelete.classList.remove('d-none');
-    confirmDelete.innerHTML += /*html*/`
-        <div id="confirmDeleteTaskQuestion">Delete Task?</div>
-        <div id="confirmDeleteTaskAnswers">
-                <div id="confirmDeleteTaskAnswersYes" onclick="deleteTaskFinally(${id})">Delete</div>
-                <div id="confirmDeleteTaskAnswersNo" onclick="closeDeleteRequest()">Back</div>
-        </div>`;
-}
-
-/**
- * carries out final delete 
- * @param {*} id index of task which was clicked
- */
-async function deleteTaskFinally(id) {
-    closeDeleteRequest();
-    await deleteTask(id);
-    renderBoardCards();
-    closeEditTask();
-    flushArrays();
-}
-
-/**
- * closes the delete request container 
- * @param - no parameter
- */
-function closeDeleteRequest() {
-    document.getElementById('confirmDeleteTask').innerHTML = "";
-    document.getElementById('confirmDeleteTask').classList.add('d-none');
-}
 
 /**
  * closes the edit task container 
@@ -185,27 +132,28 @@ function closeEditTask() {
 
 /**
  * closes opens edit task container 
- * @param {*} id index of task which was clicked
+ * @param {*} i index of task which was clicked in JSON tasks
+ * @param {*} taskId id of task in backend
  */
-function openEditMode(id) {
-    let task = tasks[id];
+function openEditMode(i) {
+    let task = tasks[i];
     prioToEdit = task['prio'];
-    renderEditModeTemplates(task, id);
+    renderEditModeTemplates(task, i);
 }
 
 /**
  * render edit container 
  * @param {*} task = JSON of task to be edited
- * @param {*} id = id of task to be edited
+ * @param {*} i = index of task to be edited in JSON tasks
  */
-function renderEditModeTemplates(task, id) {
+function renderEditModeTemplates(task, i) {
     let editTask = document.getElementById('editTask');
     editTask.innerHTML = "";
-    editTask.innerHTML = editModeTemplate(task, id);
-    let assignedContactsCard = getAssignedContacts(task);
+    editTask.innerHTML = editModeTemplate(task, i);
+    assignedContacts = getAssignedContacts(task);
     renderContacts('editContactContainer', 'Edit');
     renderDueDate('Edit');
-    renderContactsAssignContacts(assignedContactsCard);
+    renderContactsAssignContacts(assignedContacts);
     displayAssignedContact(task['assignedContacts'], "EditTaskAssignedChangable");
     renderAssignedPrio(task["prio"], 'Edit');
 }
@@ -213,11 +161,11 @@ function renderEditModeTemplates(task, id) {
 /**
  * returns html code for the editTaks container
  * @param {*} task = JSON of task to be edited
- * @param {*} id = id of task to be edited
+ * @param {*} i = index of task to be edited in JSON tasks
  */
-function editModeTemplate(task, id) {
+function editModeTemplate(task, i) {
     let editModeTemplate = /*html*/`
-    <form id="editTaskContainer" onsubmit="saveEditedBoard(${id}); return false;">
+    <form id="editTaskContainer" onsubmit="saveEditedBoard(${i}); return false;">
         <div id="editTaskContainerClose" onclick="closeEditTask()"><img src="assets/img/close.png" alt="">
         </div>
         <button id="editTaskContainerSave" type="submit">
@@ -255,7 +203,7 @@ function editModeTemplate(task, id) {
             <div id="editTaskAssigned" class="editTaskTitleFixed">
                 <div id="editTaskAssignedFix">Assigned to</div>
                 <div id="editContactContainer" class="inputsAddTask editAssignment"></div>
-                <div id="editContactAlert" class="alert"></div>
+                <div id="contactAlert" class="alert"></div>
                 <div id="EditTaskAssignedChangable"></div>
             </div>
         </div>
@@ -299,9 +247,9 @@ function renderContactsAssignContacts(assContacts) {
 
 /**
  * save edited Task, close EditMode and render board
- * @param {*} id - id of task
+ * @param {*} i - index of task in array tasks
  */
-async function saveEditedBoard(id) {
+async function saveEditedBoard(i) {
     let prioFilled = checkEditedPrio();
     let correctContact = checkCorrectContact();
     if (prioFilled == true && correctContact == true) {
@@ -311,9 +259,9 @@ async function saveEditedBoard(id) {
         let description = document.getElementById("editTaskDescriptionChangable").value;
         let dueDate = document.getElementById("dueDateEdit").value;
         let task = {
-            'id': tasks[id].id,
-            'author': tasks[id].author,
-            'created_at': tasks[id].created_at,
+            'id': tasks[i].id,
+            'author': tasks[i].author,
+            'created_at': tasks[i].created_at,
             'title': title,
             'description': description,
             'category': assignedCategory,
@@ -324,6 +272,7 @@ async function saveEditedBoard(id) {
             'subtasks': subTasksIdArray,
         }
         await updateEditedTask(task);
+        await updateSubTasks();
         closeEditTask();
         await renderBoardCards();
         flushArrays();
@@ -332,11 +281,10 @@ async function saveEditedBoard(id) {
 
 /**
  * saves edited Task, close EditMode and render board
- * @param {*} id - id of task
+ * @param {*} id - backend id of task
  */
 async function saveBoard(id) {
         await updateSubTasks();
-        await updateTask(id);
         closeEditTask();
         await renderBoardCards();
         flushArrays();

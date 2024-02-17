@@ -1,71 +1,92 @@
 /**
+ * this function gets the subtasks based on the task id into a help JSON subTaskCard
+ * @param {number} taskId - id of task in edit modus, by default 0 for add task
+ */
+function getSubTasks(taskId) {
+  let subTaskCard = [];
+    for (let j = 0; j < allSubTasks.length; j++) {
+      if (taskId === allSubTasks[j].taskId) {
+        subTaskCard.push(allSubTasks[j]);
+        console.log(`Subtask für Task ${taskId} gefunden: ${allSubTasks[j].taskId}`);
+      }
+  }
+  return subTaskCard;
+}
+
+
+/**
  * this function checks if field of adding subTasks is empty or not
- * @param {number} id - id of task in edit modus, by default 0 for add task
+ * @param {number} index - by default 0 for add task (not yet used in edit task)
  * @param {string} mode - mode of either add or edit
  */
-function checkAddSubTask(id, mode) {
+function checkAddSubTask(index, mode) {
     const subTaskName = document.getElementById(`inputSubtask${mode}`).value.trim();
     
     if (subTaskName === "") {
       document.getElementById('subTaskAlertAdd').innerHTML = "Bitte einen Wert hinzufügen";
     } else {
       document.getElementById('subTaskAlertAdd').innerHTML = "";
-      addSubTask(id, mode);
+      addSubTask(index, mode);
     }
   }
 
   
 /**
- * this function adds subtask ids to the array and renders the added subtasks
- * @param {number} id - id of task in edit modus, by default 0 for add task
+ * this function adds subtask to the help JSON subTaskArray and renders the added subtasks
+ * @param {number} index - by default 0 for add task (not yet used in edit task)
  * @param {string} mode - mode of either add or edit
  */
-async function addSubTask(id, mode) {
+async function addSubTask(index, mode) {
     let subTaskName = document.getElementById(`inputSubtask${mode}`).value;
     let subTaskDone = 0;
     let subTask = {
       'subTaskName': subTaskName,
       'subTaskDone': subTaskDone,
-      'taskId': id
+      'taskId': 0
     };
     subTasksArray.push(subTask);
     let subTaskId = findIndexOfItem(subTasksArray, subTask);
-    renderAddedSubTask(mode, id, subTaskName, subTaskId);
+    renderAddedSubTask(mode, index, subTaskName, subTaskId);
   }
   
-
-  async function saveNewSubTasks() {
+  
+  /**
+ * this function saves the new SubTasks of a task to the backend, including the reference to the task
+ * @param {number} taskId - backend id of task
+ */
+  async function saveNewSubTasks(taskId) {
     for (let i = 0; i < subTasksArray.length; i++) {
+        subTasksArray[i].taskId = taskId;
         const subTask = subTasksArray[i];
         await addItem('subTasks', JSON.stringify(subTask));
-        await getSubTaskId(subTask);
     }
   }
   
   
+  /**
+ * this function updates subtasks of a task to the backend, using the global JSON subTaskArray
+ * @param {} - no param
+ */
   async function updateSubTasks() {
     for (let i = 0; i < subTasksArray.length; i++) {
         const subTask = subTasksArray[i];
         let id = subTask.id;
         await updateItem('subTasks', JSON.stringify(subTask), id);
-        await getSubTaskId(subTask);
     }
   }
   
-
-  async function getSubTaskId(subTask) {
-    allSubTasks = await getItem("subTasks");
-    for (let i = 0; i< allSubTasks.length; i++) {
-      if (allSubTasks[i].subTaskName == subTask.subTaskName) {
-        subTasksIdArray.push(allSubTasks[i].id);
-      }
-    }
-  }
   
-  function renderAddedSubTask(mode, id, subTaskName, subTaskId) {
+  /**
+ * this function renders the added subtask including the checkbox
+ * @param {string} mode - mode of either add or edit
+ * @param {number} taskId - backend id of task in edit modus, by default 0 for add task
+ * @param {string} subTaskName - name of subtask
+ * @param {number} subTaskIndex index of subTask in JSON subTasks
+ */
+  function renderAddedSubTask(mode, taskId, subTaskName, subTaskIndex) {
     document.getElementById(`subTasks${mode}`).innerHTML += /*html*/ `
       <div class="subTaskBox">
-          <div id="checkBox${mode}${id}${subTaskId}" class="checkBox hover" onclick="addCheck(${subTaskId}, ${id}, '${mode}')"></div>
+          <div id="checkBox${mode}${taskId}${subTaskIndex}" class="checkBox hover" onclick="addCheck(${subTaskIndex}, ${taskId}, '${mode}')"></div>
           <div class="subtask">${subTaskName}</div>
       </div>`;
     document.getElementById(`inputSubtask${mode}`).value = "";
@@ -74,41 +95,20 @@ async function addSubTask(id, mode) {
   
 /**
  * this function add checksmarks to the subtasks if clicked on
- * @param {value} subTaskId backend id of subTask
- * @param {number} id - id of task in edit modus, by default 0 for add task
+ * @param {number} subTaskIndex index of subTask in JSON subTasks
+ * @param {number} id - backend id of task in edit modus, by default 0 for add task
  * @param {string} mode - mode of either add or edit
  */
-async function addCheck(subTaskId, id, mode) {
-    console.log(subTaskId);
-    console.log(subTasksArray);
-    const checkBoxElement = document.getElementById(`checkBox${mode}${id}${subTaskId}`);
+async function addCheck(subTaskIndex, id, mode) {
+    const checkBoxElement = document.getElementById(`checkBox${mode}${id}${subTaskIndex}`);
     const existingImage = checkBoxElement.querySelector('img');
     if (existingImage) {
       checkBoxElement.removeChild(existingImage);
-      subTasksArray[subTaskId].subTaskDone = 0;
+      subTasksArray[subTaskIndex].subTaskDone = 0;
     } else {
-      document.getElementById(`checkBox${mode}${id}${subTaskId}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
-      subTasksArray[subTaskId].subTaskDone = 1;
+      document.getElementById(`checkBox${mode}${id}${subTaskIndex}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
+      subTasksArray[subTaskIndex].subTaskDone = 1;
     }
   }
   
-  
-
-
-  function getAllSubTaskIndex(subTaskId) {
-    for (let i = 0; i< allSubTasks.length; i++) {
-      if (allSubTasks[i].subTaskId == subTaskId) {
-        return i;
-      }
-    }
-  }
-  
-  
-  function getSubTaskbyId(subTaskId) {
-    for (let i = 0; i< allSubTasks.length; i++) {
-      if (allSubTasks[i].subTaskId == subTaskId) {
-        return allSubTasks[i];
-      }
-    }
-  }
 

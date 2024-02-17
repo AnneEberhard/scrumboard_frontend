@@ -50,7 +50,6 @@ async function createTask(event) {
     let title = document.getElementById("title").value;
     let description = document.getElementById("description").value;
     let dueDate = document.getElementById("dueDateAdd").value;
-    await saveNewSubTasks();
     let today = currentDate();
     let task = {
       author: author,
@@ -61,10 +60,10 @@ async function createTask(event) {
       assignedContacts: assignedContacts, 
       dueDate: dueDate, 
       prio: assignedPrio,
-      subtasks: subTasksIdArray,
       column: column};
-    tasks.push(task);
-    saveNewTask(task); 
+    await saveNewTask(task);
+    let taskId = await getTaskId(task);
+    await saveNewSubTasks(taskId);
     popUpNotice();
     flushArrays();
   }
@@ -75,6 +74,18 @@ function getAuthorId() {
     return 2
   } else {
     return currentUser.id
+  }
+}
+
+
+async function getTaskId(task) {
+  tasks = await getItem("tasks");
+  for (let i = 0; i< tasks.length; i++) {
+    console.log(tasks[i].title);
+    console.log(tasks[i].description);
+    if (tasks[i].title == task.title && tasks[i].description == task.description) {
+      return tasks[i].id;
+    }
   }
 }
 
@@ -156,40 +167,37 @@ function switchToBoard() {
   window.location.href = "board.html";
 }
 
-/**
- * this function 
- * @param {}  - no parameter
- */
-async function updateTask(id) {
-  let updatedTask = tasks[id];
-  let taskId = updatedTask.id;
-  await updateItem("tasks", JSON.stringify(updatedTask), id);
-}
 
 /**
- * this function 
- * @param {}  - no parameter
+ * this function updates edited task in backend
+ * @param {object} updatedTask - JSON of task to be updated
  */
 async function updateEditedTask(updatedTask) {
   let taskId = updatedTask.id;
-  await updateItem("tasks", JSON.stringify(updatedTask), id);
+  await updateItem("tasks", JSON.stringify(updatedTask), taskId);
 }
 
 
 
 /**
  * this function saves the newly created task to the backend
- * @param {}  - no parameter
+ * @param {object} task - Json of new task 
  */
 async function saveNewTask(task) {
   await addItem("tasks", JSON.stringify(task));
 }
 
+/**
+ * this function saves the newly created task to the backend
+ * @param {object} newCategory - Json of new Category 
+ */
 async function saveNewCategory (newCategory) {
   await addItem("savedCategories", JSON.stringify(newCategory));
 }
 
-
+/**
+ * this function return today in format yyyy-mm-dd 
+ */
 function currentDate() {
   const today = new Date();
   const year = today.getFullYear();
@@ -201,13 +209,3 @@ function currentDate() {
 }
 
 
-
-
-//muss ersetzt werden durch delete
-/**
- * this function saves only the savedCategories to the backend and is used when a category is deleted or added
- * @param {}  - no parameter
- */
-async function saveOnlyCategories() {
-  await setItem("savedCategories", JSON.stringify(categories));
-}
