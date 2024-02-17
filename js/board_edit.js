@@ -30,7 +30,7 @@ function renderTaskOverview(task, id) {
     document.getElementById('editTaskContainerTitle').innerHTML = `${task['title']}`;
     document.getElementById('editTaskContainerDescription').innerHTML = `${task['description']}`;
     document.getElementById('editTaskContainerDueDateDate').innerHTML = `${task['dueDate']}`;
-    document.getElementById('editTaskContainerDelete').innerHTML = `<img src="assets/img/delete_bigger.png" onclick="askBeforeDelete(${id})">`;
+    document.getElementById('editTaskContainerDelete').innerHTML = `<img src="assets/img/delete_bigger.png" onclick="askBeforeDelete(${task['id']})">`;
     document.getElementById('editTaskContainerPrioPrio').innerHTML = `${task['prio']} <img src="assets/img/${task['prio']}_white.png"/>`;
 }
 

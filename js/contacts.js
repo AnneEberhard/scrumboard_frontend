@@ -106,8 +106,9 @@ function renderContact(username) {
   let name = contact.user_name;
   let acronym = contact.acronym;
   let color = contact.color;
+  let id = contact.id;
   content = document.getElementById("render");
-  render.innerHTML = htmlUserTemplate(email, phone, name, acronym, color);
+  render.innerHTML = htmlUserTemplate(id, email, phone, name, acronym, color);
 }
 
 /**
@@ -151,45 +152,8 @@ async function saveEditedContact() {
   renderContact(editingContact.user_name);
 }
 
-/**
- *
- * This function deletes the contact and saves the contactlist in the backend again
- * @param {string} - the contact to be deleted
- */
 
-async function deleteContact(user) {
-  let target = user;
-  let indexToRemove = contacts.findIndex(
-    (contact) => contact.user_name === target
-  );
-  if (indexToRemove !== -1) {
-    contacts.splice(indexToRemove, 1);
-    await setItem("contacts", JSON.stringify(contacts));
-    await loadContacts();
-    renderContactList();
-    document.getElementById("render").innerHTML = "";
-    window.location.href = "contacts.html";
-  }
-}
 
-/**
- * This function deletes the contact inside of a modal
- * @param {string} - if of the modal to be closed
- *
- */
-async function deleteContactInModal(id) {
-  let modal = document.getElementById(id);
-  target = modal.value;
-  let toDelete = contacts.findIndex((contact) => contact.user_name === target);
-  if (toDelete !== -1) {
-    contacts.splice(toDelete, 1);
-    await setItem("contacts", JSON.stringify(contacts));
-    loadContacts();
-    renderContactList();
-    closeModal("edit_contact_background");
-    document.getElementById("render").innerHTML = "";
-  }
-}
 
 /**
  * This help function deletes user input inside the edit modal.
@@ -237,7 +201,7 @@ function capitalizeName(modal) {
  * @param {string} - color - color of Contact
  */
 
-function htmlUserTemplate(email, phone, name, acronym, color) {
+function htmlUserTemplate(id, email, phone, name, acronym, color) {
   return /*html*/ `<div class="user_container">
   <div class="user">
   <div class="user_icon" style="background-color: ${color}">${acronym}</div>
@@ -248,7 +212,7 @@ function htmlUserTemplate(email, phone, name, acronym, color) {
     <img src="assets/img/edit.png">
     <span>Edit</span>
     </div>
-    <div id="delete_contact" onclick="deleteContact('${name}')">
+    <div id="delete_contact" onclick="askBeforeDeleteContact('${id}')">
     <img src="assets/img/delete.png">
     <span>Delete</span>
     </div>
@@ -260,7 +224,7 @@ function htmlUserTemplate(email, phone, name, acronym, color) {
     <img src="assets/img/edit.png">
     <span>Edit</span>
     </div>
-    <div id="delete_contact" onclick="deleteContact('${name}')">
+    <div id="delete_contact" onclick="askBeforeDeleteContact('${id}')">
     <img src="assets/img/delete.png">
     <span>Delete</span>
     </div>

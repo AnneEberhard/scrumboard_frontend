@@ -12,6 +12,7 @@
     <script src="js/script_templates.js"></script>
     <script src="./js/subtask.js"></script>
     <script src="./js/script.js"></script>
+    <script src="js/delete.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/contacts.class.js"></script>
     <script src="js/render_contact_list.js"></script>
@@ -39,6 +40,8 @@
       
     </div>
     <!-- Add Contact Modal -->
+    <div id="confirmDeleteContactContainer" class="d-none">
+    <div id="confirmDeleteContact"></div></div>
     <div id="new_contact_background" style="display: none;">
     <div class="modal_new_contact" id="new_contact_modal">
       <img class="x" src="assets/img/close.svg" onclick="closeModal('new_contact_background')">
@@ -98,7 +101,7 @@
               <input id="edit_phone" class="" type="number" placeholder="Phone"/>
             </div>
             <div class="create-buttons">
-              <button type="button" id="edit_delete" onclick="deleteContactInModal('edit_name')">Delete</button>
+              <button type="button" id="edit_delete" onclick="askBeforeDeleteContactInModal()">Delete</button>
               <button type="submit" id="edit_save">
                 Save
               </button>

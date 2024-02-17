@@ -76,17 +76,30 @@ async function addItem(key, value) {
     });
 }
 
-async function deleteItem(key) {
-  const url = `${STORAGE_URL}${key}/`;
+async function deleteItem(key, id) {
+  const csrftoken = getCSRFToken();
+  const url = `${STORAGE_URL}${key}/${id}/`;
+  console.log(url);
+  console.log(id);
   return fetch(url, {
     method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrftoken,
+    }
   })
-    .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((res) => {
+      if (res.ok) {
+        console.log("Item successfully deleted");
+      } else {
+        console.error("Failed to delete task");
+      }
+    })
     .catch((error) => {
       console.error("Error:", error);
     });
 }
+
 
 async function updateItem(key, updatedValue) {
   const csrftoken = getCSRFToken();

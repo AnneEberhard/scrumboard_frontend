@@ -460,6 +460,83 @@ html {
   cursor: pointer;
 }
 
+/*specific for delete Contact*/
+#confirmDeleteContactContainer{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+#confirmDeleteContact{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 32px;
+  border: 2px solid #2A3647;
+  gap: 24px;
+}
+
+#confirmDeleteContactQuestion{
+  font-size: 26px;
+  font-weight: 700;
+  color: #2A3647;
+}
+
+#confirmDeleteContactAnswers{
+  display: flex;
+  width: 210px;
+  height: 50px;
+}
+
+#confirmDeleteContactAnswersYes{
+  width: 50%;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  border: 1px solid #2A3647;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2A3647;
+  color: white;
+  cursor: pointer;
+}
+
+#confirmDeleteContactAnswersNo{
+  width: 50%;
+  height: 100%;
+  border-radius: 0 10px 10px 0 ;
+  border: 1px solid #2A3647;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#confirmDeleteContactAnswersYes:hover{
+  background-color: #29ABE2;
+  border-color: #29ABE2;
+  
+}
+
+#confirmDeleteContactAnswersNo:hover{
+  border-color: #29ABE2;
+  color: #29ABE2;    
+}
+
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

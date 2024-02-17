@@ -66,3 +66,18 @@ function renderAddSubtasksInOverview(id) {
             </div>
         </div>`
 }
+
+
+  
+/**
+ * this function loads the JSON tasks from the backend
+ * @param {} - no parameter
+ */
+async function loadToDelete() {
+    try {
+    tasks = JSON.parse(await getItem("tasks")); 
+    contacts = JSON.parse(await getItem("contacts"));
+  } catch (e) {
+    console.error("Loading error:", e);
+  }
+  }

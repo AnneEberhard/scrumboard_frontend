@@ -36,6 +36,7 @@ async function deleteBoard() {
  */
 async function createBoardCard(id) {
   let task = tasks[id];
+  let taskId = task[id];
   let titleCard = task["title"];
   let descriptionCard = task["description"];
   let categoryCard = task["category"];
@@ -45,7 +46,7 @@ async function createBoardCard(id) {
   let cats = task["column"];
   let subtaskCard = getSubTasks(task);
   let idContainerAssignements = `board_icons_username${id}`;
-  renderBoardCard(categoryCard, titleCard, descriptionCard, id, prioCard, cats, categoryColorCode);
+  renderBoardCard(categoryCard, titleCard, descriptionCard, taskId, id, prioCard, cats, categoryColorCode);
   if (subtaskCard.length > 0) {
     createProgressbar(subtaskCard, id);
   }
@@ -97,11 +98,11 @@ function determineColorCategory(category) {
  * renders a taskCard
  * @param {*} attributes passes attributes of the task to create the template of this taskCard
  */
-function renderBoardCard(categoryCard,titleCard,descriptionCard,ID,prioCard,cats,categoryColorCode) {
+function renderBoardCard(categoryCard,titleCard,descriptionCard,taskId,ID,prioCard,cats,categoryColorCode) {
   let board_todo = document.getElementById(`${cats}`);
   if (cats) {
     board_todo.innerHTML += templateBoardTodo(categoryCard,titleCard,descriptionCard,ID,prioCard,categoryColorCode);
-  } else { deleteTask(ID) }
+  } else { deleteTask(taskId) }
   if (isMobileDevice()) {
     renderMoveBtns(cats, ID);
   }
