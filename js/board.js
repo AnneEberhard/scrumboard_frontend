@@ -53,7 +53,7 @@ async function createBoardCard(i) {
   let prioCard = task["prio"];
   let cats = task["column"];
   let subtaskCard = getSubTasks(taskId);
-  let idContainerAssignements = `board_icons_username${id}`;
+  let idContainerAssignements = `board_icons_username${i}`;
   renderBoardCard(categoryCard, titleCard, descriptionCard, taskId, i, prioCard, cats, categoryColorCode);
   if (subtaskCard.length > 0) {
     createProgressbar(subtaskCard, i);
