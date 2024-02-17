@@ -162,7 +162,8 @@ function switchToBoard() {
  */
 async function updateTask(id) {
   let updatedTask = tasks[id];
-  await updateItem("tasks", JSON.stringify(updatedTask));
+  let taskId = updatedTask.id;
+  await updateItem("tasks", JSON.stringify(updatedTask), id);
 }
 
 /**
@@ -170,7 +171,8 @@ async function updateTask(id) {
  * @param {}  - no parameter
  */
 async function updateEditedTask(updatedTask) {
-  await updateItem("tasks", JSON.stringify(updatedTask));
+  let taskId = updatedTask.id;
+  await updateItem("tasks", JSON.stringify(updatedTask), id);
 }
 
 

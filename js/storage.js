@@ -49,6 +49,7 @@ async function getItem(key) {
     });
 }
 
+
 function getCSRFToken() {
   const cookieValue = document.cookie
     .split("; ")
@@ -57,6 +58,7 @@ function getCSRFToken() {
 
   return cookieValue;
 }
+
 
 async function addItem(key, value) {
   const csrftoken = getCSRFToken();
@@ -75,6 +77,7 @@ async function addItem(key, value) {
       console.error("Error:", error);
     });
 }
+
 
 async function deleteItem(key, id) {
   const csrftoken = getCSRFToken();
@@ -101,10 +104,11 @@ async function deleteItem(key, id) {
 }
 
 
-async function updateItem(key, updatedValue) {
+async function updateItem(key, updatedValue, id) {
   const csrftoken = getCSRFToken();
-  const url = `${STORAGE_URL}${key}/`;
+  const url = `${STORAGE_URL}${key}/${id}/`;
   console.log('to update:',updatedValue);
+  console.log(url);
   return fetch(url, {
     method: "PUT",
     headers: {

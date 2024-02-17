@@ -139,13 +139,16 @@ function editContact(user) {
  * @param {}  - no parameter
  */
 async function saveEditedContact() {
+  debugger;
   let acronym = createAcronym(edit_name.value);
   editingContact.user_name = edit_name.value;
   editingContact.email = edit_email.value;
   editingContact.phone = edit_phone.value;
   editingContact.acronym = acronym;
+  let id = editingContact.id;
+  console.log(editingContact);
   resetEditForm();
-  await updateItem("contacts", JSON.stringify(editingContact));
+  await updateItem("contacts", JSON.stringify(editingContact), id);
   await loadContacts();
   renderContactList();
   closeModal("edit_contact_background");

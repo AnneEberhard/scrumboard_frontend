@@ -46,7 +46,8 @@ async function addSubTask(id, mode) {
   async function updateSubTasks() {
     for (let i = 0; i < subTasksArray.length; i++) {
         const subTask = subTasksArray[i];
-        await updateItem('subTasks', JSON.stringify(subTask));
+        let id = subTask.id;
+        await updateItem('subTasks', JSON.stringify(subTask), id);
         await getSubTaskId(subTask);
     }
   }
@@ -89,7 +90,6 @@ async function addCheck(subTaskId, id, mode) {
       document.getElementById(`checkBox${mode}${id}${subTaskId}`).innerHTML = /*html*/ `<img src="assets/img/done.png">`;
       subTasksArray[subTaskId].subTaskDone = 1;
     }
-    //await updateItem('subTasks', JSON.stringify(allSubTasks[index]))
   }
   
   
