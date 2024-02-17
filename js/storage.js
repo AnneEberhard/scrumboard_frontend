@@ -9,7 +9,6 @@ const STORAGE_URL = "http://127.0.0.1:8000/";
 async function loadItems() {
   try {
     tasks = await getItem("tasks");
-    console.log(tasks);
     allSubTasks = await getItem("subTasks");
     contacts = await getItem("contacts");
     categories = await getItem("savedCategories");
@@ -82,8 +81,6 @@ async function addItem(key, value) {
 async function deleteItem(key, id) {
   const csrftoken = getCSRFToken();
   const url = `${STORAGE_URL}${key}/${id}/`;
-  console.log(url);
-  console.log(id);
   return fetch(url, {
     method: "DELETE",
     headers: {
@@ -107,8 +104,6 @@ async function deleteItem(key, id) {
 async function updateItem(key, updatedValue, id) {
   const csrftoken = getCSRFToken();
   const url = `${STORAGE_URL}${key}/${id}/`;
-  console.log('to update:',updatedValue);
-  console.log(url);
   return fetch(url, {
     method: "PUT",
     headers: {
@@ -118,7 +113,6 @@ async function updateItem(key, updatedValue, id) {
     body: updatedValue,
   })
     .then((res) => res.json())
-    .then((data) => console.log(data))
     .catch((error) => {
       console.error("Error:", error);
     });

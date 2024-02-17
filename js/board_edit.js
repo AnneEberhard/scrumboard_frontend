@@ -253,8 +253,6 @@ async function saveEditedBoard(i) {
     let prioFilled = checkEditedPrio();
     let correctContact = checkCorrectContact();
     if (prioFilled == true && correctContact == true) {
-        console.log(tasks);
-        //await updateSubTasks();
         let title = document.getElementById("editTaskTitleChangable").value;
         let description = document.getElementById("editTaskDescriptionChangable").value;
         let dueDate = document.getElementById("dueDateEdit").value;

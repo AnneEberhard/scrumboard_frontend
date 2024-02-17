@@ -82,8 +82,6 @@ function getAuthorId() {
 async function getTaskId(task) {
   tasks = await getItem("tasks");
   for (let i = 0; i< tasks.length; i++) {
-    console.log(tasks[i].title);
-    console.log(tasks[i].description);
     if (tasks[i].title == task.title && tasks[i].description == task.description) {
       return tasks[i].id;
     }
@@ -125,10 +123,11 @@ function checkPrio() {
  */
 function checkCorrectCategory() {
   let inputCategory = document.getElementById("categorySelection").value;
-  const categoryExists = categories.some(
-    (category) => category.name === inputCategory
-  );
+  const categoryExists = categories.some((category) => category.name === inputCategory);
   if (categoryExists) {
+    if(!assignedCategory) {
+      assignedCategory = inputCategory;
+    }      
     return true;
   } else {
     document.getElementById("categoryAlert").innerHTML =

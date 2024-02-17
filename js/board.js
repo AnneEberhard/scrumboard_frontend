@@ -61,7 +61,6 @@ function getAssignedContacts(task) {
     for (let j = 0; j < contacts.length; j++) {
       if (task.assignedContacts[i] === contacts[j].id) {
         assignedContactsTask.push(contacts[j]);
-        console.log(`Contact ${task.assignedContacts[i]} gefunden: ${contacts[j].user_name}`);
       }
     }
   }

@@ -7,7 +7,6 @@ function getSubTasks(taskId) {
     for (let j = 0; j < allSubTasks.length; j++) {
       if (taskId === allSubTasks[j].taskId) {
         subTaskCard.push(allSubTasks[j]);
-        console.log(`Subtask für Task ${taskId} gefunden: ${allSubTasks[j].taskId}`);
       }
   }
   return subTaskCard;
