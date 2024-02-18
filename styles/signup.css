@@ -38,11 +38,12 @@ body {
   }
 }
 
-#forgot-form {
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 
 .login-container {
   background-color: #ffffff;
@@ -156,6 +157,10 @@ body {
 }
 
 #name {
+  background-image: url("../assets/img/person.svg");
+}
+
+.name {
   padding: 10px;
   width: 90%;
   border-radius: 5px;
@@ -163,13 +168,11 @@ body {
   border: 1px solid #d1d1d1;
   text-indent: 10px;
   font-family: "Inter";
-  margin-top: 20px;
-  background-image: url("../assets/img/person.svg");
   background-repeat: no-repeat;
   background-position: center right 10px;
 }
 
-#name::placeholder {
+.name::placeholder {
   color: #d1d1d1;
   opacity: 0.9;
   font-weight: 400;

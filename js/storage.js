@@ -105,3 +105,29 @@ async function updateItem(key, updatedValue, id) {
       console.error("Error:", error);
     });
 }
+
+
+async function registerUser(key, value) {
+  const csrftoken = getCSRFToken();
+  const url = `${STORAGE_URL}${key}/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: value,
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      //throw new Error(errorText || "Unknown error");
+      return errorText
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+}

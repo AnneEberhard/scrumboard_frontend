@@ -9,6 +9,9 @@
     <link rel="icon" type="image/x-icon" href="assets/img/join_logo_dark.png"/>
     <script src="js/storage.js"></script>
     <script src="./js/script.js"></script>
+    <script src="js/contacts.class.js"></script>
+    <script src="js/script_templates.js"></script>
+    <script src="js/contacts.js"></script>
     
     <title>Join | Sign Up</title>
 </head>
@@ -24,16 +27,16 @@
         </a>
             <h1>Sign up</h1>
           </div>
-          <form id="forgot-form">
+          <form id="signup-form">
             <div class="line"></div>
             <div class="input-container">
-              <input id="name" type="text" placeholder="Name" required/>
+              <input id="name" class="name" type="text" placeholder="Username" required/>
+              <input id="firstname" class="name" type="text" placeholder="First name" required oninput="capitalizeName('firstname')"/>
+              <input id="lastname" class="name" type="text" placeholder="Last name" required oninput="capitalizeName('lastname')"/>
               <input id="email" type="email" placeholder="Email" required/>
               <input id="password" type="password" placeholder="Password" required/>
               <input id="confirmpassword" type="password" placeholder="Confirm password" required/>
-              <span id="error" style="display: none"
-              >Ups! Wrong password. Try again.
-            </span>
+              <span id="error" style="display: none"></span>
             </div>
             <div class="options">
                 <div class="privacy-container">
