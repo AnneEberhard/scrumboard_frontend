@@ -1,3 +1,9 @@
+// deals with background functions
+// for edit functions of board see board_edit.js
+// for adding see board_add.js
+// for general functions see board.js
+
+
 /**
   * this function prevents background scroll
 */

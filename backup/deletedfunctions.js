@@ -160,3 +160,20 @@ async function updateTask(i, taskId) {
       }
     }
   }
+
+  
+/**
+ * function saves data to the backend
+ * @param {string} key - key for storage
+ * @param {object} value - object to store
+ */
+async function setItem(key, value) {
+  const url = `${STORAGE_URL}${key}/`;
+  const payload = { key, value };
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  }).then((res) => res.json());
+}
+
+

@@ -1,3 +1,10 @@
+//main functions for contacts
+//for new Contact see contact.class.js
+//for includeHTML() and initTemplate('contacts') see script_Templates.js
+//for delete see delete.js
+//for backend see storage.js
+//for rendering of the list see render_contact_list.js
+
 let user_name = document.getElementById("name");
 let email = document.getElementById("email");
 let phone = document.getElementById("phone");
@@ -57,6 +64,7 @@ function cancelContact(id) {
  * @param {string} - id of the modal
  */
 async function createContact(id) {
+  debugger;
   let acronym = createAcronym(user_name.value);
   let contact = new Contact(
     user_name.value,
@@ -70,6 +78,23 @@ async function createContact(id) {
   resetForm();
   closeModal(id);
   renderContactList();
+}
+
+
+/**
+ * This function puts a upper case on the first and last name as the user types
+ * this function is called from the html template
+ * @param {string} nameFieldId - id of the input field
+ */
+
+function capitalizeName(nameFieldId) {
+  let nameOnInput = document.getElementById(nameFieldId).value;
+  let arr = nameOnInput.split(" ");
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    let fullName = arr.join(" ");
+    document.getElementById(modal).value = fullName;
+  }
 }
 
 /**
@@ -97,10 +122,10 @@ function resetForm() {
 
 /**
  * This function renders the Contact Details in the render element ID.
- * @param {string} - the contact to be rendered
+ * @param {string} contactName - the name of contact to be rendered
  */
-function renderContact(username) {
-  let contact = findContactByUserName(username);
+function renderContact(contactName) {
+  let contact = findContactByUserName(contactName);
   let email = contact.email;
   let phone = contact.phone;
   let name = contact.user_name;
@@ -113,20 +138,20 @@ function renderContact(username) {
 
 /**
  * This help function finds the wanted contact
- * @param {string} - the contact that to be found
+ * @param {string} - the name of contact that to be found
  */
-function findContactByUserName(userName) {
-  return contacts.find((contact) => contact.user_name === userName);
+function findContactByUserName(name) {
+  return contacts.find((contact) => contact.user_name === name);
 }
 
 /**
 
  * This function edits the contact info of the user
- * @param {string} - the contact to be found 
+ * @param {string} contactName- the name of contact to be edited 
  */
-function editContact(user) {
+function editContact(contactName) {
   openModal("edit_contact_background");
-  editingContact = findContactByUserName(user);
+  editingContact = findContactByUserName(contactName);
   edit_name.value = editingContact.user_name;
   edit_email.value = editingContact.email;
   edit_phone.value = editingContact.phone;
@@ -135,11 +160,9 @@ function editContact(user) {
 }
 
 /**
- * This function saves the edited contact in the backend.
- * @param {}  - no parameter
+ * This function saves the edited contact in the backend and renders the page
  */
 async function saveEditedContact() {
-  debugger;
   let acronym = createAcronym(edit_name.value);
   editingContact.user_name = edit_name.value;
   editingContact.email = edit_email.value;
@@ -156,12 +179,8 @@ async function saveEditedContact() {
 }
 
 
-
-
 /**
  * This help function deletes user input inside the edit modal.
- * @param {}  - no parameter
- *
  */
 function resetEditForm() {
   edit_name.value = "";
@@ -170,9 +189,7 @@ function resetEditForm() {
 }
 
 /**
- * This function is for highlighting the current chosen User
- * @param {}  - no parameter
- *
+ * This function is for highlighting the current chosen contact
  */
 function changeDisplay() {
   let container = document.getElementById("contact_container");
@@ -180,28 +197,15 @@ function changeDisplay() {
   currentHighlightedDiv.classList.remove("highlighted");
 }
 
-/**
- * This function puts a upper case on the first and last name as the user types
- * @param {}  - no parameter
- */
-
-function capitalizeName(modal) {
-  let nameOnInput = document.getElementById(modal).value;
-  let arr = nameOnInput.split(" ");
-  for (let i = 0; i < arr.length; i++) {
-    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-    let fullName = arr.join(" ");
-    document.getElementById(modal).value = fullName;
-  }
-}
 
 /**
  * This help function is used for the HTML Template to render Contact Details.
- * @param {string} - email - email of Contact
- * @param {string} - phone - phone of Contact
- * @param {string} - name - name of Contact
- * @param {string} - acronym - acronym of Contact
- * @param {string} - color - color of Contact
+ * @param {integer} id - backend id of Contact
+ * @param {string} email - email of Contact
+ * @param {string} phone - phone of Contact
+ * @param {string} name - name of Contact
+ * @param {string} acronym - acronym of Contact
+ * @param {string} color - color of Contact
  */
 
 function htmlUserTemplate(id, email, phone, name, acronym, color) {

@@ -1,9 +1,11 @@
-// gerneral functions of board
+// general functions of board
 // for delete see delete.js
 // for subtasks see also subtask.js
 // for adding see board_add.js
 // for editing see board_edit.js
 // for additional functions see add_task and save_add_tasks.js
+// for background functions see board_background.js
+// for backend see storage.js
 
 
 /** for Drag&Drop  */
@@ -62,7 +64,11 @@ async function createBoardCard(i) {
 }
 
 
-
+/**
+ * gets the contacts out of the JSON contatcs based on the current task
+ * @param {*} task JSON of current task
+ * @returns assigned contacts as JSON
+ */
 function getAssignedContacts(task) {
   let assignedContactsTask = [];
   for (let i = 0; i < task.assignedContacts.length; i++) {
@@ -76,7 +82,7 @@ function getAssignedContacts(task) {
 }
 
 /**
- * @param {} category passes category of the task
+ * @param {string} category passes category name of the task
  * @returns Background color for the category
  */
 function determineColorCategory(category) {
@@ -94,13 +100,13 @@ function determineColorCategory(category) {
  * renders a taskCard
  * @param {*} attributes passes attributes of the task to create the template of this taskCard
  */
-function renderBoardCard(categoryCard,titleCard,descriptionCard,taskId,ID,prioCard,cats,categoryColorCode) {
+function renderBoardCard(categoryCard,titleCard,descriptionCard,taskId,index,prioCard,cats,categoryColorCode) {
   let board_todo = document.getElementById(`${cats}`);
   if (cats) {
-    board_todo.innerHTML += templateBoardTodo(categoryCard,titleCard,descriptionCard,ID,prioCard,categoryColorCode);
+    board_todo.innerHTML += templateBoardTodo(categoryCard,titleCard,descriptionCard,index,prioCard,categoryColorCode);
   } else { deleteTask(taskId) }
   if (isMobileDevice()) {
-    renderMoveBtns(cats, ID);
+    renderMoveBtns(cats, index);
   }
 }
 
@@ -108,23 +114,23 @@ function renderBoardCard(categoryCard,titleCard,descriptionCard,taskId,ID,prioCa
  * create template a taskCard
  * @param {*} attributes passes attributes of the task to create the template of this taskCard
  */
-function templateBoardTodo(categoryCard,titleCard,descriptionCard, ID,prioCard,categoryColorCode) {
+function templateBoardTodo(categoryCard,titleCard,descriptionCard, index,prioCard,categoryColorCode) {
   let templateBoardTodo = /*html*/ `
-  <div id="${ID}" draggable="true" ondragstart="startDragging(${ID})" 
-  onclick="openTaskOverview(${ID}, '${categoryCard}')" class="board_task_container" >
-      <div id="innerContainer${ID}" class="board_task_container_inner">
+  <div id="${index}" draggable="true" ondragstart="startDragging(${index})" 
+  onclick="openTaskOverview(${index}, '${categoryCard}')" class="board_task_container" >
+      <div id="innerContainer${index}" class="board_task_container_inner">
           <div class="board_task_container_category" style="background-color: ${categoryColorCode}">${categoryCard}</div>
           <div class="board_task_container_title_and_description">
               <div class="board_task_container_title">${titleCard}</div>
               <div class="board_task_container_description">${descriptionCard}</div>
           </div>
           <div class="board_task_progress">
-              <div class="board_task_progressbar" id="progressbar${ID}"></div>
-              <div class="board_task_progress_text" id="progressbarText${ID}"></div>
+              <div class="board_task_progressbar" id="progressbar${index}"></div>
+              <div class="board_task_progress_text" id="progressbarText${index}"></div>
           </div>
           <div class="board_task_assignments">
               <div class="board_task_working">
-                  <div class="icons_container" id="board_icons_username${ID}"></div>
+                  <div class="icons_container" id="board_icons_username${index}"></div>
                   <div class="board_prio"><img src="assets/img/${prioCard}.png" /></div>
               </div>                            
           </div>
@@ -144,8 +150,8 @@ function stopPropagation(event) {
 
 /**
  * assigns task to previous category
- * @param {*} column name of current category column
- * @param {*} id index of the task
+ * @param {string} column name of current category column
+ * @param {integer} id index of the task
  */
 function moveToLastCat(column, id) {
   if (column.id == "board_container_bottom_inprogress") {
@@ -162,8 +168,8 @@ function moveToLastCat(column, id) {
 
 /**
  * assigns task to next category
- * @param {*} column name of current category column
- * @param {*} id index of the task
+ * @param {string} column name of current category column
+ * @param {integer} id index of the task
  */
 function moveToNextCat(column, id) {
   if (column.id == "board_container_bottom_inprogress") {
@@ -180,8 +186,8 @@ function moveToNextCat(column, id) {
 
 /**
  * creates progressbar for subtasks --> 138 is width of the complete progressbar
- * @param {*} subtaskCard Array with all subtasks of the task
- * @param {*} id index of the task
+ * @param {JSON} subtaskCard JSONArray with all subtasks of the task
+ * @param {integer} id index of the task
  */
 function createProgressbar(subtaskCard, id) {
   let tasksNumber = subtaskCard.length;
@@ -210,8 +216,8 @@ function countDoneSubtasks(subtaskCard) {
 
 /**
  * creates the filled Part of the progressbar
- * @param {*} filledprogressbar fillment of the progressbar in px
- * @param {*} id index of the task
+ * @param {number} filledprogressbar fillment of the progressbar in px
+ * @param {integer} id index of the task
  */
 function renderProgressBar(filledprogressbar, id) {
   let progresID = "progressbar" + id;
@@ -220,9 +226,9 @@ function renderProgressBar(filledprogressbar, id) {
 
 /**
  * creates the text shich shows how many subtasks of all have been finished
- * @param {*} doneTasksNumbe number of finished subtasksr
- * @param {*} tasksNumber number of all subtasks
- * @param {*} id index of the task
+ * @param {integer} doneTasksNumber number of finished subtasks
+ * @param {integer} tasksNumber number of all subtasks
+ * @param {integer} id index of the task
  */
 function renderProgressText(doneTasksNumber, tasksNumber, id) {
   let progresTextID = "progressbarText" + id;
@@ -260,6 +266,7 @@ function searchTask(searchedTask,searchingElements) {
 
 /**
  * identifies dragged element
+ * @param {integer} id index of the task
  */
 function startDragging(id) {
   currentDraggedElement = id;
@@ -337,7 +344,7 @@ function fillEmptyColumns() {
 }
 
 /**
- * @param {*} checkedColumn
+ * @param {string} checkedColumn name of new column
  * @returns true if div is empty or undefined is
  */
 function isDivEmpty(checkedColumn) {

@@ -3,7 +3,7 @@
 //for subtask see subtask.js
 //for overall functions of the site see add_task.js
 //for backend see storage.js
-// for delete see delete.js
+//for delete see delete.js
 
 /**
  * this function clears the entire template and resets to original state
@@ -85,7 +85,7 @@ function getAuthorId() {
 
 /**
  * this function gets the newly created task id from backend 
- * @param {object} task - JSON of newly created task
+ * @param {JSON} task - JSON of newly created task
  */
 async function getTaskId(task) {
   tasks = await getItem("tasks");
@@ -181,7 +181,7 @@ function switchToBoard() {
 
 /**
  * this function updates edited task in backend
- * @param {object} updatedTask - JSON of task to be updated
+ * @param {JSON} updatedTask - JSON of task to be updated
  */
 async function updateTask(updatedTask) {
   let taskId = updatedTask.id;
@@ -191,7 +191,7 @@ async function updateTask(updatedTask) {
 
 /**
  * this function saves the newly created task to the backend
- * @param {object} task - Json of new task 
+ * @param {JSON} task - Json of new task 
  */
 async function saveNewTask(task) {
   await addItem("tasks", JSON.stringify(task));
@@ -200,7 +200,7 @@ async function saveNewTask(task) {
 
 /**
  * this function saves the newly created task to the backend
- * @param {object} newCategory - Json of new Category 
+ * @param {JSON} newCategory - Json of new Category 
  */
 async function saveNewCategory (newCategory) {
   await addItem("savedCategories", JSON.stringify(newCategory));

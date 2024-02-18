@@ -5,6 +5,7 @@
 // for general functions see board.js
 // for additional functions see add_task and save_add_tasks.js
 // for backend see storage.js
+// for background functions see board_background.js
 
 let prioToEdit;
 
@@ -30,7 +31,7 @@ function openTaskOverview(i, category) {
 
 /**
  * render values in Overview Container
- * @param {object} task which is opened
+ * @param {JSON} task which is opened
  */
 function renderTaskOverview(task) {
     document.getElementById('editTaskContainerCategory').innerHTML = `${task['category']}`;
@@ -53,7 +54,7 @@ function renderEditOverviewTemplate(colorCode, prio, taskId, i) {
         <div id="confirmDeleteTask" class="d-none">
         </div>
         <div id="editTaskContainer" >
-            <div id="editTaskContainerClose" onclick="saveBoard(${taskId},${i})"><img src="assets/img/close.png" alt="">
+            <div id="editTaskContainerClose" onclick="saveBoard()"><img src="assets/img/close.png" alt="">
             </div>
             <div id="editTaskContainerEditDelete">
                 <div id="editTaskContainerDelete"></div>
@@ -142,7 +143,6 @@ function closeEditTask() {
 /**
  * closes opens edit task container 
  * @param {*} i index of task which was clicked in JSON tasks
- * @param {*} taskId id of task in backend
  */
 function openEditMode(i) {
     let task = tasks[i];
@@ -288,9 +288,8 @@ async function saveEditedBoard(i) {
 
 /**
  * saves edited Task, close EditMode and render board
- * @param {*} id - backend id of task
  */
-async function saveBoard(id) {
+async function saveBoard() {
         await updateSubTasks();
         closeEditTask();
         await renderBoardCards();

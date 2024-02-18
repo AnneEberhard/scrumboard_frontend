@@ -1,6 +1,9 @@
+//for main functions for contacts see contacts.js
+//for rendering of the list see render_contact_list.js
+
 /**
  * 
- * This function creates the Contact.
+ * This class creates the Contact.
  * @constructor 
  * @param {string} - name - Name of Contact
  * @param {string} - phone - Phone of Contact

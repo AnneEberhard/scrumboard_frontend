@@ -1,3 +1,4 @@
+//only for support pages like help, legal notice and privacy policy
 //for includeHTML (initTemplat()) see script_Templates.js
 
   /**

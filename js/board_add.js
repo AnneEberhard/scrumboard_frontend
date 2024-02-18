@@ -5,6 +5,7 @@
 // for general functions see board.js
 // for additional functions see add_task and save_add_tasks.js
 // for backend see storage.js
+// for background functions see board_background.js
 
 
 /**

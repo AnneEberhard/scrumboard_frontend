@@ -1,13 +1,15 @@
+// for all template functions
+
 /**
  * this function starts the page templates
- * @param - no parameter
+ * @param {string} site - name of the active site
  */
-async function initTemplate(categoryName) {
+async function initTemplate(site) {
   await includeHTML();
   if(window.innerWidth > 900){
-    showCategory(categoryName);
+    showMenu(site);
   } else {
-    showMobileCategory(categoryName);
+    showMobileMenu(site);
   } 
   currentUser = localStorage.getItem("currentUser");
   createNameCircle();
@@ -35,52 +37,52 @@ async function includeHTML() {
 
 /**
  * function will start the highlighting of the active category on sidebar
- * @param {string} categoryName - id of the current page
+ * @param {string} site - name of the active site
  */
-async function showCategory(categoryName) {
-  if (categoryName === "legal_notice" || categoryName === "privacy_policy") {
+async function showMenu(site) {
+  if (site === "legal_notice" || site === "privacy_policy") {
       document.getElementById("sidebar_categories").classList.add("d-none");
-  } else if (categoryName !== "help") {
-    highlightCategory(categoryName);
+  } else if (site !== "help") {
+    highlightSite(site);
   }
 }
 
 /**
  * function will highlight the active category on sidebar
- * @param {string} categoryName - id of the current page
+ * @param {string} site - name of the active site
  */
-async function highlightCategory(categoryName) {
+async function highlightSite(site) {
   document.getElementById("sidebar_categories").classList.remove("d-none");
-  let allCategories = document.getElementsByClassName("active_category");
-  if (allCategories.length !== 0) {
-      for (let i = 0; i < allCategories.length; i++) {
-          const element = allCategories[i];
+  let allSites = document.getElementsByClassName("active_category");
+  if (allSites.length !== 0) {
+      for (let i = 0; i < allSites.length; i++) {
+          const element = allSites[i];
           element.classList.remove("active_category");
       }
   }
-  let string = "sidebar_categories_" + categoryName;
-  let addCat = document.getElementById(string);
-  if (addCat !== null) {
-      addCat.classList.add("active_category");
+  let string = "sidebar_categories_" + site;
+  let activeSite = document.getElementById(string);
+  if (activeSite !== null) {
+      activeSite.classList.add("active_category");
   }
 }
 
 /**
  * function will highlight the active category on the mobile bar
- * @param {string} categoryName - gives the last string-part of the ID conatainer
+ * @param {string} site - name of the active site
  */
-async function showMobileCategory(categoryName) {
-  let allCategories = document.getElementsByClassName("active_category");
-  if (allCategories.length != 0) {
-    for (let i = 0; i < allCategories.length; i++) {
-      const element = allCategories[i];
+async function showMobileMenu(site) {
+  let allSites = document.getElementsByClassName("active_category");
+  if (allSites.length != 0) {
+    for (let i = 0; i < allSites.length; i++) {
+      const element = allSites[i];
       element.classList.remove("active_category");
     }
   }
-  let string = "mobile_categories_" + categoryName;
-  let addCat = document.getElementById(string);
-  if (addCat !== null) {
-  addCat.classList.add("active_category");
+  let string = "mobile_categories_" + site;
+  let activeSite = document.getElementById(string);
+  if (activeSite !== null) {
+    activeSite.classList.add("active_category");
 }
 }
 
@@ -126,11 +128,11 @@ function logoutUser(){
 
 /**
 * function creates an acronym using the first letter of the first name and first letter of the last name, if existing
-* @param {} - no parameter
+* @param {string} name - name used for acronym
 */
-function createAcronym(currentUser) {
+function createAcronym(name) {
   let acronym;
-  let matches = currentUser.match(/^(\w+)|(\w+)\W*$/g); //seperates first and last words of a string
+  let matches = name.match(/^(\w+)|(\w+)\W*$/g); //seperates first and last words of a string
   if (matches.length == 2) {
     acronym = matches[0].charAt(0) + matches[1].charAt(0); //combine first letters of this words
   } else {

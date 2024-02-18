@@ -81,7 +81,7 @@ function templateCategoryOptionsFurther(category, i, colorCode) {
         <div>${category}</div>
         <div class="circle" style="background-color: ${colorCode}"></div>
       </div>
-      <img src="assets/img/delete.png" class="hover" onclick="askBeforeDeleteCategory('${category}', '${i}')"/>
+      <img src="assets/img/delete.png" class="hover" onclick="askBeforeDeleteCategory('${category}')"/>
     </div>`;
   return templateCategoryOptionsFurther;
 }

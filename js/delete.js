@@ -2,7 +2,7 @@
 
 /**
  * confirm Container if task should be deleted
- * @param {*} id index of task which was clicked 
+ * @param {*} id backend id of task which was clicked 
  */
 function askBeforeDelete(id) {
   let confirmDelete = document.getElementById('confirmDeleteTask');
@@ -17,7 +17,7 @@ function askBeforeDelete(id) {
 
 /**
 * carries out final delete 
-* @param {*} id index of task which was clicked
+* @param {*} id backend id of task which was clicked
 */
 async function deleteTaskFinally(id) {
   closeDeleteRequest('confirmDeleteTask');
@@ -30,7 +30,7 @@ async function deleteTaskFinally(id) {
 
 /**
  * this function deletes the task from backend
- * @param {string} id - id of the task to be deleted
+ * @param {string} id - backend id of the task to be deleted
  */
 async function deleteTask(id) {
   await deleteItem("tasks", id);
@@ -50,16 +50,15 @@ function closeDeleteRequest(idContainer) {
 
 /**
  * this function warns before a category is deleted
- * @param {string} categoryToDelete - this category has been selected to be deleted
- * @param {number} i - index of the JSON categories
+ * @param {string} categoryToDelete - name of category to be deleted
  */
-function askBeforeDeleteCategory(categoryToDelete, i) {
+function askBeforeDeleteCategory(categoryToDelete) {
   let confirmDeleteCategory = document.getElementById("confirmDeleteCategory");
   confirmDeleteCategory.classList.remove("d-none");
   confirmDeleteCategory.innerHTML += /*html*/ `
       <div id="confirmDeleteCategoryQuestion">Delete Category?</div>
       <div id="confirmDeleteCategoryAnswers">
-              <div id="confirmDeleteCategoryAnswersYes" onclick="deleteCategory('${categoryToDelete}', ${i})">Delete</div>
+              <div id="confirmDeleteCategoryAnswersYes" onclick="deleteCategory('${categoryToDelete}')">Delete</div>
               <div id="confirmDeleteCategoryAnswersNo" onclick="closeDeleteRequest('confirmDeleteCategory')">Back</div>
       </div>
   `;
@@ -67,10 +66,9 @@ function askBeforeDeleteCategory(categoryToDelete, i) {
 
 /**
  * this function deletes a category if it's not in use in the board
- * @param {string} categoryToDelete - this category has been selected to be deleted
- * @param {number} i - index of the JSON categories
+ * @param {string} categoryToDelete - name of category to be deleted
  */
-async function deleteCategory(categoryToDelete, i) {
+async function deleteCategory(categoryToDelete) {
   checkCategoryIfUsed = checkCategoryToDelete(categoryToDelete);
   let id = getCategoryBackendId(categoryToDelete);
   if (checkCategoryIfUsed === false) {
@@ -87,7 +85,7 @@ async function deleteCategory(categoryToDelete, i) {
 
 /**
  * this function checks if the category to delete is not in use in the board.html
- * @param {string} categoryToDelete - this category has been selected to be deleted
+ * @param {string} categoryToDelete - name of category to be deleted
  */
 function checkCategoryToDelete(categoryToDelete) {
   for (let i = 0; i < tasks.length; i++) {
@@ -99,7 +97,10 @@ function checkCategoryToDelete(categoryToDelete) {
   return false;
 }
 
-
+/**
+ * This function deletes the contact from the backend and renders the contactlist
+ * @param {string} name - name of category 
+ */
 function getCategoryBackendId(name) {
   for (let i = 0; i < categories.length; i++) {
     const category = categories[i];
@@ -112,7 +113,10 @@ function getCategoryBackendId(name) {
 
 
 /* DELETING CONTACTS */
-
+/**
+ * This function deletes the contact from the backend and renders the contactlist
+ * @param {string} name - name of contact to be deleted
+ */
 function getContactBackendId(name) {
   for (let i = 0; i < contacts.length; i++) {
     const contact = contacts[i];
@@ -123,7 +127,10 @@ function getContactBackendId(name) {
   return -1;
 }
 
-
+/**
+ * This function deletes the contact from the backend and renders the contactlist
+ * @param {string} contactToDeleteId- backend id of contact to be deleted
+ */
 function askBeforeDeleteContact(contactToDeleteId) {
  let confirmDeleteContact = document.getElementById("confirmDeleteContact");
  confirmDeleteContact.classList.remove("d-none");
@@ -136,7 +143,9 @@ function askBeforeDeleteContact(contactToDeleteId) {
  `;
 }
 
-
+/**
+ * This function deletes the contact from the backend and renders the contactlist
+ */
 function askBeforeDeleteContactInModal() {
   let contact_name = document.getElementById("edit_name").value;
   let contactToDeleteId = getContactBackendId(contact_name);
@@ -155,7 +164,7 @@ function askBeforeDeleteContactInModal() {
  
 /**
  * This function deletes the contact from the backend and renders the contactlist
- * @param {string} - id of contact to be deleted
+ * @param {string} id - backend id of contact to be deleted
  */
 async function deleteContact(id) {
   askBeforeDeleteContact
@@ -169,7 +178,7 @@ async function deleteContact(id) {
 
 /**
  * This function deletes the contact inside of a modal
- * @param {string} - id of the modal to be deleted
+ * @param {string} id - backend id of contact to be deleted
  */
 async function deleteContactInModal(id) {
   if (id !== -1) {

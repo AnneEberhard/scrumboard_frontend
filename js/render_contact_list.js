@@ -1,3 +1,8 @@
+//rendering of the list
+//for main functions for contacts see contacts.js
+//for new Contact see contact.class.js
+//for includeHTML() and initTemplate('contacts') see script_Templates.js
+
 let currentHighlightedDiv = null;
 let groupedContacts = {};
 let contactsContainer; //not to be confused with contactContainer
@@ -23,7 +28,6 @@ function renderContactList() {
   contactsContainer.innerHTML = "";
   groupedContacts = {};
 }
-
 
 /**
  * groups the contacts by the first letter of the first name into the global JSON array groupedContacts 
@@ -103,7 +107,7 @@ function createStrokeDiv() {
 /**
  * renders the single contacts into the respective div of grouped contacts 
  * @param {string} letter - element of sortedLetters that is currently active in the for-loop
- * @param {object} letterContainer - div of the respective group of contacts
+ * @param {string} letterContainer - html code for letterContainer
  */
 function renderSingleContact(letter, letterContainer) {
   for (const contact of groupedContacts[letter]) {
@@ -122,6 +126,7 @@ function renderSingleContact(letter, letterContainer) {
 /**
  * creates a overall div for a single contact
  * @param {}  - no parameter
+ * @returns html code for contactContainer
  */
 function createContactContainer() {
   const contactContainer = document.createElement("div");
@@ -131,8 +136,9 @@ function createContactContainer() {
 
 /**
  * creates an inner div for a single contact with its functionalities
- * @param {object} contact - contact that is currently active in the for-loop
- * @param {object} contactContainer - overall div for the single contact
+ * @param {JSON} contact - contact JSON that is currently active in the for-loop
+ * @param {string} contactContainer - html code for contact container
+ * @returns html code for contactInnerContainer
  */
 function createContactInnerContainer(contact, contactContainer) {
   const contactInnerContainer = document.createElement("div");
@@ -145,8 +151,8 @@ function createContactInnerContainer(contact, contactContainer) {
 
 /**
  * opens the contact if clicked on and highlights it
- * @param {object} contact - contact that is currently active 
- * @param {object} contactContainer - overall div for the single contact to highlight
+ * @param {JSON} contact - contact JSON that is currently active in the for-loop 
+ * @param {string} contactContainer - html code for overall div for the single contact to highlight
  * the function renderContacts(parameter) can be found in contacts.js
  */
 function openContactOfContactList(contact, contactContainer) {
@@ -163,7 +169,7 @@ function openContactOfContactList(contact, contactContainer) {
 
 /**
  * creates circle div for the acronym for the respective contact
- * @param {object} contact - contact that is currently active
+ * @param {JSON} contact - contact JSON that is currently active in the for-loop
  */
 function createAcronymDiv(contact) {
   const acronymDiv = document.createElement("div");
@@ -185,7 +191,7 @@ function createNameMailContainer() {
 
 /**
  * creates a div with the name of the contact
- * @param {object} contact - contact that is currently active
+ * @param {JSON} contact - contact that is currently active
  */
 function createNameDiv(contact) {
   const nameDiv = document.createElement("div");
@@ -196,7 +202,7 @@ function createNameDiv(contact) {
 
 /**
  * creates a div with the mail address of the contact
- * @param {object} contact - contact that is currently active
+ * @param {JSON} contact - contact that is currently active
  */
 function createMailDiv(contact) {
   const mailDiv = document.createElement("div");
@@ -207,12 +213,12 @@ function createMailDiv(contact) {
 
 /**
  * appends the created elements in the respective order
- * @param {object} contactContaciner - overall div for a single contact
- * @param {object} contactInnerContainer - inner div for a single contact with its functionalities
- * @param {object} acronymDiv - circle div for the acronym
- * @param {object} nameMailContainer - overall div for name and mail
- * @param {object} nameDiv - div with the name of the contact
- * @param {object} mailDiv - div with the mail address of the contact
+ * @param {string} contactContaciner - html code for overall div for a single contact
+ * @param {string} contactInnerContainer - html code forinner div for a single contact with its functionalities
+ * @param {string} acronymDiv - html code for circle div for the acronym
+ * @param {string} nameMailContainer - html code for overall div for name and mail
+ * @param {string} nameDiv - html code for div with the name of the contact
+ * @param {string} mailDiv - html code for div with the mail address of the contact
  * to nameMailContainer: first nameDiv, then mailDiv
  * to contactInnerContainer first acronymDiv, then nameMailContainer
  * to contactContainer at last contactInnerContainer

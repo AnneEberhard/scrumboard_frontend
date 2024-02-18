@@ -1,6 +1,19 @@
+// deals with subtasks in add_task and board
+// for includeHTML() and initTemplate() see script_templates.js
+// for general functions of add_task see add_task.js
+// for categories see add_task_categories.js
+// for saving see save_add_tasks.js
+// for general functions of board see board.js
+// for adding in board see board_add.js
+// for editing in board see board_edit.js
+// for delete see delete.js
+// for background functions see board_background.js
+// for backend see storage.js
+
+
 /**
  * this function gets the subtasks based on the task id into a help JSON subTaskCard
- * @param {number} taskId - id of task in edit modus, by default 0 for add task
+ * @param {integer} taskId - id of task in edit modus, by default 0 for add task
  */
 function getSubTasks(taskId) {
   let subTaskCard = [];
@@ -15,7 +28,7 @@ function getSubTasks(taskId) {
 
 /**
  * this function checks if field of adding subTasks is empty or not
- * @param {number} index - by default 0 for add task (not yet used in edit task)
+ * @param {integer} index - by default 0 for add task (not yet used in edit task)
  * @param {string} mode - mode of either add or edit
  */
 function checkAddSubTask(index, mode) {
@@ -32,7 +45,7 @@ function checkAddSubTask(index, mode) {
   
 /**
  * this function adds subtask to the help JSON subTaskArray and renders the added subtasks
- * @param {number} index - by default 0 for add task (not yet used in edit task)
+ * @param {integer} index - by default 0 for add task (not yet used in edit task)
  * @param {string} mode - mode of either add or edit
  */
 async function addSubTask(index, mode) {
@@ -51,7 +64,7 @@ async function addSubTask(index, mode) {
   
   /**
  * this function saves the new SubTasks of a task to the backend, including the reference to the task
- * @param {number} taskId - backend id of task
+ * @param {integer} taskId - backend id of task
  */
   async function saveNewSubTasks(taskId) {
     for (let i = 0; i < subTasksArray.length; i++) {
@@ -64,7 +77,6 @@ async function addSubTask(index, mode) {
   
   /**
  * this function updates subtasks of a task to the backend, using the global JSON subTaskArray
- * @param {} - no param
  */
   async function updateSubTasks() {
     for (let i = 0; i < subTasksArray.length; i++) {
@@ -78,9 +90,9 @@ async function addSubTask(index, mode) {
   /**
  * this function renders the added subtask including the checkbox
  * @param {string} mode - mode of either add or edit
- * @param {number} taskId - backend id of task in edit modus, by default 0 for add task
+ * @param {integer} taskId - backend id of task in edit modus, by default 0 for add task
  * @param {string} subTaskName - name of subtask
- * @param {number} subTaskIndex index of subTask in JSON subTasks
+ * @param {integer} subTaskIndex index of subTask in JSON subTasks
  */
   function renderAddedSubTask(mode, taskId, subTaskName, subTaskIndex) {
     document.getElementById(`subTasks${mode}`).innerHTML += /*html*/ `
@@ -94,8 +106,8 @@ async function addSubTask(index, mode) {
   
 /**
  * this function add checksmarks to the subtasks if clicked on
- * @param {number} subTaskIndex index of subTask in JSON subTasks
- * @param {number} id - backend id of task in edit modus, by default 0 for add task
+ * @param {integer} subTaskIndex index of subTask in JSON subTasks
+ * @param {integer} id - backend id of task in edit modus, by default 0 for add task
  * @param {string} mode - mode of either add or edit
  */
 async function addCheck(subTaskIndex, id, mode) {
