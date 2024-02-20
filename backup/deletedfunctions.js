@@ -224,3 +224,34 @@ async function getUserById(userId) {
       throw `Could not find user with ID "${userId}".`;
     });
 }
+
+
+
+/**
+ * Function loads data from the backend for a specific user with user_id
+ */
+async function getCurrentUser() {
+  const authToken = getAuthToken();  
+  const url = `${STORAGE_URL}users/me/`;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${authToken}`, 
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((user) => {
+      console.log(user);
+      return user;
+    })
+    .catch((error) => {
+      console.error("Error:", error.message);
+      throw error;
+    });
+}

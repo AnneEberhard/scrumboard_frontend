@@ -1,4 +1,4 @@
-// for all template functions
+// for all template functions including logout
 
 /**
  * this function starts the page templates
@@ -141,7 +141,6 @@ async function logoutUser() {
   window.location.href = "index.html";
  }
 }
-
 
 
 /**

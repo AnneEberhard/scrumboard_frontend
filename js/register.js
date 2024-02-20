@@ -1,3 +1,6 @@
+//handles the signup
+//for backend see storage.js
+
 let users = [];
 let username = document.getElementById("name");
 let firstname = document.getElementById("firstname");
@@ -39,8 +42,9 @@ form.addEventListener("submit", async (event) => {
 });
 
 /**
- * this function adds a new user
+ * this function initiates adding a new user if all parameters add met
  * @param {}  - no parameter
+ * @returns boolean
  */
 async function addUser() {
   clearAlerts();
@@ -136,6 +140,9 @@ function validateConfirm() {
 
 /**
  * renders alert
+ * @param {string} alert - error message
+ * @param {object} alertedDiv - div in which the error occured
+ * @param {string} errorId - id of the div for the error message
  */
 function renderAlert(alert, alertedDiv, errorId) {
   let errorDiv = document.getElementById(errorId);

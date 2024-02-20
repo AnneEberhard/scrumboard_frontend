@@ -1,3 +1,7 @@
+//basic functions for login
+//for backend see storage.js
+//for logout see template_script.js
+
 let currentUser;
 let currentUserFirstName;
 
