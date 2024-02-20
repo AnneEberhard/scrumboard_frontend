@@ -102,7 +102,6 @@ function togglePopupBar() {
  * @param {} - no parameter
  */
 async function createNameCircle() {
-  debugger;
   currentUserName = combineUserNames();
   console.log(currentUserName);
   let acronym = createAcronym(currentUserName);
@@ -116,6 +115,9 @@ async function createNameCircle() {
  `;
 }
 
+/**
+ * function combines first and last name out of local storage to a combined name
+ */
 function combineUserNames() {
   let first_name = localStorage.getItem("first_name");
   let last_name = localStorage.getItem("last_name");
@@ -124,8 +126,7 @@ function combineUserNames() {
 
 
 /**
-* This function logs that the user is logged out from the Website
-* @param {} - no parameter
+* This function initiates logout and empties cache
 */
 async function logoutUser() {
  response = await logout();
@@ -133,6 +134,10 @@ async function logoutUser() {
   console.log('logout');
   localStorage.setItem(`loggedIn`, false);
   localStorage.removeItem("authToken");
+  localStorage.removeItem("currentUserId");
+  localStorage.removeItem("last_name");
+  localStorage.removeItem("first_name");
+  localStorage.removeItem("currentUser");
   window.location.href = "index.html";
  }
 }

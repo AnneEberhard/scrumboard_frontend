@@ -79,7 +79,7 @@ function getAuthorId() {
   if(currentUser == 'Guest') {
     return 2
   } else {
-    return currentUser.id
+    return localStorage.getItem(`currentUser`);
   }
 }
 

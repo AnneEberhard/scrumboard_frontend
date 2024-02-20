@@ -31,8 +31,9 @@ form.addEventListener("submit", async (event) => {
   if (userAdded) {
     document.body.classList.add("clicked");
     button.classList.add("clicked");
-    await delay(1000);
     createContactRegister();
+    saveUserLocal(username.value);
+    await delay(1000);
     window.location.href = "index.html";
   }
 });
@@ -173,8 +174,7 @@ function resetForm() {
 
 
 /**
- * This function creates the Contact.
- * @param {string} - id of the modal
+ * This function creates the Contact based on the signup
  */
 async function createContactRegister() {
   let contact_name = combineFirstAndLast();
@@ -188,9 +188,19 @@ async function createContactRegister() {
   await addItem("contacts", JSON.stringify(contact));
 }
 
+/**
+ * This function creates the username for further use out of first and last name
+ */
 function combineFirstAndLast() {
   let first_name= firstname.value;
   let last_name = lastname.value;
   return `${first_name} ${last_name}`;
 }
 
+/**
+ * This function saves the username to prepopulate the login
+ * @param {string} username - value of the field username
+ */
+function saveUserLocal(username) {
+  localStorage.setItem("username", `${username}`);
+}
