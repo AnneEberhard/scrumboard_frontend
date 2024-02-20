@@ -102,8 +102,10 @@ function togglePopupBar() {
  * @param {} - no parameter
  */
 async function createNameCircle() {
-  //await loadUsers();
-  let acronym = createAcronym(currentUser);
+  debugger;
+  currentUserName = combineUserNames();
+  console.log(currentUserName);
+  let acronym = createAcronym(currentUserName);
   let topbar = document.getElementById("topbar_icons");
   let mobiletopbar = document.getElementById("mobile_topbar_icons");
   topbar.innerHTML += /*html*/ `
@@ -112,6 +114,12 @@ async function createNameCircle() {
   mobiletopbar.innerHTML += /*html*/ `
      <div id="mobile_topbar_Icons_Username" onclick="togglePopupBar()">${acronym}</div>
  `;
+}
+
+function combineUserNames() {
+  let first_name = localStorage.getItem("first_name");
+  let last_name = localStorage.getItem("last_name");
+  return `${first_name} ${last_name}`;
 }
 
 
@@ -124,6 +132,7 @@ async function logoutUser() {
  if(response) {
   console.log('logout');
   localStorage.setItem(`loggedIn`, false);
+  localStorage.removeItem("authToken");
   window.location.href = "index.html";
  }
 }

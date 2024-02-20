@@ -204,3 +204,23 @@ async function loadUsers() {
 //    password.value = "";
 //  }
 //}
+
+
+
+
+
+/**
+ * Function loads data from the backend for a specific user with user_id
+ * @param {number} userId - user id
+ */
+async function getUserById(userId) {
+  const url = `${STORAGE_URL}user/${userId}/`; 
+  return fetch(url, { mode: "cors" })
+    .then((res) => res.json())
+    .then((user) => {
+      if (user) {
+        return user;
+      }
+      throw `Could not find user with ID "${userId}".`;
+    });
+}

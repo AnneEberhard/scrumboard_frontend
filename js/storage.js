@@ -140,7 +140,6 @@ async function login(key, value) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-     
       },
       body: value,
     })
@@ -159,37 +158,52 @@ async function login(key, value) {
   }
 }
 
+function getAuthToken() {
+  return localStorage.getItem('authToken');
+}
+
+
+
 /**
  * Function loads data from the backend for a specific user with user_id
  */
 async function getCurrentUser() {
-  const csrftoken = getCSRFToken();
-  const url = `${STORAGE_URL}users/me/`; 
-  return fetch(url, { mode: "cors", headers: {
-    "X-CSRFToken": csrftoken,
-  },})
-    .then((res) => res.json())
-    .then((user) => {
-      if (user) {
-        console.log(user);
-        return user;
+  const authToken = getAuthToken();  
+  const url = `${STORAGE_URL}users/me/`;
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${authToken}`, 
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
       }
-      throw `Could not find user.`;
+      return res.json();
+    })
+    .then((user) => {
+      console.log(user);
+      return user;
+    })
+    .catch((error) => {
+      console.error("Error:", error.message);
+      throw error;
     });
 }
 
+
 async function logout() {
-  const csrftoken = getCSRFToken();
+  const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}logout/`;
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken,
+        "Authorization": `Token ${authToken}`, 
       },
     });
-
     if (response.ok) {
       console.log("Logout erfolgreich");
       return true;
@@ -205,19 +219,3 @@ async function logout() {
 
 
 
-
-/**
- * Function loads data from the backend for a specific user with user_id
- * @param {number} userId - user id
- */
-async function getUserById(userId) {
-  const url = `${STORAGE_URL}user/${userId}/`; 
-  return fetch(url, { mode: "cors" })
-    .then((res) => res.json())
-    .then((user) => {
-      if (user) {
-        return user;
-      }
-      throw `Could not find user with ID "${userId}".`;
-    });
-}

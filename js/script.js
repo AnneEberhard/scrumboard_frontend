@@ -1,11 +1,12 @@
 let currentUser;
+let currentUserId;
+let currentUserFirstName;
 
 /**
  * this function initializes the index page
  * @param - no parameter
  */
 function init() {
-  //loadUsers();
   loadCache();
 }
 
@@ -29,12 +30,14 @@ function errorMessage() {
 
 function correctLogin(data){
   console.log(data);
+  console.log(data.first_name);
   window.location.href = "summary.html";
-  localStorage.setItem(`currentUser`, `${data.user_id}`);
+  localStorage.setItem('authToken', data.token);
+  localStorage.setItem(`currentUserId`, `${data.user_id}`);
+  localStorage.setItem(`first_name`, `${data.first_name}`);
+  localStorage.setItem(`last_name`, `${data.last_name}`);
   localStorage.setItem(`loggedIn`, true);
 }
-
-
 
 
 
@@ -43,7 +46,8 @@ function correctLogin(data){
  * @param - no parameter
  */
 function guestUser() {
-  localStorage.setItem(`currentUser`, `Guest`);
+  localStorage.setItem(`currentUserId`, `2`);
+  localStorage.setItem(`first_name`, `Guest`);
   window.location.href = "summary.html";
   localStorage.setItem(`loggedIn`, true);
 }
