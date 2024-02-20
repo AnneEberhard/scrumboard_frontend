@@ -31,12 +31,15 @@
             <div class="line"></div>
             <div class="input-container">
               <input id="name" class="name" type="text" placeholder="Username" required/>
+              <span class="error" id="error_name" style="display: none"></span>
               <input id="firstname" class="name" type="text" placeholder="First name" required oninput="capitalizeName('firstname')"/>
               <input id="lastname" class="name" type="text" placeholder="Last name" required oninput="capitalizeName('lastname')"/>
               <input id="email" type="email" placeholder="Email" required/>
+              <span class="error" id="error_email" style="display: none">Please enter a valid email</span>
               <input id="password" type="password" placeholder="Password" required/>
+              <span class="error" id="error_password" style="display: none"></span>
               <input id="confirmpassword" type="password" placeholder="Confirm password" required/>
-              <span id="error" style="display: none"></span>
+              <span class="error" id="error_confirm" style="display: none"></span>
             </div>
             <div class="options">
                 <div class="privacy-container">

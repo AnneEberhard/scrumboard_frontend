@@ -260,7 +260,7 @@ form {
   outline: none;
 }
 
-#error {
+.error {
   display: flex;
   color: red;
   margin-top: -20px;

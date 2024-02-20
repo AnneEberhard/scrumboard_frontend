@@ -6,6 +6,7 @@ let newEmail = document.getElementById("email");
 let password = document.getElementById("password");
 let confirmpassword = document.getElementById("confirmpassword");
 let signup = document.getElementById("signup");
+let errorDiv = ["error_name", "error_email", "error_password", "error_confirm"];
 
 const form = document.getElementById("signup-form");
 const button = document.querySelector(".fly-in-button");
@@ -51,7 +52,7 @@ async function addUser() {
     let user = assembleData();
     response = await registerUser("register", JSON.stringify(user));
     if (response == '{"username":["A user with that username already exists."]}') {
-      renderAlert("User already exists. Please choose a different name.", username);
+      renderAlert("User already exists. Please choose a different name.", username, "error_name");
       return false;
     }
     return true;
@@ -71,7 +72,11 @@ function clearAlerts() {
   newEmail.classList.remove("border-red");
   password.classList.remove("border-red");
   confirmpassword.classList.remove("border-red");
-  error.style = "display: none;";
+  errorDiv.forEach(errorId => {
+    let errorDiv = document.getElementById(errorId);
+    errorDiv.style = "display: none;";
+    errorDiv.innerHTML = "";
+  });
 }
 
 /**
@@ -81,7 +86,7 @@ function clearAlerts() {
 function validateUsername() {
   const usernameRegex = /^[a-zA-Z0-9@.+\-_]+$/;
   if (!usernameRegex.test(username.value)) {
-    renderAlert("Please enter a valid username.", username);
+    renderAlert("Please enter a valid username.", username, "error_name");
   }
   return usernameRegex.test(username.value);
 }
@@ -93,7 +98,7 @@ function validateUsername() {
 function validateEmail() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(newEmail.value)) {
-    renderAlert("Please enter a valid email.", newEmail);
+    renderAlert("Please enter a valid email.", newEmail,"error_email");
   }
   return emailRegex.test(newEmail.value);
 }
@@ -105,11 +110,11 @@ function validateEmail() {
 function validatePassword() {
   let passwordToValidate = password.value;
   if (passwordToValidate.length < 8) {
-    renderAlert("Password needs at least 8 characters.", password);
+    renderAlert("Password needs at least 8 characters.", password, "error_password");
     return false;
   }
   if (!/[a-zA-Z]/.test(passwordToValidate)) {
-    renderAlert("Password cannot be too common or entirely numeric.", password);
+    renderAlert("Password cannot be too common or entirely numeric.", password, "error_password");
     return false;
   }
   return true;
@@ -121,7 +126,7 @@ function validatePassword() {
  */
 function validateConfirm() {
   if (password.value != confirmpassword.value) {
-    renderAlert("Passwords do not match.", confirmpassword);
+    renderAlert("Passwords do not match.", confirmpassword, "error_confirm");
     return false;
   } else {
     return true;
@@ -131,11 +136,12 @@ function validateConfirm() {
 /**
  * renders alert
  */
-function renderAlert(alert, alertedId) {
-  alertedId.classList.add("border-red");
-  error.style = "display: flex;";
-  document.getElementById("error").innerHTML = alert;
-  alertedId.value = "";
+function renderAlert(alert, alertedDiv, errorId) {
+  let errorDiv = document.getElementById(errorId);
+  errorDiv.style = "display: flex;";
+  errorDiv.innerHTML = alert;
+  alertedDiv.classList.add("border-red");
+  alertedDiv.value = "";
 }
 
 /**
