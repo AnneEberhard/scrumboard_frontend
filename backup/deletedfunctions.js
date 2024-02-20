@@ -176,4 +176,31 @@ async function setItem(key, value) {
   }).then((res) => res.json());
 }
 
+/**
+ * this function loads users from the backend
+ * @param - no parameter
+ */
+async function loadUsers() {
+  try {
+    users = JSON.parse(await getItem("users"));
+  } catch (e) {
+    console.error("Loading error:", e);
+  }
+}
 
+//function loginUser() {
+//  let error = document.getElementById("error");
+//  loadUsers();
+//  if (users[0].email == email.value && users[0].password == password.value) {
+//    password.classList.remove("border-red");
+//    error.style = "display: none;";
+//    window.location.href = "summary.html";
+//    localStorage.setItem(`currentUser`, `${users[0].name}`);
+//    localStorage.setItem(`loggedIn`, true);
+//    cacheData();
+//  } else {
+//    password.classList.add("border-red");
+//    error.style = "display: flex;";
+//    password.value = "";
+//  }
+//}

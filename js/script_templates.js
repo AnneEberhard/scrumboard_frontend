@@ -115,13 +115,17 @@ async function createNameCircle() {
 }
 
 
-
 /**
 * This function logs that the user is logged out from the Website
 * @param {} - no parameter
 */
-function logoutUser(){
+async function logoutUser() {
+ response = await logout();
+ if(response) {
+  console.log('logout');
   localStorage.setItem(`loggedIn`, false);
+  window.location.href = "index.html";
+ }
 }
 
 

@@ -5,7 +5,7 @@ const STORAGE_URL = "http://127.0.0.1:8000/";
 
 
 /**
- * this function loads the needed items from the backend
+ * this function initiates loading all items from the backend
  * @param - no parameter
  */
 async function loadItems() {
@@ -42,7 +42,7 @@ function getCSRFToken() {
     .split("; ")
     .find((row) => row.startsWith("csrftoken="))
     .split("=")[1];
-
+    console.log('token:',cookieValue);
   return cookieValue;
 }
 
@@ -115,13 +115,12 @@ async function registerUser(key, value) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": csrftoken,
+
       },
       body: value,
     });
     if (!response.ok) {
       const errorText = await response.text();
-      //throw new Error(errorText || "Unknown error");
       return errorText
     }
     const data = await response.json();
@@ -130,4 +129,95 @@ async function registerUser(key, value) {
     console.error("Error:", error.message);
     throw error;
   }
+}
+
+
+async function login(key, value) {
+  const csrftoken = getCSRFToken();
+  const url = `${STORAGE_URL}${key}/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+     
+      },
+      body: value,
+    })
+    ;
+    if (!response.ok) {
+      const errorText = await response.text();
+     console.log(errorText);
+     errorMessage();
+    } else {
+      const data = await response.json();
+      correctLogin(data);
+    }
+  } catch (error) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+}
+
+/**
+ * Function loads data from the backend for a specific user with user_id
+ */
+async function getCurrentUser() {
+  const csrftoken = getCSRFToken();
+  const url = `${STORAGE_URL}users/me/`; 
+  return fetch(url, { mode: "cors", headers: {
+    "X-CSRFToken": csrftoken,
+  },})
+    .then((res) => res.json())
+    .then((user) => {
+      if (user) {
+        console.log(user);
+        return user;
+      }
+      throw `Could not find user.`;
+    });
+}
+
+async function logout() {
+  const csrftoken = getCSRFToken();
+  const url = `${STORAGE_URL}logout/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+    });
+
+    if (response.ok) {
+      console.log("Logout erfolgreich");
+      return true;
+    } else {
+      console.error("Logout fehlgeschlagen");
+      return false;
+    }
+  } catch (error) {
+    console.error("Fehler beim Logout:", error);
+  }
+}
+
+
+
+
+
+/**
+ * Function loads data from the backend for a specific user with user_id
+ * @param {number} userId - user id
+ */
+async function getUserById(userId) {
+  const url = `${STORAGE_URL}user/${userId}/`; 
+  return fetch(url, { mode: "cors" })
+    .then((res) => res.json())
+    .then((user) => {
+      if (user) {
+        return user;
+      }
+      throw `Could not find user with ID "${userId}".`;
+    });
 }

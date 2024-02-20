@@ -185,7 +185,7 @@ function createGreetingPhrase(){
  * @param {} - no parameter
  */
 async function createNameGreating(){
-        await loadUsers();
+        userdata = await getCurrentUser();
         if(currentUser == 'Guest'){
             return
         } else{
