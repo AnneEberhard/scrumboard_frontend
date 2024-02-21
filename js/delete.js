@@ -132,8 +132,9 @@ function getContactBackendId(name) {
  * @param {string} contactToDeleteId- backend id of contact to be deleted
  */
 function askBeforeDeleteContact(contactToDeleteId) {
+ let confirmDeleteContactContainer = document.getElementById("confirmDeleteContactContainer");
  let confirmDeleteContact = document.getElementById("confirmDeleteContact");
- confirmDeleteContact.classList.remove("d-none");
+ confirmDeleteContactContainer.classList.remove("d-none");
  confirmDeleteContact.innerHTML += /*html*/ `
      <div id="confirmDeleteContactQuestion">Delete Contact?</div>
      <div id="confirmDeleteContactAnswers">

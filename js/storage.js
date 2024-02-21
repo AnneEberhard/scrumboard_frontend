@@ -24,8 +24,11 @@ async function loadItems() {
  * @returns {json} data 
  */
 async function getItem(key) {
+  const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}${key}`;
-  return fetch(url, { mode: "cors" })
+  return fetch(url, { headers: {
+    "Authorization": `Token ${authToken}`, 
+  }})
     .then((res) => res.json())
     .then((res) => {
       if (res) {
@@ -35,18 +38,6 @@ async function getItem(key) {
     });
 }
 
-/**
- * this function gets the crsf token from the cookies
- * @return csrfToken
- */
-function getCSRFToken() {
-  const cookieValue = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("csrftoken="))
-    .split("=")[1];
-    console.log('token:',cookieValue);
-  return cookieValue;
-}
 
 /**
  * this function uploads a new item from the backend
@@ -54,13 +45,13 @@ function getCSRFToken() {
  * @param {JSON} value JSON of new Item
  */
 async function addItem(key, value) {
-  const csrftoken = getCSRFToken();
+  const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}${key}/`;
   return fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
+      "Authorization": `Token ${authToken}`, 
     },
     body: value,
   })
@@ -77,13 +68,13 @@ async function addItem(key, value) {
  * @param {integer} id backend id of the item to be deleted
  */
 async function deleteItem(key, id) {
-  const csrftoken = getCSRFToken();
+  const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}${key}/${id}/`;
   return fetch(url, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
+      "Authorization": `Token ${authToken}`, 
     }
   })
     .then((res) => {
@@ -105,13 +96,13 @@ async function deleteItem(key, id) {
  * @param {integer} id backend id
  */
 async function updateItem(key, updatedValue, id) {
-  const csrftoken = getCSRFToken();
+  const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}${key}/${id}/`;
   return fetch(url, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
+      "Authorization": `Token ${authToken}`, 
     },
     body: updatedValue,
   })
@@ -154,6 +145,7 @@ async function registerUser(key, value) {
  * @param {JSON} value credentials
  */
 async function login(key, value) {
+
   const url = `${STORAGE_URL}${key}/`;
   try {
     const response = await fetch(url, {
@@ -213,5 +205,16 @@ async function logout() {
 }
 
 
-
+/**
+ * this function gets the crsf token from the cookies (currently not used)
+ * @return csrfToken
+ */
+function getCSRFToken() {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("csrftoken="))
+    .split("=")[1];
+    console.log('token:',cookieValue);
+  return cookieValue;
+}
 

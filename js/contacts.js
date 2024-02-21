@@ -24,7 +24,7 @@ let editingContact;
  * @param {}  - no param
  */
 async function initContacts() {
-  //checkLogIn();
+  checkLogIn();
   await loadContacts();
   renderContactList();
 }

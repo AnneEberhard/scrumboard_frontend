@@ -15,6 +15,7 @@ let currentDraggedElement;
  * initialized rendering of board
  */
 async function renderBoard() {
+  checkLogIn();
   await renderBoardCards();
 }
 

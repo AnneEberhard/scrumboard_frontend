@@ -181,19 +181,46 @@ function resetForm() {
 
 
 /**
- * This function creates the Contact based on the signup
+ * This function starts dreating  a new contact based on the signup
  */
 async function createContactRegister() {
   let contact_name = combineFirstAndLast();
   let acronym = createAcronym(contact_name);
-  let contact = new Contact(
-    contact_name,
-    '000',
-    newEmail.value,
-    acronym.toUpperCase()
-  );
-  await addItem("contacts", JSON.stringify(contact));
+  let contactNotExists = checkIfContactExists(contact_name);
+  if (contactNotExists){
+      let contact = new Contact(
+        contact_name,
+        '000',
+        newEmail.value,
+        acronym.toUpperCase()
+      );
+      addNewContact (contact);
+    }
 }
+
+/**
+ * This function checks whether a contact with that name already exists
+ * @param {string} contact_name combined name of new signup
+ */
+async function checkIfContactExists(contact_name) {
+  debugger;
+  contacts = await getItem("contacts");
+  for (let i = 0; i < contacts.length; i++) {
+    if (contacts[i].user_name === contact_name) {
+      return false; 
+    }
+  }
+  return true;
+}
+
+/**
+ * This function adds new contact based on the signup
+ * @param {JSON} contact json of contact to be added
+ */
+async function addNewContact (contact) {
+  await addItem("contacts", JSON.stringify(contact)); 
+}
+
 
 /**
  * This function creates the username for further use out of first and last name

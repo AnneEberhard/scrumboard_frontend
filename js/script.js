@@ -40,7 +40,6 @@ function errorMessage() {
  * @param {JSON} data - json returned from backend
  */
 function correctLogin(data){
-  console.log(data);
   window.location.href = "summary.html";
   localStorage.setItem('authToken', data.token);
   localStorage.setItem(`currentUser`, `${data.user_id}`);
