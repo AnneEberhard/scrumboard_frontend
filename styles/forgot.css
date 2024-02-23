@@ -38,7 +38,7 @@ body {
   }
 }
 
-#forgot-form {
+#forgotForm {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,7 +67,7 @@ body {
   margin-bottom: 20px;
 }
 
-#login {
+#sendButton {
   border-radius: 8px;
   height: 45px;
   width: 220px;
@@ -79,7 +79,7 @@ body {
   border-style: unset;
 }
 
-#login:hover {
+#sendButton:hover {
   cursor: pointer;
   background: #29abe2;
 }
@@ -146,8 +146,6 @@ body {
   position: sticky;
   color: red;
   margin-top: -20px;
-  margin-left: 130px;
-  align-self: flex-start;
   font-size: 12px;
 }
 
@@ -215,7 +213,7 @@ body.clicked .fly-in-button {
     width: 95%;
   }
 
-  #login {
+  #sendButton {
     width: 170px;
   }
 

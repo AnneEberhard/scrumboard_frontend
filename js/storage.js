@@ -205,6 +205,30 @@ async function logout() {
 }
 
 
+async function checkExistInBackend(key, value) {
+  const url = `${STORAGE_URL}${key}/`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: value,
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+    const data = await response.json(); 
+    return data;
+  } catch (error) {
+    console.error("Fehler:", error);
+    return false;
+  }
+}
+
+
+
+
 /**
  * this function gets the crsf token from the cookies (currently not used)
  * @return csrfToken

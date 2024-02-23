@@ -255,3 +255,24 @@ async function getCurrentUser() {
       throw error;
     });
 }
+
+
+
+/**
+ * send mail
+ * @param {} - no parameter
+ */
+async function sendMail2() {
+  const formData = new FormData(document.getElementById('contactForm'));
+  disableFields();
+  email.classList.remove("border-red");
+  error.style = "display:none;";
+  if (users[0].email == email.value) {
+    return true;
+  } else {
+    email.classList.add("border-red");
+    email.value = "";
+    error.style = "display:flex;";
+    return false;
+  }
+}

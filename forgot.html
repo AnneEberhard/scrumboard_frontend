@@ -24,20 +24,20 @@
           </a>
             <h1>I forgot my Password</h1>
           </div>
-          <form id="forgot-form" onsubmit="sendMail(event)">
+          <form id="forgotForm" onsubmit="checkMail(); return false;">
             <div class="line"></div>
             <div class="paragraph">
               <span>Don't worry! We will send you an email with the instructions to reset your password.</span>
             </div>
             <br>
             <div class="input-container">
-              <input name="name" id="email" type="email" placeholder="Email" required/>
+              <input name="email" id="email" type="email" placeholder="Email" required/>
               <span id="error" style="display: none"
-              >Ups! This email doesn't exist. Try again.
+              >Ups! This email doesn't exist. Please Try again.
             </span>
             </div>
             <div class="login-buttons">
-              <button id="login">Send me the email</button>
+              <button id="sendButton">Send me the email</button>
             </div>
           </form>
         </div>
