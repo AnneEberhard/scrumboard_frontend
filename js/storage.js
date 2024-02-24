@@ -207,6 +207,8 @@ async function logout() {
 
 async function checkExistInBackend(key, value) {
   const url = `${STORAGE_URL}${key}/`;
+  console.log('forgot: ', url);
+  console.log('forgot: ', value);
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -219,6 +221,7 @@ async function checkExistInBackend(key, value) {
       throw new Error(`HTTP-Fehler! Status: ${response.status}`);
     }
     const data = await response.json(); 
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Fehler:", error);
@@ -227,18 +230,67 @@ async function checkExistInBackend(key, value) {
 }
 
 
+async function resetPasswordInBackend(key, payload) {
+  const csrfToken = await getCSRFToken();
+  console.log('reset: ', key);
+  console.log('reset: ', payload);
+  console.log('csrf:', csrfToken);
+  try {
+    
+    const response = await fetch(`http://localhost:8000/${key}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include', 
+    });
+    console.log(response);
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+
+    console.log('Passwort erfolgreich zurückgesetzt');
+  } catch (error) {
+    console.error("Fehler:", error);
+  }
+}
+
 
 
 /**
- * this function gets the crsf token from the cookies (currently not used)
+ * this function gets the crsf token from the cookies
  * @return csrfToken
  */
-function getCSRFToken() {
+async function getCSRFToken() {
+  try {
+    const response = await fetch('http://localhost:8000/get_csrf_token/', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('New token:', data);
+    return data.csrfToken;
+  } catch (error) {
+    console.error('Fehler beim Abrufen des CSRF-Tokens:', error);
+    return null;
+  }
+}
+
+
+
+async function getCSRFToken2() {
   const cookieValue = document.cookie
     .split("; ")
     .find((row) => row.startsWith("csrftoken="))
     .split("=")[1];
-    console.log('token:',cookieValue);
+    console.log('csrftoken:',cookieValue);
   return cookieValue;
 }
 

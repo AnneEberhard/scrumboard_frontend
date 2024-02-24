@@ -27,6 +27,7 @@ async function checkMail() {
     error.style = "display:none;";
     document.body.classList.add("clicked");
     button.classList.add("clicked");
+    //sendMail(email.value);
     await delay(1000);
     window.location.href = "index.html";
   } else {
@@ -37,8 +38,9 @@ async function checkMail() {
 }
 
 
-async function sendMail() {
-  const formData = new FormData(document.getElementById('forgotForm'));
+async function sendMail(emailadress) {
+  data = {email: emailadress, 
+    info: 'needs password reset'};
   email.classList.remove("border-red");
   error.style = "display:none;";
   try {

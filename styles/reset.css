@@ -38,11 +38,12 @@ body {
   }
 }
 
-#forgotForm {
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 
 .login-container {
   background-color: #ffffff;
