@@ -205,6 +205,12 @@ async function logout() {
 }
 
 
+/**
+ * this function checks if the user email belongs to a user in the backend
+ * @param {string} key forgot
+ * @param {JSON} value entered email address
+ * @returns {JSON} if exists true, also returns a unique link for reset
+ */
 async function checkExistInBackend(key, value) {
   const url = `${STORAGE_URL}${key}/`;
   console.log('forgot: ', url);
@@ -230,6 +236,11 @@ async function checkExistInBackend(key, value) {
 }
 
 
+/**
+ * this function resets the password in the backend
+ * @param {string} key `reset/${uidb64}/${token}/`
+ * @param {JSON} value new password
+ */
 async function resetPasswordInBackend(key, payload) {
   const csrfToken = await getCSRFToken();
   console.log('reset: ', key);

@@ -192,3 +192,27 @@ async function deleteContactInModal(id) {
     alert("Please check the contact name");
   }
 }
+
+/**
+ * this delays the following code bei ms milliseconds
+ * @param {}  - no parameter
+ */
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * when form is submitted, password reset is initated
+ * @param {}  - no parameter
+ */
+//form.addEventListener("submit", async (event) => {
+//  event.preventDefault();
+//  const passwordMatching = await resetPassword();
+//  if (passwordMatching) {
+//    document.body.classList.add("clicked");
+//    button.classList.add("clicked");
+//    await delay(1000);
+//    form.submit();
+//    window.location.href = "index.html";
+//  }
+//});

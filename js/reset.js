@@ -2,32 +2,9 @@ const form = document.getElementById("forgot-form");
 const button = document.querySelector(".fly-in-button");
 const overlay = document.querySelector(".overlay");
 
-/**
- * this delays the following code bei ms milliseconds
- * @param {}  - no parameter
- */
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 /**
- * when form is submitted, password reset is initated
- * @param {}  - no parameter
- */
-//form.addEventListener("submit", async (event) => {
-//  event.preventDefault();
-//  const passwordMatching = await resetPassword();
-//  if (passwordMatching) {
-//    document.body.classList.add("clicked");
-//    button.classList.add("clicked");
-//    await delay(1000);
-//    form.submit();
-//    window.location.href = "index.html";
-//  }
-//});
-
-/**
- * this resets the password if two identical words are entered in the respective fields
+ * this function starts reset code
  * @param {}  - no parameter
  */
 async function resetPassword() {
@@ -45,6 +22,10 @@ async function resetPassword() {
   }
 }
 
+/**
+ * this function checks if the two entered passwords in the input field match
+ * @param {}  - no parameter
+ */
 function passwordsMatch() {
   let password = document.getElementById("password");
   let confirmedPass = document.getElementById("confirmpassword");
@@ -61,7 +42,22 @@ function passwordsMatch() {
   }
 }
 
+
+/**
+ * this function gets the query parameters from the unique link
+ * @param {string} name -identifier for uidb64 and token
+ * @returns token or uidb64 from unique link
+ */
 function getQueryParameter(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
+}
+
+
+/**
+ * this delays the following code bei ms milliseconds
+ * @param {}  - no parameter
+ */
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
