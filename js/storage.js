@@ -273,7 +273,7 @@ async function resetPasswordInBackend(key, payload) {
 
 
 /**
- * this function gets the crsf token from the cookies
+ * this function gets the crsf token from the backend
  * @return csrfToken
  */
 async function getCSRFToken() {
