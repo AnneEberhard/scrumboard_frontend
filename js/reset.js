@@ -13,7 +13,7 @@ async function resetPassword() {
   console.log('new token', token);
   if (passwordsMatch()) {
     let newPassword = document.getElementById("password").value;
-    let key = `reset/${uidb64}/${token}/`;
+    let key = `reset/${uidb64}/${token}`;
     let payload = {
       password: newPassword
     }

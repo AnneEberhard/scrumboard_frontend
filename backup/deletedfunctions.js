@@ -312,3 +312,39 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+
+
+/**
+ * this function gets the crsf token from the cookies
+ * @return csrfToken
+ */
+async function getCSRFToken() {
+  try {
+    const response = await fetch('http://localhost:8000/get_csrf_token/', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('New token:', data);
+    return data.csrfToken;
+  } catch (error) {
+    console.error('Fehler beim Abrufen des CSRF-Tokens:', error);
+    return null;
+  }
+}
+
+
+
+async function getCSRFToken2() {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("csrftoken="))
+    .split("=")[1];
+    console.log('csrftoken:',cookieValue);
+  return cookieValue;
+}

@@ -242,20 +242,23 @@ async function checkExistInBackend(key, value) {
  * @param {JSON} value new password
  */
 async function resetPasswordInBackend(key, payload) {
-  const csrfToken = await getCSRFToken();
+  let csrfToken = await getCSRFToken();
+  const url = `${STORAGE_URL}${key}/`;
+  console.log('reset: ',url);
   console.log('reset: ', key);
   console.log('reset: ', payload);
-  console.log('csrf:', csrfToken);
+  console.log('reset: ', csrfToken);
   try {
     
-    const response = await fetch(`http://localhost:8000/${key}`, {
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRFToken": csrfToken,
+        "X-Csrftoken": csrfToken,
       },
       body: JSON.stringify(payload),
       credentials: 'include', 
+    
     });
     console.log(response);
     if (!response.ok) {
@@ -267,7 +270,6 @@ async function resetPasswordInBackend(key, payload) {
     console.error("Fehler:", error);
   }
 }
-
 
 
 /**
@@ -293,15 +295,3 @@ async function getCSRFToken() {
     return null;
   }
 }
-
-
-
-async function getCSRFToken2() {
-  const cookieValue = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("csrftoken="))
-    .split("=")[1];
-    console.log('csrftoken:',cookieValue);
-  return cookieValue;
-}
-
