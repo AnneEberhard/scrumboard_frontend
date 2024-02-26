@@ -348,3 +348,27 @@ async function getCSRFToken2() {
     console.log('csrftoken:',cookieValue);
   return cookieValue;
 }
+
+/**
+ * this function gets the crsf token from the backend
+ * @return csrfToken
+ */
+async function getCSRFToken() {
+  try {
+    const response = await fetch('http://localhost:8000/get_csrf_token/', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('New token:', data.csrfToken);
+    return data.csrfToken;
+  } catch (error) {
+    console.error('Fehler beim Abrufen des CSRF-Tokens:', error);
+    return null;
+  }
+}

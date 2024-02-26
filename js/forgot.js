@@ -1,3 +1,5 @@
+// for all functions that deal directly with backend see storage.js
+
 const form = document.getElementById("forgot-form");
 const button = document.querySelector(".fly-in-button");
 const overlay = document.querySelector(".overlay");

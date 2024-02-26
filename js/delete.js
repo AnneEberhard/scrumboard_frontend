@@ -1,3 +1,5 @@
+// for all functions that deal directly with backend see storage.js
+
 /* DELETING TASKS */
 
 /**

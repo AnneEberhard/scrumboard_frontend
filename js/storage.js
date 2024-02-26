@@ -242,21 +242,15 @@ async function checkExistInBackend(key, value) {
  * @param {JSON} value new password
  */
 async function resetPasswordInBackend(key, payload) {
-  let csrfToken = await getCSRFToken();
   const url = `${STORAGE_URL}${key}/`;
-  console.log('reset: ',url);
-  console.log('reset: ', key);
-  console.log('reset: ', payload);
-  console.log('reset: ', csrfToken);
   try {
     
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Csrftoken": csrfToken,
       },
-      body: JSON.stringify(payload),
+      body: payload,
       credentials: 'include', 
     
     });
@@ -272,26 +266,3 @@ async function resetPasswordInBackend(key, payload) {
 }
 
 
-/**
- * this function gets the crsf token from the backend
- * @return csrfToken
- */
-async function getCSRFToken() {
-  try {
-    const response = await fetch('http://localhost:8000/get_csrf_token/', {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('New token:', data);
-    return data.csrfToken;
-  } catch (error) {
-    console.error('Fehler beim Abrufen des CSRF-Tokens:', error);
-    return null;
-  }
-}
