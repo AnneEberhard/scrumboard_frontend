@@ -207,7 +207,7 @@ function createGreetingPhrase() {
  */
 async function createNameGreating() {
   currentUserFirstName = localStorage.getItem(`first_name`);
-  if (currentUserFirstName == "Guest") {
+  if (currentUserFirstName == "Guest" || currentUserFirstName == "") {
     return;
   } else {
     document.getElementById(

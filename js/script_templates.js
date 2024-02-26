@@ -103,7 +103,6 @@ function togglePopupBar() {
  */
 async function createNameCircle() {
   currentUserName = combineUserNames();
-  console.log(currentUserName);
   let acronym = createAcronym(currentUserName);
   let topbar = document.getElementById("topbar_icons");
   let mobiletopbar = document.getElementById("mobile_topbar_icons");
@@ -120,6 +119,9 @@ async function createNameCircle() {
  */
 function combineUserNames() {
   let first_name = localStorage.getItem("first_name");
+  if (first_name=='') {
+    first_name = 'X'
+  }
   let last_name = localStorage.getItem("last_name");
   return `${first_name} ${last_name}`;
 }
