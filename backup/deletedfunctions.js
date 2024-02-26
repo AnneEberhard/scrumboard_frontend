@@ -277,6 +277,28 @@ async function sendMail2() {
   }
 }
 
+/**
+ * this function is for sending email if password is forgotten
+ * @param {event} - event
+ */
+function sendMail(event) {
+  event.preventDefault();
+  const data = new FormData(event.target);
+  fetch("https://formspree.io/f/xvojdaqr", {
+    method: "POST",
+    body: new FormData(event.target),
+    headers: {
+      Accept: "application/json",
+    },
+  })
+    .then(() => {
+      window.location.href = "reset.html";
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 
 async function sendMail(emailadress) {
   data = {email: emailadress, 
@@ -312,31 +334,6 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-
-
-/**
- * this function gets the crsf token from the cookies
- * @return csrfToken
- */
-async function getCSRFToken() {
-  try {
-    const response = await fetch('http://localhost:8000/get_csrf_token/', {
-      method: 'GET',
-      credentials: 'include',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP-Fehler! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('New token:', data);
-    return data.csrfToken;
-  } catch (error) {
-    console.error('Fehler beim Abrufen des CSRF-Tokens:', error);
-    return null;
-  }
-}
 
 
 

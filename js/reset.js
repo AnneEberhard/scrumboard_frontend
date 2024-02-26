@@ -10,9 +10,9 @@ const overlay = document.querySelector(".overlay");
  * @param {}  - no parameter
  */
 async function resetPassword() {
+  debugger;
   const uidb64 = getQueryParameter("uidb64");
   const token = getQueryParameter("token");
-  console.log('new token', token);
   if (passwordsMatch()) {
     let newPassword = document.getElementById("password").value;
     let key = `reset/${uidb64}/${token}`;
@@ -53,6 +53,17 @@ function passwordsMatch() {
 function getQueryParameter(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
+}
+
+/**
+ * this delays the following code bei ms milliseconds
+ * @param {}  - no parameter
+ */
+async function passwordResetSuccess() {
+  document.body.classList.add("clicked");
+  button.classList.add("clicked");
+  await delay(1000);
+  window.location.href = "index.html";
 }
 
 

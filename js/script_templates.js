@@ -133,7 +133,6 @@ function combineUserNames() {
 async function logoutUser() {
  response = await logout();
  if(response) {
-  console.log('logout');
   localStorage.setItem(`loggedIn`, false);
   localStorage.removeItem("authToken");
   localStorage.removeItem("currentUserId");

@@ -1,6 +1,5 @@
 //for all main functions that deal with the backend
 
-const STORAGE_TOKEN = "D6K8FZVPKEGWQYJC18B898KX3JSFP5EYW8XN035V";
 const STORAGE_URL = "http://127.0.0.1:8000/";
 
 
@@ -56,7 +55,6 @@ async function addItem(key, value) {
     body: value,
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
     .catch((error) => {
       console.error("Error:", error);
     });
@@ -183,6 +181,7 @@ function getAuthToken() {
  * this function logs out from the backend
  */
 async function logout() {
+  debugger;
   const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}logout/`;
   try {
@@ -193,10 +192,8 @@ async function logout() {
       },
     });
     if (response.ok) {
-      console.log("Logout erfolgreich");
       return true;
     } else {
-      console.error("Logout fehlgeschlagen");
       return false;
     }
   } catch (error) {
@@ -213,8 +210,6 @@ async function logout() {
  */
 async function checkExistInBackend(key, value) {
   const url = `${STORAGE_URL}${key}/`;
-  console.log('forgot: ', url);
-  console.log('forgot: ', value);
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -227,7 +222,6 @@ async function checkExistInBackend(key, value) {
       throw new Error(`HTTP-Fehler! Status: ${response.status}`);
     }
     const data = await response.json(); 
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Fehler:", error);
@@ -257,9 +251,10 @@ async function resetPasswordInBackend(key, payload) {
     console.log(response);
     if (!response.ok) {
       throw new Error(`HTTP-Fehler! Status: ${response.status}`);
+    } else {
+      passwordResetSuccess();
     }
 
-    console.log('Passwort erfolgreich zurückgesetzt');
   } catch (error) {
     console.error("Fehler:", error);
   }

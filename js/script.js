@@ -94,23 +94,12 @@ function loadCache() {
 }
 
 /**
- * this function is for sending email if password is forgotten
- * @param {event} - event
+ * this delays the following code bei ms milliseconds
+ * @param {}  - no parameter
  */
-function sendMail(event) {
-  event.preventDefault();
-  const data = new FormData(event.target);
-  fetch("https://formspree.io/f/xvojdaqr", {
-    method: "POST",
-    body: new FormData(event.target),
-    headers: {
-      Accept: "application/json",
-    },
-  })
-    .then(() => {
-      window.location.href = "reset.html";
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+
+
