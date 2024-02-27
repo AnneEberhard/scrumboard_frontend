@@ -203,8 +203,7 @@ async function createContactRegister() {
  * @param {string} contact_name combined name of new signup
  */
 async function checkIfContactExists(contact_name) {
-  debugger;
-  contacts = await getItem("contacts");
+  contacts = await getItemOutsideLogin("contacts-at-register");
   for (let i = 0; i < contacts.length; i++) {
     if (contacts[i].user_name === contact_name) {
       return false; 
@@ -218,7 +217,7 @@ async function checkIfContactExists(contact_name) {
  * @param {JSON} contact json of contact to be added
  */
 async function addNewContact (contact) {
-  await addItem("contacts", JSON.stringify(contact)); 
+  await addItemOutsideLogin("contacts-at-register", JSON.stringify(contact)); 
 }
 
 

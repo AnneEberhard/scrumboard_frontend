@@ -40,7 +40,7 @@ async function getItem(key) {
 
 
 /**
- * this function uploads a new item from the backend
+ * this function uploads a new item to the backend
  * @param {string} key of the respective item class
  * @param {JSON} value JSON of new Item
  */
@@ -182,7 +182,6 @@ function getAuthToken() {
  * this function logs out from the backend
  */
 async function logout() {
-  debugger;
   const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}logout/`;
   try {
@@ -262,3 +261,40 @@ async function resetPasswordInBackend(key, payload) {
 }
 
 
+/**
+ * function gets data from the backend outside login - for register adding contact
+ * @param {string} key - key for storage
+ * @returns {json} data 
+ */
+async function getItemOutsideLogin(key) {
+  const url = `${STORAGE_URL}${key}`;
+  return fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      if (res) {
+        return res;
+      }
+      throw `Could not find data with key "${key}".`;
+    });
+}
+
+
+/**
+ * this function uploads a new item to the backend outside login - for register adding contact
+ * @param {string} key of the respective item class
+ * @param {JSON} value JSON of new Item
+ */
+async function addItemOutsideLogin(key, value) {
+  const url = `${STORAGE_URL}${key}/`;
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: value,
+  })
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}

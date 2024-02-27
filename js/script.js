@@ -52,9 +52,11 @@ function correctLogin(data){
 /**
  * this function allows login as guest
  */
-function guestUser() {
+async function guestUser() {
   localStorage.setItem(`currentUser`, `2`);
   localStorage.setItem(`first_name`, `Guest`);
+  let credentials = {"username": `Guest`, "password": 'T€st1234'};
+  await login('login', JSON.stringify(credentials));
   window.location.href = "summary.html";
   localStorage.setItem(`loggedIn`, true);
 }
