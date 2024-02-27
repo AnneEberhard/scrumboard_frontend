@@ -10,7 +10,6 @@ const overlay = document.querySelector(".overlay");
  * @param {}  - no parameter
  */
 async function resetPassword() {
-  debugger;
   const uidb64 = getQueryParameter("uidb64");
   const token = getQueryParameter("token");
   if (passwordsMatch()) {
