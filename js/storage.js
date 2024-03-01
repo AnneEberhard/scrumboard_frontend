@@ -1,7 +1,7 @@
 //for all main functions that deal with the backend
 
-//const STORAGE_URL = "http://127.0.0.1:8000/";
-const STORAGE_URL = "https://anne.pythonanywhere.com/";
+const STORAGE_URL = "http://127.0.0.1:8000/";
+//const STORAGE_URL = "https://anne.pythonanywhere.com/";
 
 
 /**

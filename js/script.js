@@ -19,7 +19,8 @@ function init() {
  */
 async function loginUser() {
   cacheData();
-  let credentials = {"username": username.value, "password": password.value};
+  let credentials = {"email": usermail.value, "password": password.value};
+  console.log(credentials);
   await login('login', JSON.stringify(credentials));
 }
 
@@ -28,7 +29,7 @@ async function loginUser() {
  * this function shows error message if login did not work out
  */
 function errorMessage() {
-  username.classList.add("border-red");
+  usermail.classList.add("border-red");
   password.classList.add("border-red");
   error.style = "display: flex;";
   password.value = "";
@@ -55,7 +56,7 @@ function correctLogin(data){
 async function guestUser() {
   localStorage.setItem(`currentUser`, `2`);
   localStorage.setItem(`first_name`, `Guest`);
-  let credentials = {"username": `Guest`, "password": 'T€st1234'};
+  let credentials = {"usermail": `Guest`, "password": 'T€st1234'};
   await login('login', JSON.stringify(credentials));
   window.location.href = "summary.html";
   localStorage.setItem(`loggedIn`, true);
@@ -79,7 +80,7 @@ function checkLogIn() {
 function cacheData() {
   let check = document.getElementById("remember");
   if (check.checked == true) {
-    localStorage.setItem("username", `${username.value}`);
+    localStorage.setItem("usermail", `${usermail.value}`);
     //localStorage.setItem(`password`, `${password.value}`);
   }
 }
@@ -89,9 +90,9 @@ function cacheData() {
  * @param - no parameter
  */
 function loadCache() {
-  let username = localStorage.getItem("username");
+  let usermail = localStorage.getItem("usermail");
   //let password = localStorage.getItem("password");
-  document.getElementById("username").value = username;
+  document.getElementById("usermail").value = usermail;
   //document.getElementById("password").value = password;
 }
 
