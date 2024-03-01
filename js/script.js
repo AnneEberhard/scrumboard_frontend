@@ -56,7 +56,7 @@ function correctLogin(data){
 async function guestUser() {
   localStorage.setItem(`currentUser`, `2`);
   localStorage.setItem(`first_name`, `Guest`);
-  let credentials = {"usermail": `Guest`, "password": 'T€st1234'};
+  let credentials = {"email": `guest@test.de`, "password": 'T€st1234'};
   await login('login', JSON.stringify(credentials));
   window.location.href = "summary.html";
   localStorage.setItem(`loggedIn`, true);

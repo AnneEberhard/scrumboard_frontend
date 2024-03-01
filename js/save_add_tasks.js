@@ -203,7 +203,7 @@ async function saveNewTask(task) {
  * @param {JSON} newCategory - Json of new Category 
  */
 async function saveNewCategory (newCategory) {
-  await addItem("savedCategories", JSON.stringify(newCategory));
+  await addItem("categories", JSON.stringify(newCategory));
 }
 
 

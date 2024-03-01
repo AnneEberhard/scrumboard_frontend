@@ -1,7 +1,7 @@
 //for all main functions that deal with the backend
 
-const STORAGE_URL = "http://127.0.0.1:8000/";
-//const STORAGE_URL = "https://anne.pythonanywhere.com/";
+//const STORAGE_URL = "http://127.0.0.1:8000/";
+const STORAGE_URL = "https://anne.pythonanywhere.com/";
 
 
 /**
@@ -12,7 +12,7 @@ async function loadItems() {
     tasks = await getItem("tasks");
     allSubTasks = await getItem("subTasks");
     contacts = await getItem("contacts");
-    categories = await getItem("savedCategories");
+    categories = await getItem("categories");
   } catch (e) {
     console.error("Loading error:", e);
   }
