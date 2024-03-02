@@ -20,7 +20,6 @@ function init() {
 async function loginUser() {
   cacheData();
   let credentials = {"email": usermail.value, "password": password.value};
-  console.log(credentials);
   await login('login', JSON.stringify(credentials));
 }
 

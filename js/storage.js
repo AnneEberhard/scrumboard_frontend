@@ -1,7 +1,7 @@
 //for all main functions that deal with the backend
 
-//const STORAGE_URL = "http://127.0.0.1:8000/";
-const STORAGE_URL = "https://anne.pythonanywhere.com/";
+const STORAGE_URL = "http://127.0.0.1:8000/";
+//const STORAGE_URL = "https://anne.pythonanywhere.com/";
 
 
 /**
@@ -248,7 +248,6 @@ async function resetPasswordInBackend(key, payload) {
       credentials: 'include', 
     
     });
-    console.log(response);
     if (!response.ok) {
       throw new Error(`HTTP-Fehler! Status: ${response.status}`);
     } else {
