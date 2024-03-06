@@ -184,21 +184,14 @@ function getAuthToken() {
 async function logout() {
   const authToken = getAuthToken(); 
   const url = `${STORAGE_URL}logout/`;
-  try {
-    const response = await fetch(url, {
+  await fetch(url, {
       method: "POST",
       headers: {
         "Authorization": `Token ${authToken}`, 
       },
+    }) .catch(error => {
+      console.error("Fehler beim Logout:", error);
     });
-    if (response.ok) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error("Fehler beim Logout:", error);
-  }
 }
 
 

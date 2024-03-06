@@ -131,16 +131,16 @@ function combineUserNames() {
 * This function initiates logout and empties cache
 */
 async function logoutUser() {
- response = await logout();
- if(response) {
+  await logout();
   localStorage.setItem(`loggedIn`, false);
-  localStorage.removeItem("authToken");
-  localStorage.removeItem("currentUserId");
+  localStorage.removeItem("usermail");
   localStorage.removeItem("last_name");
   localStorage.removeItem("first_name");
   localStorage.removeItem("currentUser");
-  window.location.href = "index.html";
- }
+  localStorage.removeItem("username");
+  localStorage.removeItem("column");
+  localStorage.removeItem("authToken");
+  //window.location.href = "index.html";
 }
 
 

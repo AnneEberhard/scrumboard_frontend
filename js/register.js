@@ -35,7 +35,7 @@ form.addEventListener("submit", async (event) => {
     document.body.classList.add("clicked");
     button.classList.add("clicked");
     createContactRegister();
-    saveUserLocal(username.value);
+    saveUserLocal(newEmail.value);
     await delay(1000);
     window.location.href = "index.html";
   }
@@ -232,8 +232,8 @@ function combineFirstAndLast() {
 
 /**
  * This function saves the username to prepopulate the login
- * @param {string} username - value of the field username
+ * @param {string} usermail - value of the field newEmail
  */
-function saveUserLocal(username) {
-  localStorage.setItem("username", `${username}`);
+function saveUserLocal(usermail) {
+  localStorage.setItem("usermail", `${usermail}`);
 }
